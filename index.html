@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quỹ Thời Gian — Nhật ký & phân bổ thời gian</title>
+<title>Quỹ Thời Gian — Đồng bộ cloud</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23FFC24B' stroke-width='3'/><path d='M16 9v7l5 3' stroke='%23FFC24B' stroke-width='3' fill='none' stroke-linecap='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,23 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
 @keyframes flash{0%{background:rgba(255,194,75,.18)}100%{background:transparent}}
 @keyframes popin{0%{opacity:0;transform:translateY(6px) scale(.98)}100%{opacity:1;transform:none}}
 
-header{position:relative;z-index:5;display:flex;align-items:center;gap:22px;flex-wrap:wrap;
+/* ===== Màn hình đăng nhập ===== */
+#loginScreen{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;
+  background:radial-gradient(900px 480px at 80% -10%, rgba(255,194,75,.08), transparent 60%),var(--bg)}
+.login-card{width:100%;max-width:410px;text-align:center;background:linear-gradient(180deg,var(--panel),rgba(18,27,22,.75));
+  border:1px solid var(--line);border-radius:20px;padding:40px 32px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:rise .6s both}
+.login-card h1{font-family:'Space Grotesk';font-size:27px;margin-top:16px}
+.login-card h1 em{color:var(--gold);font-style:normal}
+.lg-sub{color:var(--mut);font-size:13px;margin-top:6px}
+.lg-feats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:22px 0}
+.lg-feats span{font-size:11.5px;color:#C9D8CE;background:var(--inset);border:1px solid var(--line2);border-radius:999px;padding:6px 12px}
+#btnLogin{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:12px;background:#fff;color:#1f1f1f;font:700 14px 'Be Vietnam Pro';padding:13px;cursor:pointer;transition:transform .15s, box-shadow .2s}
+#btnLogin:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(255,255,255,.15)}
+#btnLogin:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.lg-note{margin-top:18px;font-size:11.5px;color:var(--dim);line-height:1.65}
+#cfgWarn{margin-top:14px;font-size:12px;color:#FFB4AD;background:rgba(255,107,94,.1);border:1px solid rgba(255,107,94,.35);border-radius:10px;padding:10px 12px;line-height:1.55;text-align:left}
+
+header{position:relative;z-index:5;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
   padding:18px 28px;border-bottom:1px solid var(--line);
   background:linear-gradient(180deg, rgba(18,27,22,.9), rgba(18,27,22,.55));backdrop-filter:blur(6px)}
 .brand{display:flex;align-items:center;gap:12px}
@@ -48,6 +64,10 @@ header{position:relative;z-index:5;display:flex;align-items:center;gap:22px;flex
 .tabs button:hover{color:var(--txt)}
 .tabs button.on{color:#191203}
 .tab-glider{position:absolute;top:3px;bottom:3px;border-radius:8px;background:linear-gradient(180deg,var(--gold),var(--gold-deep));box-shadow:0 2px 12px rgba(255,194,75,.35);transition:left .3s cubic-bezier(.3,.8,.3,1),width .3s cubic-bezier(.3,.8,.3,1)}
+#userChip{display:flex;align-items:center;gap:8px;background:var(--inset);border:1px solid var(--line);border-radius:999px;padding:5px 6px 5px 12px;font-size:12px;color:var(--mut)}
+#userMail{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#btnLogout{border:1px solid var(--line);background:none;color:var(--mut);border-radius:999px;font:600 11px 'Be Vietnam Pro';padding:5px 11px;cursor:pointer;transition:all .15s}
+#btnLogout:hover{color:#FFB4AD;border-color:rgba(255,107,94,.4)}
 .clockbox{text-align:right}
 .clock{font-family:'JetBrains Mono';font-weight:700;font-size:22px;color:var(--gold);font-variant-numeric:tabular-nums}
 .datestr{font-size:12px;color:var(--mut);margin-top:2px}
@@ -65,6 +85,9 @@ main{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:22px 28p
 .pt-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .mini{border:1px solid rgba(255,194,75,.4);background:rgba(255,194,75,.08);color:var(--gold);font:700 11px 'Be Vietnam Pro';border-radius:8px;padding:5px 11px;cursor:pointer;transition:all .18s}
 .mini:hover{background:rgba(255,194,75,.18);transform:translateY(-1px)}
+
+#migrateBar{grid-column:span 12;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:rgba(255,194,75,.07);border:1px solid rgba(255,194,75,.3);border-radius:12px;padding:12px 16px;font-size:13px;color:#E8D9B0}
+#migrateBar .btn-ghost{padding:6px 12px;font-size:12px}
 
 .kpis{grid-column:span 12;display:grid;grid-template-columns:1.5fr 1fr 1fr .9fr;background:linear-gradient(180deg,var(--panel),rgba(18,27,22,.7));border:1px solid var(--line);border-radius:var(--r);overflow:hidden;opacity:0;animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards}
 .kpi{padding:18px 22px;position:relative;border-left:1px solid var(--line2)}
@@ -157,11 +180,9 @@ canvas{display:block;width:100%;height:100%}
 .step button:hover{color:var(--gold);border-color:rgba(255,194,75,.5)}
 .gok{color:var(--green)}.gov{color:var(--red)}
 
-/* ===== Bộ đếm ===== */
 .p-count{grid-column:span 12}
 .cntform{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;background:var(--inset);border:1px solid var(--line);border-radius:10px;padding:12px}
 .cntform input{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);font:500 13px 'Be Vietnam Pro';padding:9px 12px;outline:none}
-.cntform input:focus{border-color:rgba(255,194,75,.5)}
 #cntName{flex:1;min-width:160px}
 #cntGoal{width:90px}
 .count-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
@@ -174,7 +195,6 @@ canvas{display:block;width:100%;height:100%}
 .cc-top b{font-size:14.5px;font-family:'Space Grotesk'}
 .cc-goaledit{margin-left:auto;display:flex;align-items:center;gap:6px}
 .ccgoal{width:58px;background:var(--panel);border:1px solid var(--line);border-radius:7px;color:var(--txt);font:600 12px 'JetBrains Mono';padding:4px 6px;text-align:right;outline:none}
-.ccgoal:focus{border-color:rgba(255,194,75,.55)}
 .cc-num{font-family:'Space Grotesk';font-weight:700;font-size:30px;margin:9px 0 3px}
 .cc-num small{font-size:14px;color:var(--mut);font-weight:600}
 .cc-num.ok{color:var(--green)}
@@ -183,11 +203,10 @@ canvas{display:block;width:100%;height:100%}
 .cc-btns button:hover{color:var(--gold);border-color:rgba(255,194,75,.5);transform:translateY(-1px)}
 .cc-btns .ccinp{width:60px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);font:600 12px 'JetBrains Mono';padding:6px 8px;outline:none}
 .cc-hist{display:flex;gap:5px;align-items:flex-end;height:32px;margin-top:13px}
-.cc-hist i{flex:1;border-radius:3px 3px 1px 1px;background:rgba(255,194,75,.28);min-height:2px;transition:height .5s}
+.cc-hist i{flex:1;border-radius:3px 3px 1px 1px;background:rgba(255,194,75,.28);min-height:2px}
 .cc-hist i.hit{background:var(--green)}
 .cc-hist i.now{outline:1px solid rgba(255,194,75,.6)}
 
-/* ===== Lịch tổng quan ===== */
 .p-cal{grid-column:span 12}
 .cw{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
 .cw-cell{background:var(--inset);border:1px solid var(--line2);border-radius:12px;padding:12px;cursor:pointer;transition:all .18s;min-height:104px}
@@ -270,9 +289,6 @@ canvas{display:block;width:100%;height:100%}
 .logrow:hover .del{opacity:1}
 .logrow .del:hover{color:var(--red);background:rgba(255,107,94,.12)}
 .logempty{color:var(--dim);font-size:13px;text-align:center;padding:34px 0}
-.seednote{margin-top:10px;font-size:11.5px;color:var(--dim);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.seednote button{border:1px solid rgba(255,107,94,.4);background:rgba(255,107,94,.08);color:#FFB4AD;font:600 11px 'Be Vietnam Pro';border-radius:7px;padding:4px 10px;cursor:pointer}
-.seednote button:hover{background:rgba(255,107,94,.18)}
 
 .p-insight{grid-column:span 5}
 .ilist{display:flex;flex-direction:column;gap:10px}
@@ -291,7 +307,6 @@ canvas{display:block;width:100%;height:100%}
 .mhead{display:flex;align-items:center;margin-bottom:16px}
 .mhead h3{font-family:'Space Grotesk';font-size:18px}
 .mhead button{margin-left:auto;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:none;color:var(--mut);cursor:pointer;font-size:13px}
-.mhead button:hover{color:var(--red);border-color:rgba(255,107,94,.4)}
 .mlist{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;max-height:210px;overflow-y:auto;padding-right:4px}
 .mlist::-webkit-scrollbar{width:8px}.mlist::-webkit-scrollbar-thumb{background:#26362e;border-radius:99px}
 .crow{display:flex;align-items:center;gap:9px;background:var(--inset);border:1px solid var(--line2);padding:9px 12px;border-radius:10px;font-size:13px}
@@ -324,7 +339,7 @@ canvas{display:block;width:100%;height:100%}
 
 footer{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:0 28px 34px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;color:var(--dim);font-size:12px}
 footer button{border:1px solid var(--line);background:var(--panel);color:var(--mut);font:600 11.5px 'Be Vietnam Pro';border-radius:8px;padding:7px 14px;cursor:pointer}
-footer button:hover{color:var(--txt);border-color:rgba(255,194,75,.4)}
+footer button:hover{color:var(--txt);border-color:rgba(255,107,94,.4)}
 footer .right{margin-left:auto}
 
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,80px);z-index:99;background:#0C1310;border:1px solid rgba(255,194,75,.35);color:var(--txt);font-size:13px;padding:12px 20px;border-radius:11px;box-shadow:0 14px 40px rgba(0,0,0,.5);transition:transform .35s cubic-bezier(.2,.8,.3,1.1);display:flex;gap:9px;align-items:center;max-width:90vw}
@@ -342,20 +357,17 @@ footer .right{margin-left:auto}
   .cd-analysis{grid-template-columns:1fr}
 }
 @media(max-width:760px){
-  header{padding:14px 16px;gap:12px}
+  header{padding:14px 16px;gap:10px}
   .tabs{margin-left:0;order:3;width:100%;justify-content:center}
   .tabs button{padding:8px 10px;font-size:12px}
-  .clockbox{margin-left:auto}
   main{padding:16px 16px 30px;grid-template-columns:1fr}
   .p-input,.p-donut,.p-trend,.p-goals,.p-time,.p-log,.p-insight,.kpis,.p-cal,.p-count{grid-column:span 1}
-  .donutflex{flex-direction:column}
+  .donutflex,.cd-piewrap{flex-direction:column}
   .kpi .val{font-size:28px}
   .mrow.split{grid-template-columns:1fr}
   .cw{grid-template-columns:repeat(2,1fr)}
-  .cw-cell{min-height:auto}
   .cm-cell{min-height:56px;padding:6px}
   .cm-cell .tt,.cw-bar{display:none}
-  .cd-piewrap{flex-direction:column}
   footer{padding:0 16px 30px}
 }
 </style>
@@ -363,6 +375,28 @@ footer .right{margin-left:auto}
 <body>
 <div class="glow g1"></div><div class="glow g2"></div>
 
+<!-- Màn hình đăng nhập -->
+<div id="loginScreen">
+  <div class="login-card">
+    <svg width="52" height="52" viewBox="0 0 38 38" fill="none">
+      <circle cx="19" cy="19" r="15.5" stroke="#FFC24B" stroke-width="2.4"/>
+      <circle cx="19" cy="19" r="15.5" stroke="rgba(255,194,75,.25)" stroke-width="7" stroke-dasharray="3 9.2"/>
+      <path d="M19 10.5V19l6 3.6" stroke="#FFC24B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h1>Quỹ <em>Thời Gian</em></h1>
+    <p class="lg-sub">Nhật ký &amp; phân bổ thời gian cá nhân</p>
+    <div class="lg-feats"><span>☁️ Đồng bộ mọi thiết bị</span><span>⚡ Realtime</span><span>🔒 Riêng tư theo tài khoản</span></div>
+    <button id="btnLogin">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      Đăng nhập bằng Google
+    </button>
+    <div id="cfgWarn" style="display:none">⚠️ <b>Chưa dán cấu hình Firebase.</b> Mở file index.html, tìm khối <b>firebaseConfig</b> ở đầu thẻ &lt;script&gt; cuối file, dán 6 giá trị từ Firebase Console vào, rồi upload lại lên GitHub.</div>
+    <p class="lg-note">Đăng nhập để dữ liệu lưu trên cloud và đồng bộ giữa điện thoại – máy tính.<br>Chỉ tài khoản của bạn đọc được dữ liệu của bạn.</p>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app" style="display:none">
 <header>
   <div class="brand">
     <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
@@ -379,6 +413,7 @@ footer .right{margin-left:auto}
     <button data-p="month">Tháng này</button>
     <button data-p="year">Năm này</button>
   </div>
+  <div id="userChip"><span id="userMail"></span><button id="btnLogout">Đăng xuất</button></div>
   <div class="clockbox">
     <div class="clock" id="clock">--:--:--</div>
     <div class="datestr" id="datestr"></div>
@@ -389,6 +424,12 @@ footer .right{margin-left:auto}
 <div class="ticker"><span class="badge">✦</span><span id="tickText">Đang phân tích quỹ thời gian của bạn…</span></div>
 
 <main>
+  <div id="migrateBar" style="display:none">
+    <span>📦 Trên máy này còn dữ liệu cũ chưa đồng bộ: <b id="migCount"></b>.</span>
+    <button class="btn-add sm" id="btnMigrate">☁ Đẩy lên cloud</button>
+    <button class="btn-ghost" id="btnMigSkip">Bỏ qua</button>
+  </div>
+
   <section class="kpis">
     <div class="kpi">
       <label id="kpiTotalLabel">Tổng thời gian ghi nhận</label>
@@ -420,20 +461,14 @@ footer .right{margin-left:auto}
       <button class="btn-add" id="btnAdd">Ghi nhận</button>
     </div>
     <div class="parse-prev" id="parsePrev">Gõ hoạt động kèm thời lượng / giờ bắt đầu / khoảng giờ — hệ thống tự nhận diện.</div>
-    <div class="examples">
-      <p>Thử nhanh</p>
-      <div class="chips" id="chips"></div>
-    </div>
+    <div class="examples"><p>Thử nhanh</p><div class="chips" id="chips"></div></div>
   </section>
 
   <section class="panel p-donut" style="--d:.12s">
     <div class="ptitle">Phân bổ theo nhóm
       <span class="pt-right"><span class="sub" id="donutSub"></span><button class="mini" id="btnCats">⚙ Nhóm</button></span>
     </div>
-    <div class="donutflex">
-      <div class="dwrap"><canvas id="donut"></canvas></div>
-      <div class="legend" id="legend"></div>
-    </div>
+    <div class="donutflex"><div class="dwrap"><canvas id="donut"></canvas></div><div class="legend" id="legend"></div></div>
   </section>
 
   <section class="panel p-trend" style="--d:.18s">
@@ -442,7 +477,7 @@ footer .right{margin-left:auto}
   </section>
 
   <section class="panel p-time" style="--d:.24s">
-    <div class="ptitle">Dòng thời gian hôm nay <span class="pt-right"><span class="sub">trùng giờ tự tách làn riêng</span><span class="sub" id="tlSub"></span></span></div>
+    <div class="ptitle">Dòng thời gian hôm nay <span class="pt-right"><span class="sub">trùng giờ tự tách làn</span><span class="sub" id="tlSub"></span></span></div>
     <div class="tl-track" id="tlTrack"></div>
     <div class="tl-stats" id="tlStats"></div>
   </section>
@@ -454,11 +489,11 @@ footer .right{margin-left:auto}
 
   <section class="panel p-count" style="--d:.32s">
     <div class="ptitle">Bộ đếm mục tiêu 💪
-      <span class="pt-right"><span class="sub">mẹo: gõ “Hít đất 30 cái” vào ô Ghi nhanh để cộng nhanh</span><button class="mini" id="btnAddCounter">+ Bộ đếm</button></span>
+      <span class="pt-right"><span class="sub">mẹo: gõ “Hít đất 30 cái” vào ô Ghi nhanh</span><button class="mini" id="btnAddCounter">+ Bộ đếm</button></span>
     </div>
     <div class="cntform" id="cntForm" style="display:none">
       <input id="cntName" type="text" placeholder="Tên bài tập (VD: Plank, Squat…)">
-      <input id="cntGoal" type="number" value="50" min="0" step="5" title="Mục tiêu mỗi ngày">
+      <input id="cntGoal" type="number" value="50" min="0" step="5">
       <span class="gunit">cái/ngày</span>
       <button class="btn-add sm" id="cntSave">Thêm</button>
       <button class="btn-ghost" id="cntCancel">Hủy</button>
@@ -467,7 +502,7 @@ footer .right{margin-left:auto}
   </section>
 
   <section class="panel p-cal" id="calPanel" style="--d:.34s;display:none">
-    <div class="ptitle">Lịch tổng quan <span class="pt-right"><span class="sub">bấm vào một ngày để xem pie chart + heatmap khung giờ</span><span class="sub" id="calSub"></span></span></div>
+    <div class="ptitle">Lịch tổng quan <span class="pt-right"><span class="sub">bấm vào một ngày để xem pie chart + heatmap</span><span class="sub" id="calSub"></span></span></div>
     <div id="calWrap"></div>
     <div class="cal-detail" id="calDetail"></div>
   </section>
@@ -481,10 +516,6 @@ footer .right{margin-left:auto}
     </div>
     <div class="filters" id="filters"></div>
     <ul class="loglist" id="loglist"></ul>
-    <div class="seednote" id="seedNote" style="display:none">
-      <span>◈ Đang hiển thị dữ liệu mẫu để bạn xem trước bố cục.</span>
-      <button id="btnClearSeed">Xóa dữ liệu mẫu</button>
-    </div>
   </section>
 
   <section class="panel p-insight" style="--d:.42s">
@@ -493,6 +524,13 @@ footer .right{margin-left:auto}
   </section>
 </main>
 
+<footer>
+  <span>© Quỹ Thời Gian — dữ liệu lưu trên cloud (Firebase), gắn với tài khoản Google của bạn.</span>
+  <span class="right"><button id="btnWipe">🗑 Xóa toàn bộ dữ liệu cloud</button></span>
+</footer>
+</div>
+
+<!-- Modal quản lý nhóm -->
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="mhead"><h3>Quản lý nhóm hoạt động</h3><button id="btnCloseCat">✕</button></div>
@@ -519,17 +557,32 @@ footer .right{margin-left:auto}
   </div>
 </div>
 
-<footer>
-  <span>© Quỹ Thời Gian — dữ liệu được lưu ngay trên trình duyệt của bạn, không gửi đi đâu cả.</span>
-  <span class="right"><button id="btnReset">↺ Đặt lại (khôi phục dữ liệu mẫu)</button></span>
-</footer>
-
 <div id="toast"><span class="tick">✓</span><span id="toastMsg"></span></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" onerror="window.__noXLSX=true"></script>
-<script>
-/* ============================== CẤU HÌNH ============================== */
-const LS_KEY='quyThoigian.v3';
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+import {getAuth,GoogleAuthProvider,onAuthStateChanged,signInWithPopup,signOut} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+import {getFirestore,doc,setDoc,collection,onSnapshot,deleteDoc,updateDoc,writeBatch} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+
+/* ================================================================
+   👉 DÁN CẤU HÌNH FIREBASE CỦA BẠN VÀO ĐÂY (lấy ở Project settings)
+   ================================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyD8N-IFLIvo8nbX8mwMmclHyjgdTGD3U2o",
+  authDomain: "hs3107.firebaseapp.com",
+  databaseURL: "https://hs3107-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "hs3107",
+  storageBucket: "hs3107.firebasestorage.app",
+  messagingSenderId: "454784019201",
+  appId: "1:454784019201:web:de52733031c2650b474900",
+  measurementId: "G-ZHK61Q1VH7"
+};
+const isConfigured = !JSON.stringify(firebaseConfig).includes('DÁN_');
+let auth=null,db=null;
+if(isConfigured){const fb=initializeApp(firebaseConfig);auth=getAuth(fb);db=getFirestore(fb)}
+
+/* ============================== CẤU HÌNH APP ============================== */
 const CATS=[
  {id:'work',name:'Công việc',c:'#FFB020',kw:['hop','meeting','email','bao cao','deadline','du an','khach hang','code','lap trinh','cong viec','lam viec','ke hoach','sep','dong nghiep','van phong','trinh bay','thuyet trinh','phong van','tuyen dung','hop dong','dam phan','chien luoc','quy trinh','danh gia','review','sprint','backlog','tien do','nhiem vu','task','cong ty','tang ca','lam them','duyet','xac nhan','trien khai']},
  {id:'study',name:'Học tập',c:'#53C7F0',kw:['hoc','doc sach','khoa hoc','tieng anh','ngoai ngu','nghien cuu','on tap','ghi chu','sach','luyen thi','chuyen nganh','ky nang','tai lieu','chung chi','ielts','toeic','lam bai tap','bai tap','flashcard','podcast','hoi thao','workshop','doc','viet luan','luan van','on thi','lam de','de thi','hoc online','udemy','coursera']},
@@ -543,17 +596,19 @@ const DEF_GOALS={work:240,study:60,health:40,family:60,fun:90};
 const DEF_COUNTERS=[{id:'pushup',name:'Hít đất',goal:100},{id:'situp',name:'Gập bụng',goal:100}];
 const PALETTE=['#FFB020','#53C7F0','#3ED598','#FF7E79','#C08BFF','#38C4BF','#F472B6','#A3E635','#FB923C','#94A3B8','#E879F9','#FACC15'];
 const $=q=>document.querySelector(q);
+const LS_KEY='quyThoigian.v3';
 
 let state={entries:[],goals:{...DEF_GOALS},customCats:[],counters:DEF_COUNTERS.map(c=>({...c})),reps:[]};
-let period='day', logFilter='all', donutHover=-1, trendHover=-1, calSelected=null;
-let donutData=[], trendData=null;
+let period='day',logFilter='all',donutHover=-1,trendHover=-1,calSelected=null;
+let donutData=[],trendData=null;
+let uid=null,unsub=[],lastAddedId=null;
 
-function load(){try{const s=JSON.parse(localStorage.getItem(LS_KEY));if(s&&s.entries){
-  state=Object.assign({entries:[],goals:{...DEF_GOALS},customCats:[],counters:DEF_COUNTERS.map(c=>({...c})),reps:[]},s);return true}}catch(e){}return false}
-function save(){localStorage.setItem(LS_KEY,JSON.stringify(state))}
 function allCats(){return [...CATS,...(state.customCats||[])]}
 function catById(id){return allCats().find(c=>c.id===id)||{id,name:'Khác',c:'#8A9791',kw:[]}}
 function isLimit(id){if(id==='fun')return true;const c=(state.customCats||[]).find(x=>x.id===id);return !!(c&&c.limit)}
+const entriesRef=id=>doc(db,'users',uid,'entries',id);
+const repsRef=id=>doc(db,'users',uid,'replogs',id);
+function pushSettings(){setDoc(doc(db,'users',uid),{goals:state.goals,customCats:state.customCats,counters:state.counters})}
 
 /* ============================== TIỆN ÍCH ============================== */
 const pad=n=>String(n).padStart(2,'0');
@@ -574,8 +629,6 @@ function parseMinutes(raw){
   if(/rưỡi|ruoi/.test(s)&&m&&m%60===0)m+=30;
   return found?Math.max(5,Math.min(720,m||30)):null;
 }
-
-/* --- KHOẢNG GIỜ: "19h30 - 20h00", "21h đến 22h", "7h tối - 9h tối" --- */
 function parseRange(text){
   const re=/(?:từ|tu|vào|vao|lúc|luc)?\s*(\d{1,2})\s*[:h]\s*(\d{0,2})\s*(sáng|sang|chiều|chieu|tối|toi|am|pm)?\s*(?:-|–|—|đến|den|tới|to)\s*(\d{1,2})\s*[:h]\s*(\d{0,2})\s*(chiều|chieu|tối|toi|pm)?/i;
   const m=text.match(re);
@@ -590,8 +643,6 @@ function parseRange(text){
   if(dur>720)return null;
   return{start:h1*60+mi1,dur,a:m.index,b:m.index+m[0].length};
 }
-
-/* --- GIỜ BẮT ĐẦU: "18h30 …", "lúc 14h", "9h tối" --- */
 function parseStart(text){
   const sl=text.toLowerCase();
   const mRe=/(lúc|luc|từ|tu|vào|vao|bắt đầu|bat dau)\s*(\d{1,2})\s*(?:h|:|giờ|gio)\s*(\d{0,2})\s*(chiều|chieu|tối|toi|sáng|sang|am|pm)?/i;
@@ -615,8 +666,6 @@ function parseStart(text){
   }
   return null;
 }
-
-/* --- BỘ ĐẾM: "Hít đất 30 cái" --- */
 function parseRep(text){
   const t=norm(text);
   const m=t.match(/(\d+)\s*(cai|lan|reps|ca)\b/);
@@ -629,14 +678,13 @@ function parseRep(text){
   }
   return best?{counter:best,n}:null;
 }
-
 function matchScore(text,kws){
   const toks=text.trim().split(/\s+/);let sc=0;
   for(const k of (kws||[])){
     const kt=k.split(/\s+/);
-    if(kt.length===1){ if(toks.includes(kt[0])) sc+=Math.max(2,kt[0].length); }
+    if(kt.length===1){if(toks.includes(kt[0]))sc+=Math.max(2,kt[0].length)}
     else for(let i=0;i<=toks.length-kt.length;i++){
-      if(kt.every((w,j)=>toks[i+j]===w)){ sc+=kt.join(' ').length*2; break; }
+      if(kt.every((w,j)=>toks[i+j]===w)){sc+=kt.join(' ').length*2;break}
     }
   }
   return sc;
@@ -660,15 +708,15 @@ const TPL={
 function seedData(){
   const rnd=mulberry32(20250611),out=[],reps=[],today=new Date();
   const nowMin=today.getHours()*60+today.getMinutes();
-  const pick=a=>a[~~(rnd()*a.length)], j=(b,v)=>b+~~(rnd()*v);
+  const pick=a=>a[~~(rnd()*a.length)],j=(b,v)=>b+~~(rnd()*v);
   for(let i=27;i>=0;i--){
     const d=new Date(today);d.setDate(d.getDate()-i);
     const isToday=i===0,wknd=d.getDay()==0||d.getDay()==6,list=[];
     const add=(cat,start,dur)=>list.push({cat,start,dur,text:pick(TPL[cat])});
     if(!wknd){
       if(rnd()<.7)add('health',j(385,25),j(35,25));
-      add('work',j(505,15),j(80,40)); add('work',j(610,20),j(60,50));
-      add('chore',720,j(25,15)); if(rnd()<.5)add('rest',782,20);
+      add('work',j(505,15),j(80,40));add('work',j(610,20),j(60,50));
+      add('chore',720,j(25,15));if(rnd()<.5)add('rest',782,20);
       add('work',j(810,20),j(90,50));
       if(rnd()<.5)add('chore',j(1075,20),j(25,15));
       add('family',j(1138,15),j(50,20));
@@ -676,9 +724,9 @@ function seedData(){
       add('fun',j(1290,30),j(45,55));
     }else{
       if(rnd()<.8)add('health',j(420,40),j(40,30));
-      add('chore',j(540,30),j(40,30)); add('family',690,60);
-      add('fun',j(800,60),j(60,60)); if(rnd()<.6)add('study',1200,40);
-      add('family',j(1148,20),50); add('fun',j(1300,25),j(60,30));
+      add('chore',j(540,30),j(40,30));add('family',690,60);
+      add('fun',j(800,60),j(60,60));if(rnd()<.6)add('study',1200,40);
+      add('family',j(1148,20),50);add('fun',j(1300,25),j(60,30));
     }
     list.sort((a,b)=>a.start-b.start);
     let items=list;
@@ -690,10 +738,9 @@ function seedData(){
   }
   for(let i=6;i>=0;i--){
     const d=new Date(today);d.setDate(d.getDate()-i);const dk=dayKey(d),isToday=i===0;
-    const setsP=2+~~(rnd()*2),setsS=2+~~(rnd()*2);
-    for(let k=0;k<setsP;k++){const tm=420+j(0,60)+k*300;if(isToday&&tm>nowMin)continue;
+    for(let k=0;k<2+~~(rnd()*2);k++){const tm=420+j(0,60)+k*300;if(isToday&&tm>nowMin)continue;
       reps.push({id:'pushup',n:15+~~(rnd()*20),ts:d.getTime()+tm*60000,dateKey:dk,seed:true})}
-    for(let k=0;k<setsS;k++){const tm=1200+j(0,60)+k*60;if(isToday&&tm>nowMin)continue;
+    for(let k=0;k<2+~~(rnd()*2);k++){const tm=1200+j(0,60)+k*60;if(isToday&&tm>nowMin)continue;
       reps.push({id:'situp',n:15+~~(rnd()*20),ts:d.getTime()+tm*60000,dateKey:dk,seed:true})}
   }
   return{entries:out,reps};
@@ -707,8 +754,7 @@ function periodRange(p){
   if(p==='month'){const s=new Date(t.getFullYear(),t.getMonth(),1);return[s,new Date(t.getFullYear(),t.getMonth()+1,1)]}
   return[new Date(t.getFullYear(),0,1),new Date(t.getFullYear()+1,0,1)];
 }
-function inRange(e,a,b){const t=new Date(e.dateKey+'T00:00:00');return t>=a&&t<b}
-function entriesOf(p){const[a,b]=periodRange(p);return state.entries.filter(e=>inRange(e,a,b))}
+function entriesOf(p){const[a,b]=periodRange(p);return state.entries.filter(e=>{const t=new Date(e.dateKey+'T00:00:00');return t>=a&&t<b})}
 function totalsByCat(list){const t={};list.forEach(e=>t[e.cat]=(t[e.cat]||0)+e.min);return t}
 function perMult(p){return{day:1,week:7,month:30,year:365}[p]}
 function daysElapsed(p){
@@ -721,8 +767,8 @@ function daysElapsed(p){
 function weekNo(d){const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()+3-(x.getDay()+6)%7);const w1=new Date(x.getFullYear(),0,4);return 1+Math.round(((x-w1)/864e5-3+(w1.getDay()+6)%7)/7)}
 function periodFileLabel(){
   if(period==='week'){const[a]=periodRange('week');const b=new Date(a);b.setDate(b.getDate()+6);
-    return `tuan_${pad(a.getDate())}-${pad(a.getMonth()+1)}_${pad(b.getDate())}-${pad(b.getMonth()+1)}-${b.getFullYear()}`;}
-  if(period==='month'){const[a]=periodRange('month');return `thang_${pad(a.getMonth()+1)}-${a.getFullYear()}`;}
+    return `tuan_${pad(a.getDate())}-${pad(a.getMonth()+1)}_${pad(b.getDate())}-${pad(b.getMonth()+1)}-${b.getFullYear()}`}
+  if(period==='month'){const[a]=periodRange('month');return `thang_${pad(a.getMonth()+1)}-${a.getFullYear()}`}
   if(period==='year')return `nam_${new Date().getFullYear()}`;
   return dayKey(new Date());
 }
@@ -752,7 +798,7 @@ function exportXLSX(){
     XLSX.utils.book_append_sheet(wb,ws,period==='week'?'Tuan':period==='month'?'Thang':'Nam');
     XLSX.writeFile(wb,`quy-thoi-gian_${periodFileLabel()}.xlsx`);
     toast(`Đã xuất ${rows.length-1} dòng (XLSX)`);
-  }else{exportCSV();}
+  }else exportCSV();
 }
 
 /* ============================== CANVAS ============================== */
@@ -889,7 +935,7 @@ trendCv.addEventListener('mousemove',e=>{
 });
 trendCv.addEventListener('mouseleave',()=>{trendTip.classList.remove('show');if(trendHover!==-1){trendHover=-1;drawTrend(trendAnim)}});
 
-/* ===== Timeline (tách làn khi trùng giờ) ===== */
+/* ===== Timeline ===== */
 function renderTimeline(){
   const track=$('#tlTrack'),t0=5*60,t1=24*60,span=t1-t0;
   const now=new Date(),nowMin=now.getHours()*60+now.getMinutes();
@@ -929,28 +975,34 @@ function renderFilters(){
     allCats().filter(c=>present.has(c.id)).map(c=>`<button class="fchip ${logFilter===c.id?'on':''}" data-f="${c.id}"><span class="d" style="background:${c.c}"></span>${c.name}</button>`).join('');
   document.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>{logFilter=b.dataset.f;renderFilters();renderLog()});
 }
-function renderLog(newId){
+function renderLog(){
   let list=entriesOf(period).sort((a,b)=>a.dateKey===b.dateKey?b.startMin-a.startMin:(a.dateKey<b.dateKey?1:-1));
   $('#logSub').textContent=list.length+' mục';
   if(logFilter!=='all')list=list.filter(e=>e.cat===logFilter);
   $('#loglist').innerHTML=list.length?list.map(e=>{
     const c=catById(e.cat);
-    return`<li class="logrow ${e.id===newId?'new':''}">
+    return`<li class="logrow ${e.id===lastAddedId?'new':''}">
       <span class="t">${fmtHM(e.startMin)}${period!=='day'?'<br>'+e.dateKey.slice(8,10)+'/'+e.dateKey.slice(5,7):''}</span>
       <span class="x" title="${e.text}">${e.text}</span>
       <span class="cat"><span class="d" style="background:${c.c}"></span>${c.name}</span>
       <span class="dur">${fmtMin(e.min)}</span>
       <button class="del" data-id="${e.id}" title="Xóa">✕</button></li>`}).join('')
-    :`<div class="logempty">Không có hoạt động nào trong kỳ / bộ lọc này.</div>`;
+    :(logFilter==='all'
+      ?`<div class="logempty">Chưa có hoạt động nào.<br><br><button class="mini" id="btnSample">＋ Nạp 4 tuần dữ liệu mẫu để xem thử</button></div>`
+      :`<div class="logempty">Không có hoạt động nào trong bộ lọc này.</div>`);
   document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{
-    state.entries=state.entries.filter(e=>e.id!==b.dataset.id);save();
-    b.closest('.logrow').style.cssText='opacity:0;transform:translateX(14px);transition:all .25s';
-    setTimeout(()=>renderAll(),240);toast('Đã xóa hoạt động');
+    deleteDoc(entriesRef(b.dataset.id));toast('Đã xóa hoạt động');
   });
-  $('#seedNote').style.display=(state.entries.some(e=>e.seed)||state.reps.some(r=>r.seed))?'flex':'none';
   const showExp=period!=='day';
   $('#btnCSV').style.display=showExp?'':'none';
   $('#btnXLSX').style.display=showExp?'':'none';
+}
+$('#loglist').addEventListener('click',e=>{if(e.target.id==='btnSample')loadSample()});
+async function loadSample(){
+  const s=seedData(),b=writeBatch(db);
+  s.entries.forEach(e=>{const{id,...d}=e;b.set(entriesRef(id),d)});
+  s.reps.forEach((r,i)=>{const{id,...d}=r;b.set(repsRef('sr'+i),{cid:id,...d})});
+  await b.commit();toast('Đã nạp 4 tuần dữ liệu mẫu');
 }
 
 /* ===== Mục tiêu ===== */
@@ -977,24 +1029,24 @@ function renderGoals(){
 $('#goalRows').addEventListener('change',e=>{
   if(e.target.classList.contains('gmin')){
     state.goals[e.target.dataset.g]=Math.max(0,Math.min(960,parseInt(e.target.value)||0));
-    e.target.value=state.goals[e.target.dataset.g];save();renderGoals();renderInsights();startTicker();
+    e.target.value=state.goals[e.target.dataset.g];pushSettings();renderGoals();renderInsights();startTicker();
   }
 });
 $('#goalRows').addEventListener('click',e=>{
   const b=e.target.closest('button[data-g]');if(!b)return;
-  state.goals[b.dataset.g]=Math.max(0,Math.min(960,(state.goals[b.dataset.g]||0)+ +b.dataset.d));save();
-  renderGoals();renderInsights();startTicker();
+  state.goals[b.dataset.g]=Math.max(0,Math.min(960,(state.goals[b.dataset.g]||0)+ +b.dataset.d));
+  pushSettings();renderGoals();renderInsights();startTicker();
 });
 
-/* ===== Bộ đếm 💪 ===== */
-function todayRepTotal(id,dk){return state.reps.filter(r=>r.id===id&&r.dateKey===(dk||dayKey(new Date()))).reduce((s,r)=>s+r.n,0)}
+/* ===== Bộ đếm ===== */
+function todayRepTotal(cid,dk){return state.reps.filter(r=>r.cid===cid&&r.dateKey===(dk||dayKey(new Date()))).reduce((s,r)=>s+r.n,0)}
 function renderCounts(){
-  const tk=dayKey(new Date());
+  const g0=state.goals;
   $('#countGrid').innerHTML=state.counters.map(c=>{
     const today=todayRepTotal(c.id),g=c.goal||0,pct=g>0?Math.min(100,today/g*100):0,done=g>0&&today>=g;
-    const hist=[];const maxN=1;let mx=g||1;
+    const hist=[];let mx=g||1;
     for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const dk=dayKey(d);const n=todayRepTotal(c.id,dk);mx=Math.max(mx,n);
-      hist.push({n,dk,label:`${pad(d.getDate())}/${pad(d.getMonth()+1)}`,hit:g>0&&n>=g,now:i===0})}
+      hist.push({n,label:`${pad(d.getDate())}/${pad(d.getMonth()+1)}`,hit:g>0&&n>=g,now:i===0})}
     return`<div class="ccount" data-c="${c.id}">
       <button class="cc-del" data-del="${c.id}" title="Xóa bộ đếm">✕</button>
       <div class="cc-top"><b>${c.name}</b>
@@ -1013,18 +1065,17 @@ function renderCounts(){
     </div>`;
   }).join('');
 }
-function addRep(id,n){
-  const c=state.counters.find(x=>x.id===id);if(!c)return;
-  state.reps.push({id,n,ts:Date.now(),dateKey:dayKey(new Date())});save();renderCounts();
-  toast(`💪 ${c.name} +${n} cái → ${todayRepTotal(id)}/${c.goal||'∞'} cái hôm nay`);
+function addRep(cid,n){
+  const c=state.counters.find(x=>x.id===cid);if(!c)return;
+  const rid='r'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  setDoc(repsRef(rid),{cid,n,ts:Date.now(),dateKey:dayKey(new Date())});
+  toast(`💪 ${c.name} +${n} cái → ${todayRepTotal(cid)+n}/${c.goal||'∞'} cái hôm nay`);
 }
-function undoRep(id){
+function undoRep(cid){
   const tk=dayKey(new Date());
-  const idxs=state.reps.map((r,i)=>({r,i})).filter(x=>x.r.id===id&&x.r.dateKey===tk);
-  if(!idxs.length){toast('Hôm nay chưa có lượt nào để hoàn tác');return}
-  const last=idxs[idxs.length-1];
-  state.reps.splice(last.i,1);save();renderCounts();
-  toast(`Đã hoàn tác ${last.r.n} cái`);
+  const list=state.reps.filter(r=>r.cid===cid&&r.dateKey===tk).sort((a,b)=>a.ts-b.ts);
+  if(!list.length){toast('Hôm nay chưa có lượt nào để hoàn tác');return}
+  deleteDoc(repsRef(list[list.length-1].id));toast('Đã hoàn tác lượt gần nhất');
 }
 $('#countGrid').addEventListener('click',e=>{
   const add=e.target.closest('[data-add]');
@@ -1043,16 +1094,16 @@ $('#countGrid').addEventListener('click',e=>{
   if(del){
     const c=state.counters.find(x=>x.id===del.dataset.del);
     if(c&&confirm(`Xóa bộ đếm "${c.name}" và toàn bộ dữ liệu đếm của nó?`)){
+      state.reps.filter(r=>r.cid===c.id).forEach(r=>deleteDoc(repsRef(r.id)));
       state.counters=state.counters.filter(x=>x.id!==c.id);
-      state.reps=state.reps.filter(r=>r.id!==c.id);
-      save();renderCounts();toast(`Đã xóa bộ đếm "${c.name}"`);
+      pushSettings();renderCounts();toast(`Đã xóa bộ đếm "${c.name}"`);
     }
   }
 });
 $('#countGrid').addEventListener('change',e=>{
   if(e.target.classList.contains('ccgoal')){
     const c=state.counters.find(x=>x.id===e.target.dataset.cg);
-    if(c){c.goal=Math.max(0,Math.min(5000,parseInt(e.target.value)||0));e.target.value=c.goal;save();renderCounts()}
+    if(c){c.goal=Math.max(0,Math.min(5000,parseInt(e.target.value)||0));e.target.value=c.goal;pushSettings();renderCounts()}
   }
 });
 $('#btnAddCounter').onclick=()=>{const f=$('#cntForm');f.style.display=f.style.display==='none'?'flex':'none';$('#cntName').focus()};
@@ -1062,7 +1113,7 @@ $('#cntSave').onclick=()=>{
   if(!name){toast('Nhập tên bài tập');return}
   const goal=Math.max(0,Math.min(5000,parseInt($('#cntGoal').value)||0));
   state.counters.push({id:'x'+Date.now().toString(36),name,goal});
-  save();renderCounts();$('#cntForm').style.display='none';$('#cntName').value='';
+  pushSettings();renderCounts();$('#cntForm').style.display='none';$('#cntName').value='';
   toast(`Đã thêm bộ đếm "${name}"`);
 };
 
@@ -1176,9 +1227,9 @@ function editCat(id){
 function delCat(id){
   const c=(state.customCats||[]).find(x=>x.id===id);if(!c)return;
   if(!confirm(`Xóa nhóm "${c.name}"? Các hoạt động thuộc nhóm này sẽ chuyển sang "Việc vặt".`))return;
-  state.entries.forEach(e=>{if(e.cat===id)e.cat='chore'});
+  state.entries.filter(e=>e.cat===id).forEach(e=>updateDoc(entriesRef(e.id),{cat:'chore'}));
   state.customCats=state.customCats.filter(x=>x.id!==id);
-  delete state.goals[id];save();renderAll();renderCatMgr();toast(`Đã xóa nhóm "${c.name}"`);
+  delete state.goals[id];pushSettings();renderCatMgr();toast(`Đã xóa nhóm "${c.name}"`);
 }
 function saveCat(){
   const name=$('#cfName').value.trim();
@@ -1193,7 +1244,7 @@ function saveCat(){
     const id='c'+Date.now().toString(36);
     state.customCats.push({id,name,c:pickColor,kw,limit});state.goals[id]=goal;
   }
-  save();renderAll();renderCatMgr();resetCatForm();
+  pushSettings();renderCatMgr();resetCatForm();
   toast(`Đã lưu nhóm "${name}" — xuất hiện trên toàn dashboard`);
 }
 $('#btnCats').onclick=()=>{renderCatMgr();resetCatForm();$('#overlay').classList.add('show')};
@@ -1208,14 +1259,13 @@ const input=$('#quickInput'),prev=$('#parsePrev');
 const EXAMPLES=['19h30 - 20h00 Chơi game','21h - 22h đọc sách','Hít đất 30 cái','Họp team 45 phút','18h30 Đạp xe 15p','Ăn tối cùng gia đình 1 giờ'];
 $('#chips').innerHTML=EXAMPLES.map(e=>`<button class="chip">${e}</button>`).join('');
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{input.value=c.textContent;input.focus();updatePrev()});
-
 function updatePrev(){
   const v=input.value.trim();
   if(!v){prev.innerHTML='Gõ hoạt động kèm thời lượng / giờ bắt đầu / khoảng giờ — hệ thống tự nhận diện.';return}
   const rep=parseRep(v);
   if(rep){prev.innerHTML=`→ 💪 <b>Bộ đếm: ${rep.counter.name} +${rep.n} cái</b> <span class="tm">· sẽ cộng vào bộ đếm, không tính giờ</span>`;return}
   const rg=parseRange(v);
-  let textForCat=v,tmHtml='',cat=null,mins=null;
+  let textForCat=v,tmHtml='',mins=null;
   if(rg){
     textForCat=(v.slice(0,rg.a)+' '+v.slice(rg.b)).replace(/\s+/g,' ').trim();
     tmHtml=`· ${fmtHM(rg.start)} → ${fmtHM(rg.start+rg.dur)} (${fmtFull(rg.dur)})`;
@@ -1225,8 +1275,7 @@ function updatePrev(){
     mins=parseMinutes(textForCat);
     tmHtml=`· ${fmtFull(mins||30)}${mins?'':' (mặc định)'} ${st?`· bắt đầu ${fmtHM(st.start)}`:'· tính lùi từ bây giờ'}`;
   }
-  cat=detectCat(textForCat);
-  const c=cat?catById(cat):null;
+  const cat=detectCat(textForCat),c=cat?catById(cat):null;
   prev.innerHTML=`→ <span class="pd" style="background:${c?c.c:'#666'}"></span>
     <b>${c?c.name:'Chưa nhận diện — chọn nhóm bên dưới'}</b>
     <span class="tm">${tmHtml}</span>
@@ -1235,7 +1284,6 @@ function updatePrev(){
 input.addEventListener('input',updatePrev);
 input.addEventListener('keydown',e=>{if(e.key==='Enter')addEntry()});
 $('#btnAdd').addEventListener('click',addEntry);
-
 function addEntry(){
   const v=input.value.trim();if(!v){input.focus();return}
   const rep=parseRep(v);
@@ -1254,13 +1302,14 @@ function addEntry(){
   }
   const ovr=document.getElementById('catOvr');
   const cat=(ovr&&ovr.value)||detectCat(text)||'chore';
-  const entry={id:'e'+Date.now()+Math.random().toString(36).slice(2,6),text,cat,min:mins,dateKey:dayKey(now),startMin:Math.round(startMin),ts:Date.now()};
-  state.entries.push(entry);save();
-  input.value='';updatePrev();renderAll(entry.id);
+  const id='e'+Date.now()+Math.random().toString(36).slice(2,7);
+  setDoc(entriesRef(id),{text,cat,min:mins,dateKey:dayKey(now),startMin:Math.round(startMin),ts:Date.now()});
+  lastAddedId=id;
+  input.value='';updatePrev();
   toast(`Đã ghi nhận: ${text} → ${catById(cat).name} · ${fmtHM(startMin)}–${fmtHM(startMin+mins)}`);
 }
 
-/* ===== Lịch tổng quan + phân tích ngày ===== */
+/* ===== Lịch ===== */
 function renderCalendar(){
   const panel=$('#calPanel');
   if(period==='day'){panel.style.display='none';return}
@@ -1376,7 +1425,7 @@ function startTicker(){
   tickIdx=0;$('#tickText').innerHTML=tickMsgs[0];
 }
 setInterval(()=>{
-  if(tickMsgs.length<2)return;
+  if(tickMsgs.length<2||!uid)return;
   const el=$('#tickText');el.style.opacity=0;
   setTimeout(()=>{tickIdx=(tickIdx+1)%tickMsgs.length;el.innerHTML=tickMsgs[tickIdx];el.style.opacity=1},420);
 },7000);
@@ -1384,7 +1433,7 @@ let toastTimer;
 function toast(msg){$('#toastMsg').textContent=msg;$('#toast').classList.add('show');
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),2600)}
 
-/* ===== Tabs & điều khiển ===== */
+/* ===== Tabs ===== */
 function moveGlider(){
   const btn=document.querySelector('.tabs button.on'),g=$('#glider');
   if(btn){g.style.left=btn.offsetLeft+'px';g.style.width=btn.offsetWidth+'px'}
@@ -1396,9 +1445,15 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
 });
 $('#btnCSV').onclick=()=>exportCSV();
 $('#btnXLSX').onclick=exportXLSX;
-$('#btnClearSeed').onclick=()=>{state.entries=state.entries.filter(e=>!e.seed);state.reps=state.reps.filter(r=>!r.seed);save();renderAll();toast('Đã xóa dữ liệu mẫu — giờ là dữ liệu của bạn!')};
-$('#btnReset').onclick=()=>{if(confirm('Đặt lại toàn bộ? Mọi dữ liệu hiện tại sẽ bị thay bằng dữ liệu mẫu.')){localStorage.removeItem(LS_KEY);location.reload()}};
+$('#btnWipe').onclick=()=>{
+  if(!confirm('Xóa TOÀN BỘ dữ liệu trên cloud? Không thể hoàn tác.'))return;
+  state.entries.forEach(e=>deleteDoc(entriesRef(e.id)));
+  state.reps.forEach(r=>deleteDoc(repsRef(r.id)));
+  state.goals={...DEF_GOALS};state.customCats=[];state.counters=DEF_COUNTERS.map(c=>({...c}));
+  pushSettings();toast('Đã xóa toàn bộ dữ liệu');
+};
 
+/* ===== Đồng hồ ===== */
 const DAYS=['Chủ nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
 function tickClock(){
   const n=new Date();
@@ -1406,22 +1461,92 @@ function tickClock(){
   $('#datestr').textContent=`${DAYS[n.getDay()]}, ${pad(n.getDate())}/${pad(n.getMonth()+1)}/${n.getFullYear()}`;
 }
 setInterval(tickClock,1000);
-setInterval(()=>renderTimeline(),60000);
+setInterval(()=>{if(uid)renderTimeline()},60000);
 
-function renderAll(newId){
+function renderAll(){
+  lastAddedIdRender();
   renderKPIs();
   computeDonut();animate(drawDonut);renderLegend();
   computeTrend();animate(drawTrend);
   $('#donutSub').textContent={day:'hôm nay',week:'tuần này',month:'tháng này',year:'năm nay'}[period];
   $('#trendSub').textContent=trendData?trendData.title:'';
-  renderTimeline();renderFilters();renderLog(newId);renderGoals();
+  renderTimeline();renderFilters();renderLog();renderGoals();
   renderCounts();renderCalendar();renderInsights();startTicker();
 }
-let rsz;window.addEventListener('resize',()=>{clearTimeout(rsz);rsz=setTimeout(()=>{drawDonut();drawTrend(trendAnim);moveGlider();if(calSelected&&period!=='day')renderCalDetail()},150)});
+let _laTimer;
+function lastAddedIdRender(){clearTimeout(_laTimer);_laTimer=setTimeout(()=>{lastAddedId=null},1800)}
+let rsz;window.addEventListener('resize',()=>{clearTimeout(rsz);rsz=setTimeout(()=>{if(!uid)return;drawDonut();drawTrend(trendAnim);moveGlider();if(calSelected&&period!=='day')renderCalDetail()},150)});
 
-if(!load()){const s=seedData();state.entries=s.entries;state.reps=s.reps;state.goals={...DEF_GOALS};save()}
-tickClock();renderAll();moveGlider();renderSwatches();
-document.fonts&&document.fonts.ready.then(()=>{drawDonut();drawTrend(1);moveGlider();if(calSelected&&period!=='day')renderCalDetail()});
+/* ============================== FIREBASE: AUTH + SYNC ============================== */
+function startCloud(){
+  unsub.push(onSnapshot(doc(db,'users',uid),s=>{
+    if(s.exists()){
+      const d=s.data();
+      state.goals=Object.assign({},DEF_GOALS,d.goals||{});
+      state.customCats=d.customCats||[];
+      state.counters=(d.counters&&d.counters.length)?d.counters:DEF_COUNTERS.map(c=>({...c}));
+    }else pushSettings();
+    renderAll();
+  },err=>toast('Lỗi tải cài đặt: '+err.message)));
+  unsub.push(onSnapshot(collection(db,'users',uid,'entries'),s=>{
+    state.entries=s.docs.map(d=>({id:d.id,...d.data()}));
+    renderAll();
+  },err=>toast('Lỗi tải nhật ký: '+err.message)));
+  unsub.push(onSnapshot(collection(db,'users',uid,'replogs'),s=>{
+    state.reps=s.docs.map(d=>({id:d.id,...d.data()}));
+    renderCounts();renderInsights();
+  },err=>toast('Lỗi tải bộ đếm: '+err.message)));
+  checkMigration();
+}
+function checkMigration(){
+  if(sessionStorage.getItem('migAsked'))return;
+  let s=null;try{s=JSON.parse(localStorage.getItem(LS_KEY))}catch(e){}
+  if(s&&((s.entries&&s.entries.length)||(s.reps&&s.reps.length))){
+    $('#migCount').textContent=`${(s.entries||[]).length} hoạt động, ${(s.reps||[]).length} lượt đếm`;
+    $('#migrateBar').style.display='flex';
+  }
+}
+$('#btnMigrate').onclick=async()=>{
+  let s;try{s=JSON.parse(localStorage.getItem(LS_KEY))}catch(e){s=null}
+  if(!s)return;
+  const b=writeBatch(db);
+  (s.entries||[]).forEach((e,i)=>{const{id,...d}=e;b.set(entriesRef(id||('m'+Date.now()+i)),d)});
+  (s.reps||[]).forEach((r,i)=>{b.set(repsRef('mr'+Date.now()+i),{cid:r.id||r.cid,n:r.n,ts:r.ts,dateKey:r.dateKey,seed:r.seed||false})});
+  await b.commit();
+  localStorage.removeItem(LS_KEY);sessionStorage.setItem('migAsked','1');
+  $('#migrateBar').style.display='none';
+  toast('☁ Đã đồng bộ dữ liệu cũ lên cloud');
+};
+$('#btnMigSkip').onclick=()=>{sessionStorage.setItem('migAsked','1');$('#migrateBar').style.display='none'};
+
+if(isConfigured){
+  $('#btnLogin').onclick=()=>signInWithPopup(auth,new GoogleAuthProvider()).catch(err=>{
+    if(err.code==='auth/popup-closed-by-user')return;
+    if(err.code==='auth/unauthorized-domain'){toast('Cần thêm domain của bạn vào Authorized domains trong Firebase Console');return}
+    toast('Lỗi đăng nhập: '+err.message);
+  });
+  $('#btnLogout').onclick=()=>signOut(auth);
+  onAuthStateChanged(auth,user=>{
+    unsub.forEach(u=>u());unsub=[];
+    state={entries:[],goals:{...DEF_GOALS},customCats:[],counters:DEF_COUNTERS.map(c=>({...c})),reps:[]};
+    period='day';logFilter='all';calSelected=null;
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x.dataset.p==='day'));
+    if(user){
+      uid=user.uid;
+      $('#loginScreen').style.display='none';$('#app').style.display='';
+      $('#userMail').textContent=user.email||'';
+      startCloud();moveGlider();
+    }else{
+      uid=null;
+      $('#loginScreen').style.display='grid';$('#app').style.display='none';
+      $('#migrateBar').style.display='none';
+    }
+  });
+}else{
+  $('#cfgWarn').style.display='block';
+  $('#btnLogin').disabled=true;
+}
+tickClock();renderSwatches();
 </script>
 </body>
 </html>
