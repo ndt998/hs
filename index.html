@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0B110E;--panel:#121B16;--inset:#0E1613;--line:rgba(228,240,233,.09);--line2:rgba(228,240,233,.05);--txt:#E8F1EB;--mut:#94A79C;--dim:#5C7066;--gold:#FFC24B;--gold-deep:#E8A020;--red:#FF6B5E;--green:#3ED598;--sky:#53C7F0;--pink:#F472B6;--r:14px}
+:root{--bg:#0B110E;--panel:#121B16;--inset:#0E1613;--line:rgba(228,240,233,.09);--line2:rgba(228,240,233,.05);--txt:#E8F1EB;--mut:#94A79C;--dim:#5C7066;--gold:#FFC24B;--gold-deep:#E8A020;--red:#FF6B5E;--green:#3ED598;--pink:#F472B6;--r:14px}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scrollbar-color:#2a3a32 var(--bg)}
 body{font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--txt);min-height:100vh;background:radial-gradient(1100px 520px at 88% -12%,rgba(255,194,75,.075),transparent 62%),radial-gradient(900px 620px at -8% 112%,rgba(83,199,240,.055),transparent 60%),var(--bg)}
@@ -32,9 +32,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 #btnLogin{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:12px;background:#fff;color:#1f1f1f;font:700 14px 'Be Vietnam Pro';padding:13px;cursor:pointer;transition:transform .15s,box-shadow .2s}
 #btnLogin:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(255,255,255,.15)}
 #btnLogin:disabled{opacity:.5;cursor:not-allowed;transform:none}
-#loginDebug{margin-top:14px;font-size:11px;color:var(--dim);line-height:1.55;text-align:left;max-height:120px;overflow-y:auto}
-#loginDebug .err{color:#FFB4AD}
 .lg-note{margin-top:18px;font-size:11.5px;color:var(--dim);line-height:1.65}
+#cfgWarn{margin-top:14px;font-size:12px;color:#FFB4AD;background:rgba(255,107,94,.1);border:1px solid rgba(255,107,94,.35);border-radius:10px;padding:10px 12px;line-height:1.55;text-align:left}
 header{position:relative;z-index:5;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:18px 28px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(18,27,22,.9),rgba(18,27,22,.55));backdrop-filter:blur(6px)}
 .brand{display:flex;align-items:center;gap:12px}
 .brand h1{font-family:'Space Grotesk';font-size:21px;font-weight:700;line-height:1}
@@ -348,7 +347,7 @@ footer .right{margin-left:auto}
   <p class="lg-sub">Nhật ký &amp; phân bổ thời gian cá nhân</p>
   <div class="lg-feats"><span>☁️ Đồng bộ mọi thiết bị</span><span>⚡ Realtime</span><span>🔒 Riêng tư theo tài khoản</span></div>
   <button id="btnLogin"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>Đăng nhập bằng Google</button>
-  <div id="loginDebug"></div>
+  <div id="cfgWarn" style="display:none">⚠️ <b>Chưa dán cấu hình Firebase.</b> Mở index.html, tìm khối <b>firebaseConfig</b>, dán 6 giá trị rồi upload lại.</div>
   <p class="lg-note">Đăng nhập để dữ liệu lưu trên cloud và đồng bộ giữa điện thoại – máy tính.<br>Chỉ tài khoản của bạn đọc được dữ liệu của bạn.</p>
  </div>
 </div>
@@ -386,7 +385,7 @@ footer .right{margin-left:auto}
  <section class="panel p-input" style="--d:.06s">
   <div class="ptitle">Ghi nhanh <span class="pt-right"><span class="sub">giờ · khoảng giờ · bộ đếm · chỉ số</span></span></div>
   <div class="quickwrap"><input id="quickInput" type="text" placeholder="VD: 19h30 - 20h00 Chơi game…" autocomplete="off"><button class="btn-add" id="btnAdd">Ghi nhận</button></div>
-  <div class="parse-prev" id="parsePrev">Gõ hoạt động / khoảng giờ / "Hít đất 30 cái" / "65,5 kg" / "8000 bước" — hệ thống tự hiểu.</div>
+  <div class="parse-prev" id="parsePrev">Gõ hoạt động / khoảng giờ / “Hít đất 30 cái” / “65,5 kg” / “8000 bước” — hệ thống tự hiểu.</div>
   <div class="examples"><p>Thử nhanh</p><div class="chips" id="chips"></div></div>
  </section>
 
@@ -452,7 +451,7 @@ footer .right{margin-left:auto}
   <div class="mlist" id="catMgrList"></div>
   <div class="mform-wrap">
    <p class="mf-title" id="mfTitle">➕ Thêm nhóm mới</p>
-   <div class="mrow"><label>Tên nhóm</label><input type="text" id="cfName" placeholder="VD: Thiền &amp; chánh niệm"></div>
+   <div class="mrow"><label>Tên nhóm</label><input type="text" id="cfName" placeholder="VD: Thiền & chánh niệm"></div>
    <div class="mrow"><label>Màu nhận diện</label><div class="swatches" id="cfColors"></div></div>
    <div class="mrow"><label>Từ khóa <span>— phân cách dấu phẩy</span></label><input type="text" id="cfKw" placeholder="thien, chanh niem"></div>
    <div class="mrow split">
@@ -483,28 +482,18 @@ import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase
 import {getAuth,GoogleAuthProvider,onAuthStateChanged,signInWithPopup,signOut} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
 import {getFirestore,doc,setDoc,collection,onSnapshot,deleteDoc,updateDoc,writeBatch} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
 
+/* 👉 DÁN firebaseConfig CỦA BẠN VÀO ĐÂY (giữ nguyên phần còn lại) */
 const firebaseConfig = {
-  apiKey: "AIzaSyD8N-IFLIvo8nbX8mwMmclHyjgdTGD3U2o",
-  authDomain: "hs3107.firebaseapp.com",
-  databaseURL: "https://hs3107-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "hs3107",
-  storageBucket: "hs3107.firebasestorage.app",
-  messagingSenderId: "454784019201",
-  appId: "1:454784019201:web:6695d9248a130da5474900",
-  measurementId: "G-H3EXGM49W3"
+   apiKey: "AIzaSyC2YAeztU-lExlV2Xd6yT4sH5YEQ93hbNs",
+    authDomain: "hl3017.firebaseapp.com",
+    projectId: "hl3017",
+    storageBucket: "hl3017.firebasestorage.app",
+    messagingSenderId: "396522230028",
+    appId: "1:396522230028:web:9783880231fa1c77def929"
 };
 const isConfigured=!JSON.stringify(firebaseConfig).includes('DÁN_');
-let auth=null,db=null,fbApp=null;
-if(isConfigured){fbApp=initializeApp(firebaseConfig);auth=getAuth(fbApp);db=getFirestore(fbApp)}
-
-function dbg(msg,isErr){
- const box=document.getElementById('loginDebug');
- if(!box)return;
- const d=document.createElement('div');
- if(isErr)d.className='err';
- d.textContent='['+new Date().toLocaleTimeString()+'] '+msg;
- box.appendChild(d);
-}
+let auth=null,db=null;
+if(isConfigured){const fb=initializeApp(firebaseConfig);auth=getAuth(fb);db=getFirestore(fb)}
 
 const CATS=[
  {id:'work',name:'Công việc',c:'#FFB020',kw:['hop','meeting','email','bao cao','deadline','du an','khach hang','code','lap trinh','cong viec','lam viec','ke hoach','sep','dong nghiep','van phong','trinh bay','thuyet trinh','phong van','tuyen dung','hop dong','dam phan','chien luoc','quy trinh','danh gia','review','sprint','backlog','tien do','nhiem vu','task','cong ty','tang ca','lam them','duyet','xac nhan','trien khai']},
@@ -584,6 +573,7 @@ function parseStart(text){
  }
  return null;
 }
+/* Bộ đếm & chỉ số: "Hít đất 30 cái", "8000 bước", "65,5 kg", "nhịp tim 72bpm" */
 function parseTracker(text){
  const t=norm(text);let best=null,bl=0;
  for(const tr of state.trackers){
@@ -694,6 +684,7 @@ function periodFileLabel(){
  if(period==='range')return `ky_${rangeFrom}_${rangeTo}`;
  return dayKey(new Date());
 }
+/* Nhật ký gộp (hoạt động + bộ đếm) cho log & xuất file */
 function mergedLogs(p){
  const acts=entriesOf(p).map(e=>({kind:'act',ts:e.ts,dateKey:e.dateKey,startMin:e.startMin,text:e.text,cat:e.cat,min:e.min,unit:'',id:e.id}));
  const reps=repsOf(p).map(r=>{const tr=trackerById(r.cid);
@@ -854,7 +845,7 @@ function renderTimeline(){
  placed.forEach((p,i)=>{const{e,s,en}=p.it,c=catById(e.cat);
   html+=`<div class="tl-block" title="${e.text} · ${fmtFull(e.min)} (${fmtHM(e.startMin)}–${fmtHM(e.startMin+e.min)})" style="left:${(s-t0)/span*100}%;width:${(en-s)/span*100}%;top:${topPad+p.li*rowH}px;background:${c.c};animation-delay:${i*40}ms"><i>${e.text}</i></div>`});
  html+=`<div class="tl-now" style="left:${(nowMin-t0)/span*100}%"><span>${fmtHM(nowMin)}</span></div>`;
- if(!todayList.length)html+=`<div class="tl-empty">Chưa có hoạt động nào hôm nay — bắt đầu bằng ô "Ghi nhanh" →</div>`;
+ if(!todayList.length)html+=`<div class="tl-empty">Chưa có hoạt động nào hôm nay — bắt đầu bằng ô “Ghi nhanh” →</div>`;
  track.innerHTML=html;
  const tot=todayList.reduce((a,e)=>a+e.min,0);
  $('#tlSub').textContent=`${todayList.length} hoạt động · ${fmtMin(tot)}${laneN>1?' · '+laneN+' làn':''}`;
@@ -901,6 +892,7 @@ async function loadSample(){
  await b.commit();toast('Đã nạp 4 tuần dữ liệu mẫu');
 }
 
+/* ===== Mục tiêu: ngày = chỉnh trực tiếp; kỳ = chỉ xem + nút sửa cuối ===== */
 function renderGoals(){
  $('#goalSub').textContent={day:'mỗi ngày',week:'tuần này',month:'tháng này',year:'năm nay',range:'khoảng chọn'}[period];
  const de=daysElapsed(period),mult=perMult(period),isDay=period==='day';
@@ -914,6 +906,7 @@ function renderGoals(){
    const exp=daily,pct=exp>0?Math.min(100,actual/exp*100):(actual>0?100:0);
    return`<div class="grow"><div class="gtop"><span class="d" style="background:${c.c}"></span><b>${c.name}</b>${input}</div><div class="gbar"><i style="width:${pct}%;background:${exp>0&&pct>=100?'var(--green)':c.c}"></i></div><div class="gfoot"><span class="pct" style="color:${exp>0&&pct>=100?'var(--green)':'var(--mut)'}">${exp>0?Math.round(pct)+'% · '+fmtMin(actual)+'/'+fmtMin(exp):'Chưa đặt mục tiêu'}</span></div></div>`;
   }
+  /* kỳ: chỉ xem */
   const exp=daily*de,pct=exp>0?Math.min(100,actual/exp*100):(actual>0?100:0);
   if(lim){const over=actual>goalP;
    return`<div class="grow"><div class="gtop"><span class="d" style="background:${c.c}"></span><b>${c.name}</b><span class="lmt">hạn mức kỳ</span><span class="gset"><span class="gunit" style="font:600 12px 'JetBrains Mono';color:var(--txt)">${fmtMin(goalP)}</span></span></div><div class="gbar"><i style="width:${goalP>0?Math.min(100,actual/goalP*100):100}%;background:${over?'var(--red)':c.c}"></i></div><div class="gfoot"><span class="pct ${over?'gov':'gok'}">${over?'Vượt '+fmtMin(actual-goalP):'Còn '+fmtMin(goalP-actual)} · đã dùng ${fmtMin(actual)}</span></div></div>`}
@@ -958,6 +951,7 @@ $('#goalRows').addEventListener('click',e=>{
  pushSettings();renderGoals();renderInsights();startTicker();
 });
 
+/* ===== Bộ đếm & chỉ số ===== */
 function repTotal(cid,fromDK,toDK){return state.reps.filter(r=>r.cid===cid&&(!fromDK||(r.dateKey>=fromDK&&r.dateKey<=toDK))).reduce((s,r)=>s+r.n,0)}
 function periodRepTotal(cid){return repsOf(period).filter(r=>r.cid===cid).reduce((s,r)=>s+r.n,0)}
 function renderCounts(){
@@ -1107,7 +1101,7 @@ function buildInsights(){
  const[a,b]=periodRange(period),len=b-a,prev=state.entries.filter(e=>{const t=new Date(e.dateKey+'T00:00:00');return t>=new Date(a-len)&&t<a}).reduce((s,e)=>s+e.min,0);
  if(prev>60)out.push({t:'info',s:2,h:`Tổng ghi nhận ${total>=prev?'tăng':'giảm'} <b>${Math.abs(Math.round((total-prev)/prev*100))}%</b> so với kỳ trước.`});
  const untracked=16*60*de-total;
- if(untracked>16*60*de*.3)out.push({t:'warn',s:1,h:`Còn ~<b>${fmtMin(untracked/de)}</b>/ngày chưa ghi nhận — ghi lại các "khoảng trống" để thấy bức tranh đầy đủ.`});
+ if(untracked>16*60*de*.3)out.push({t:'warn',s:1,h:`Còn ~<b>${fmtMin(untracked/de)}</b>/ngày chưa ghi nhận — ghi lại các “khoảng trống” để thấy bức tranh đầy đủ.`});
  if(!out.length)out.push({t:'info',s:2,h:'Hãy ghi hoạt động trong ngày — hệ thống sẽ tự phân tích.'});
  return out.sort((x,y)=>x.s-y.s).slice(0,5);
 }
@@ -1117,6 +1111,7 @@ function renderInsights(){
  $('#ilist').innerHTML=buildInsights().map((x,i)=>`<div class="irow t-${x.t}" style="animation-delay:${i*70}ms"><span class="ib">${icons[x.t]}</span><p>${x.h}</p></div>`).join('');
 }
 
+/* ===== Quản lý nhóm ===== */
 let editingCatId=null,pickColor=PALETTE[6];
 function renderSwatches(){
  $('#cfColors').innerHTML=PALETTE.map(c=>`<div class="sw ${c===pickColor?'on':''}" data-c="${c}" style="background:${c}"></div>`).join('');
@@ -1132,7 +1127,7 @@ function resetCatForm(){
  editingCatId=null;pickColor=PALETTE[6];
  $('#mfTitle').textContent='➕ Thêm nhóm mới';
  $('#cfName').value='';$('#cfKw').value='';$('#cfGoal').value=30;
- document.querySelector('input[name="cfType"][value="target"]').checked=true;
+ document.querySelector('input[name=cfType][value=target]').checked=true;
  $('#btnCancelEdit').style.display='none';$('#btnSaveCat').textContent='Lưu nhóm';
  renderSwatches();
 }
@@ -1142,7 +1137,7 @@ function editCat(id){
  $('#mfTitle').textContent='✎ Chỉnh sửa: '+c.name;
  $('#cfName').value=c.name;$('#cfKw').value=(c.kw||[]).join(', ');
  $('#cfGoal').value=state.goals[id]||0;
- document.querySelector(`input[name="cfType"][value="${c.limit?'limit':'target'}"]`).checked=true;
+ document.querySelector(`input[name=cfType][value=${c.limit?'limit':'target'}]`).checked=true;
  $('#btnCancelEdit').style.display='inline-block';$('#btnSaveCat').textContent='Cập nhật';
  renderSwatches();
 }
@@ -1157,7 +1152,7 @@ function saveCat(){
  const name=$('#cfName').value.trim();
  if(!name){toast('Hãy nhập tên nhóm');return}
  const kw=$('#cfKw').value.split(',').map(s=>norm(s.trim())).filter(Boolean);
- const limit=document.querySelector('input[name="cfType"]:checked').value==='limit';
+ const limit=document.querySelector('input[name=cfType]:checked').value==='limit';
  const goal=Math.max(0,Math.min(960,parseInt($('#cfGoal').value)||0));
  if(editingCatId){const c=state.customCats.find(x=>x.id===editingCatId);Object.assign(c,{name,c:pickColor,kw,limit});state.goals[editingCatId]=goal}
  else{const id='c'+Date.now().toString(36);state.customCats.push({id,name,c:pickColor,kw,limit});state.goals[id]=goal}
@@ -1170,13 +1165,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#overlay').class
 $('#btnSaveCat').onclick=saveCat;
 $('#btnCancelEdit').onclick=resetCatForm;
 
+/* ===== Ghi nhanh ===== */
 const input=$('#quickInput'),prev=$('#parsePrev');
 const EXAMPLES=['19h30 - 20h00 Chơi game','21h - 22h đọc sách','Hít đất 30 cái','8000 bước','65,5 kg','Họp team 45 phút'];
 $('#chips').innerHTML=EXAMPLES.map(e=>`<button class="chip">${e}</button>`).join('');
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{input.value=c.textContent;input.focus();updatePrev()});
 function updatePrev(){
  const v=input.value.trim();
- if(!v){prev.innerHTML='Gõ hoạt động / khoảng giờ / "Hít đất 30 cái" / "65,5 kg" / "8000 bước" — hệ thống tự hiểu.';return}
+ if(!v){prev.innerHTML='Gõ hoạt động / khoảng giờ / “Hít đất 30 cái” / “65,5 kg” / “8000 bước” — hệ thống tự hiểu.';return}
  const tr=parseTracker(v);
  if(tr){prev.innerHTML=tr.tracker.kind==='sum'
   ?`→ 💪 <b>Bộ đếm: ${tr.tracker.name} +${fmtNum(tr.n)} ${tr.tracker.unit}</b>`
@@ -1215,6 +1211,7 @@ function addEntry(){
  toast(`Đã ghi nhận: ${text} → ${catById(cat).name} · ${fmtHM(startMin)}–${fmtHM(startMin+mins)}`);
 }
 
+/* ===== Lịch ===== */
 function renderCalendar(){
  const panel=$('#calPanel');
  if(period==='day'||period==='range'){panel.style.display='none';return}
@@ -1359,6 +1356,7 @@ function renderAll(){
 }
 let rsz;window.addEventListener('resize',()=>{clearTimeout(rsz);rsz=setTimeout(()=>{if(!uid)return;drawDonut();drawTrend(trendAnim);moveGlider();if(calSelected&&period!=='day'&&period!=='range')renderCalDetail()},150)});
 
+/* ===== Firebase ===== */
 function startCloud(){
  unsub.push(onSnapshot(doc(db,'users',uid),s=>{
   if(s.exists()){const d=s.data();
@@ -1397,30 +1395,10 @@ $('#btnMigrate').onclick=async()=>{
 $('#btnMigSkip').onclick=()=>{sessionStorage.setItem('migAsked','1');$('#migrateBar').style.display='none'};
 
 if(isConfigured){
- dbg('Firebase đã cấu hình ✓');
- dbg('authDomain: '+firebaseConfig.authDomain);
- dbg('Đang mở: '+location.hostname+location.pathname);
- 
- $('#btnLogin').onclick=async()=>{
-  try{
-   dbg('Đang mở popup Google...');
-   const result=await signInWithPopup(auth,new GoogleAuthProvider());
-   dbg('Đăng nhập thành công: '+result.user.email);
-  }catch(err){
-   dbg('LỖI: '+err.code+' - '+err.message,true);
-   if(err.code==='auth/popup-closed-by-user'){
-    toast('Bạn đã đóng cửa sổ đăng nhập');
-   }else if(err.code==='auth/unauthorized-domain'){
-    toast('⚠ Chưa thêm domain "'+location.hostname+'" vào Authorized domains trong Firebase Console → Authentication → Settings');
-   }else if(err.code==='auth/api-key-invalid'){
-    toast('API key không hợp lệ — kiểm tra lại config');
-   }else if(err.code==='auth/invalid-api-key'){
-    toast('API key sai — kiểm tra firebaseConfig');
-   }else{
-    toast('Lỗi đăng nhập: '+err.message);
-   }
-  }
- };
+ $('#btnLogin').onclick=()=>signInWithPopup(auth,new GoogleAuthProvider()).catch(err=>{
+  if(err.code==='auth/popup-closed-by-user')return;
+  if(err.code==='auth/unauthorized-domain'){toast('Cần thêm domain của bạn vào Authorized domains trong Firebase Console');return}
+  toast('Lỗi đăng nhập: '+err.message)});
  $('#btnLogout').onclick=()=>signOut(auth);
  onAuthStateChanged(auth,user=>{
   unsub.forEach(u=>u());unsub=[];
@@ -1436,10 +1414,7 @@ if(isConfigured){
    $('#loginScreen').style.display='grid';$('#app').style.display='none';
    $('#migrateBar').style.display='none'}
  });
-}else{
- dbg('⚠ Chưa cấu hình Firebase',true);
- $('#btnLogin').disabled=true;
-}
+}else{$('#cfgWarn').style.display='block';$('#btnLogin').disabled=true}
 tickClock();renderSwatches();
 </script>
 </body>
