@@ -580,7 +580,12 @@ function renderTrackerCharts(){
  const reps=repsOf(period);
  const groups={};state.trackers.forEach(tr=>{(groups[tr.unit]=groups[tr.unit]||[]).push(tr)});
  const units=Object.keys(groups).sort((x,y)=>x.localeCompare(y,'vi'));
- const charts=units.map(u=>({u,series:groups[u].map(tr=>({name:tr.name,color:trackerColor(tr),values:buckets.map(bk=>bucketVal(tr,reps.filter(r=>r.cid===tr.id&&bk.test(r.dateKey)))))}))});
+ const charts=units.map(u=>{
+  const series=groups[u].map(tr=>{
+    return {name:tr.name,color:trackerColor(tr),values:buckets.map(bk=>bucketVal(tr,reps.filter(r=>r.cid===tr.id&&bk.test(r.dateKey))))};
+  });
+  return {u,series};
+});const charts=units.map(u=>({u,series:groups[u].map(tr=>({name:tr.name,color:trackerColor(tr),values:buckets.map(bk=>bucketVal(tr,reps.filter(r=>r.cid===tr.id&&bk.test(r.dateKey)))))}))});
  box.innerHTML='<div class="cd-sub" style="margin:4px 0 10px">📈 Diễn biến bộ đếm theo thời gian (nhóm theo đơn vị đo)</div>'+charts.map((c,gi)=>'<div class="tchart"><div class="tc-head">Đơn vị: <span class="u">'+c.u+'</span></div><div class="tc-wrap"><canvas id="tc'+gi+'"></canvas><div class="tip" id="tctip'+gi+'"></div></div><div class="tc-legend">'+c.series.map(s=>'<span class="s"><span class="d" style="background:'+s.color+'"></span>'+s.name+'</span>').join('')+'</div></div>').join('');
  charts.forEach((c,gi)=>drawLineChart($('#tc'+gi),$('#tctip'+gi),buckets.map(b=>b.label),c.series,c.u));
 }
