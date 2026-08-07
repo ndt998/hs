@@ -156,6 +156,13 @@ canvas{display:block;width:100%;height:100%}
 #cntName{flex:1;min-width:150px}
 #cntUnit{width:140px}
 #cntGoal{width:90px}
+.tchart{margin:4px 0 16px;background:var(--inset);border:1px solid var(--line2);border-radius:12px;padding:14px}
+.tc-head{font:700 12.5px 'Be Vietnam Pro';color:var(--txt);margin-bottom:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tc-head .u{color:var(--gold)}
+.tc-wrap{position:relative;height:190px}
+.tc-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+.tc-legend .s{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--mut)}
+.tc-legend .d{width:9px;height:9px;border-radius:50%}
 .count-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
 .ccount{background:var(--inset);border:1px solid var(--line2);border-radius:12px;padding:15px;position:relative;transition:border-color .2s}
 .ccount:hover{border-color:var(--line)}
@@ -350,15 +357,15 @@ footer .right{margin-left:auto}
  <div id="migrateBar" style="display:none"><span>📦 Trên máy này còn dữ liệu cũ: <b id="migCount"></b>.</span><button class="btn-add sm" id="btnMigrate">☁ Đẩy lên cloud</button><button class="btn-ghost" id="btnMigSkip">Bỏ qua</button></div>
  <div id="rangeBar" style="display:none"><span>📅 Xem từ</span><input type="date" id="rFrom"><span>đến</span><input type="date" id="rTo"><button class="btn-add sm" id="btnRange">Áp dụng</button></div>
  <section class="kpis">
-  <div class="kpi"><label id="kpiTotalLabel">Tổng thời gian</label><div class="val" id="kpiTotal">0<small>p</small></div><div class="note" id="kpiDelta"></div><canvas id="spark" width="150" height="44"></canvas></div>
+  <div class="kpi"><label id="kpiTotalLabel">Tổng thời gian ghi nhận</label><div class="val" id="kpiTotal">0<small>p</small></div><div class="note" id="kpiDelta"></div><canvas id="spark" width="150" height="44"></canvas></div>
   <div class="kpi"><label>Nhiều nhất trong kỳ</label><div class="val" id="kpiTopVal" style="font-size:24px;padding-top:6px">—</div><div class="note" id="kpiTopNote"></div></div>
-  <div class="kpi"><label>Hiệu suất</label><div class="val" id="kpiProd">0<small>%</small></div><div class="note">Công việc + Học tập / tổng</div></div>
+  <div class="kpi"><label>Hiệu suất</label><div class="val" id="kpiProd">0<small>%</small></div><div class="note">Công việc + Học tập trên tổng ghi nhận</div></div>
   <div class="kpi"><label>Hạng mục</label><div class="val" id="kpiCats">0</div><div class="note" id="kpiEntries"></div></div>
  </section>
  <section class="panel p-input" style="--d:.06s">
-  <div class="ptitle">Ghi nhanh <span class="pt-right"><span class="sub">giờ · khoảng giờ · bộ đếm · chỉ số</span></span></div>
+  <div class="ptitle">Ghi nhanh hoạt động <span class="pt-right"><span class="sub">hiểu giờ · khoảng giờ · bộ đếm · chỉ số</span></span></div>
   <div class="quickwrap"><input id="quickInput" type="text" placeholder="VD: 19h30 - 20h00 Chơi game…" autocomplete="off"><button class="btn-add" id="btnAdd">Ghi nhận</button></div>
-  <div class="parse-prev" id="parsePrev">Gõ hoạt động / khoảng giờ / "Hít đất 30 cái" / "65,5 kg" / "8000 bước" — hệ thống tự hiểu.</div>
+  <div class="parse-prev" id="parsePrev">Gõ hoạt động kèm thời lượng / giờ bắt đầu / khoảng giờ — hệ thống tự nhận diện.</div>
   <div class="examples"><p>Thử nhanh</p><div class="chips" id="chips"></div></div>
  </section>
  <section class="panel p-donut" style="--d:.12s">
@@ -370,7 +377,7 @@ footer .right{margin-left:auto}
   <div class="chartwrap"><canvas id="trend"></canvas><div class="tip" id="trendTip"></div></div>
  </section>
  <section class="panel p-time" style="--d:.24s">
-  <div class="ptitle">Dòng thời gian hôm nay <span class="pt-right"><span class="sub">trùng giờ tự tách làn</span><span class="sub" id="tlSub"></span></span></div>
+  <div class="ptitle">Dòng thời gian hôm nay <span class="pt-right"><span class="sub">trùng giờ tự tách làn riêng</span><span class="sub" id="tlSub"></span></span></div>
   <div class="tl-track" id="tlTrack"></div>
   <div class="tl-stats" id="tlStats"></div>
  </section>
@@ -379,7 +386,7 @@ footer .right{margin-left:auto}
   <div id="goalRows"></div>
  </section>
  <section class="panel p-count" style="--d:.32s">
-  <div class="ptitle">Bộ đếm &amp; chỉ số 💪 <span class="pt-right"><span class="sub" id="countSub">hôm nay</span><button class="mini" id="btnAddCounter">+ Thêm bộ đếm</button></span></div>
+  <div class="ptitle">Bộ đếm mục tiêu 💪 <span class="pt-right"><span class="sub">mẹo: gõ “Hít đất 30 cái” vào ô Ghi nhanh để cộng nhanh</span><span class="sub" id="countSub">hôm nay</span><button class="mini" id="btnAddCounter">+ Bộ đếm</button></span></div>
   <div class="cntform" id="cntForm" style="display:none">
    <input id="cntName" type="text" placeholder="Tên (VD: Số bước chân, Cân nặng, Nhịp tim…)">
    <input id="cntUnit" type="text" placeholder="Đơn vị (cái, bước, kg, bpm…)">
@@ -387,10 +394,11 @@ footer .right{margin-left:auto}
    <input id="cntGoal" type="number" value="50" min="0" step="5"><span class="gunit" id="cntGoalHint">mục tiêu/ngày</span>
    <button class="btn-add sm" id="cntSave">Thêm</button><button class="btn-ghost" id="cntCancel">Hủy</button>
   </div>
+  <div id="trackerCharts"></div>
   <div class="count-grid" id="countGrid"></div>
  </section>
  <section class="panel p-cal" id="calPanel" style="--d:.34s;display:none">
-  <div class="ptitle">Lịch tổng quan <span class="pt-right"><span class="sub">bấm ngày để xem pie chart + heatmap</span><span class="sub" id="calSub"></span></span></div>
+  <div class="ptitle">Lịch tổng quan <span class="pt-right"><span class="sub">bấm vào một ngày để xem pie chart + heatmap khung giờ</span><span class="sub" id="calSub"></span></span></div>
   <div id="calWrap"></div>
   <div class="cal-detail" id="calDetail"></div>
  </section>
@@ -418,15 +426,16 @@ footer .right{margin-left:auto}
    <p class="mf-title" id="mfTitle">➕ Thêm nhóm mới</p>
    <div class="mrow"><label>Tên nhóm</label><input type="text" id="cfName" placeholder="VD: Thiền &amp; chánh niệm"></div>
    <div class="mrow"><label>Màu nhận diện</label><div class="swatches" id="cfColors"></div></div>
-   <div class="mrow"><label>Từ khóa <span>— phân cách dấu phẩy</span></label><input type="text" id="cfKw" placeholder="thien, chanh niem"></div>
+   <div class="mrow"><label>Từ khóa nhận diện <span>— phân cách bằng dấu phẩy</span></label><input type="text" id="cfKw" placeholder="thien, chanh niem"></div>
    <div class="mrow split">
     <div><label>Loại mục tiêu</label>
-     <label class="radio"><input type="radio" name="cfType" value="target" checked> Cần đạt</label>
-     <label class="radio"><input type="radio" name="cfType" value="limit"> Hạn mức</label></div>
+     <label class="radio"><input type="radio" name="cfType" value="target" checked> Cần đạt được</label>
+     <label class="radio"><input type="radio" name="cfType" value="limit"> Hạn mức tối đa</label></div>
     <div><label>Mục tiêu / ngày (phút)</label><input type="number" id="cfGoal" min="0" step="5" value="30"></div>
    </div>
-   <div class="mactions"><button class="btn-add sm" id="btnSaveCat">Lưu nhóm</button><button class="btn-ghost" id="btnCancelEdit" style="display:none">Hủy</button></div>
+   <div class="mactions"><button class="btn-add sm" id="btnSaveCat">Lưu nhóm</button><button class="btn-ghost" id="btnCancelEdit" style="display:none">Hủy chỉnh sửa</button></div>
   </div>
+  <p class="mnote">7 nhóm mặc định luôn khả dụng. Nhóm bạn tạo xuất hiện ở mọi biểu đồ, bộ lọc, mục tiêu và bộ tự nhận diện.</p>
  </div>
 </div>
 <div class="overlay" id="goalOverlay">
@@ -456,7 +465,17 @@ let auth=null,db=null;
 try{const fb=initializeApp(firebaseConfig);auth=getAuth(fb);db=getFirestore(fb);dbg('✓ Firebase khởi tạo thành công','ok')}
 catch(e){dbg('✗ LỖI khởi tạo: '+e.message,'err')}
 
-/* ================= TOÀN BỘ CODE APP ================= */
+/* ========== TIỆN ÍCH (định nghĩa TRƯỚC khi dùng) ========== */
+const pad=n=>String(n).padStart(2,'0');
+function dayKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
+const fmtMin=m=>{m=Math.round(m);if(m<60)return m+'p';const h=Math.floor(m/60),p=m%60;return p?h+'g '+p+'p':h+'g'};
+const fmtFull=m=>{m=Math.round(m);if(m<60)return m+' phút';const h=Math.floor(m/60),p=m%60;return p?h+' giờ '+p+' phút':h+' giờ'};
+const fmtHM=m=>pad(Math.floor(m/60)%24)+':'+pad(m%60);
+const fmtDateD=dk=>{const p=dk.split('-');return p[2]+'/'+p[1]+'/'+p[0]};
+const fmtNum=n=>String(Math.round(n*100)/100);
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
 const CATS=[
  {id:'work',name:'Công việc',c:'#FFB020',kw:['hop','meeting','email','bao cao','deadline','du an','khach hang','code','lap trinh','cong viec','lam viec','ke hoach','sep','dong nghiep','van phong','trinh bay','thuyet trinh','phong van','tuyen dung','hop dong','dam phan','chien luoc','quy trinh','danh gia','review','sprint','backlog','tien do','nhiem vu','task','cong ty','tang ca','lam them','duyet','xac nhan','trien khai']},
  {id:'study',name:'Học tập',c:'#53C7F0',kw:['hoc','doc sach','khoa hoc','tieng anh','ngoai ngu','nghien cuu','on tap','ghi chu','sach','luyen thi','chuyen nganh','ky nang','tai lieu','chung chi','ielts','toeic','lam bai tap','bai tap','flashcard','podcast','hoi thao','workshop','doc','viet luan','luan van','on thi','lam de','de thi','hoc online','udemy','coursera']},
@@ -471,27 +490,21 @@ const DEF_TRACKERS=[{id:'pushup',name:'Hít đất',unit:'cái',kind:'sum',goal:
 const PALETTE=['#FFB020','#53C7F0','#3ED598','#FF7E79','#C08BFF','#38C4BF','#F472B6','#A3E635','#FB923C','#94A3B8','#E879F9','#FACC15'];
 const $=q=>document.querySelector(q);
 const LS_KEY='quyThoigian.v3';
+
 let state={entries:[],goals:{...DEF_GOALS},customCats:[],trackers:DEF_TRACKERS.map(t=>({...t})),reps:[]};
 let period='day',logFilter='all',donutHover=-1,trendHover=-1,calSelected=null,uid=null,unsub=[],lastAddedId=null,booted=false;
-let rangeFrom=dayKey(new Date(new Date().getFullYear(),new Date().getMonth(),1)),rangeTo=dayKey(new Date());
-let donutData=[],trendData=null,donutCv=null,trendCv=null,trendTip=null,input=null,prev=null,trendAnim=1;
+let rangeFrom,rangeTo;
+let donutData=[],trendData=null,donutCv=null,trendCv=null,trendTip=null,input=null,prev=null,trendAnim=1,rsz;
 
 function allCats(){return [...CATS,...(state.customCats||[])]}
 function catById(id){return allCats().find(c=>c.id===id)||{id,name:'Khác',c:'#8A9791',kw:[]}}
 function isLimit(id){if(id==='fun')return true;const c=(state.customCats||[]).find(x=>x.id===id);return !!(c&&c.limit)}
 function trackerById(id){return state.trackers.find(t=>t.id===id)}
+function trackerColor(tr){const i=state.trackers.indexOf(tr);return PALETTE[(i<0?0:i)%PALETTE.length]}
 const entriesRef=id=>doc(db,'users',uid,'entries',id);
 const repsRef=id=>doc(db,'users',uid,'replogs',id);
 function pushSettings(){setDoc(doc(db,'users',uid),{goals:state.goals,customCats:state.customCats,trackers:state.trackers})}
-const pad=n=>String(n).padStart(2,'0');
-function dayKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
-const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
-const fmtMin=m=>{m=Math.round(m);if(m<60)return m+'p';const h=Math.floor(m/60),p=m%60;return p?h+'g '+p+'p':h+'g'};
-const fmtFull=m=>{m=Math.round(m);if(m<60)return m+' phút';const h=Math.floor(m/60),p=m%60;return p?h+' giờ '+p+' phút':h+' giờ'};
-const fmtHM=m=>pad(Math.floor(m/60)%24)+':'+pad(m%60);
-const fmtDateD=dk=>{const p=dk.split('-');return p[2]+'/'+p[1]+'/'+p[0]};
-const fmtNum=n=>String(Math.round(n*100)/100);
-function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
 function parseMinutes(raw){const s=raw.toLowerCase();let m=null,f=false,r;
  if((r=s.match(/(\d+[.,](\d+))\s*(?:h|gio|giờ|tieng|tiếng)/))){m=Math.round(parseFloat(r[1].replace(',','.'))*60);f=true}
  else if((r=s.match(/(\d+)\s*(?:h|gio|giờ|tieng|tiếng)\s*(\d{1,2})(?!\d)/))){m=+r[1]*60+ +r[2];f=true}
@@ -504,6 +517,7 @@ function parseStart(text){const sl=text.toLowerCase();const mRe=/(lúc|luc|từ|
 function parseTracker(text){const t=norm(text);let best=null,bl=0;for(const tr of state.trackers){for(const k of [...(tr.kw||[]),norm(tr.name)]){if(k&&t.includes(k)&&k.length>bl){bl=k.length;best=tr}}}if(!best)return null;const wU=u=>{const re=new RegExp('(\\d+(?:[.,]\\d+)?)\\s*(?:'+u+')\\b');const m=t.match(re);return m?parseFloat(m[1].replace(',','.')):null};let n=null;if(best.kind==='sum')n=wU('cai|cái|lan|lần|reps|buoc|bước|steps|step');else{n=wU('kg|kilogram|bpm|mmhg|diem|điem|điểm|%');if(n==null){const all=[...t.matchAll(/(\d+(?:[.,]\d+)?)/g)].map(x=>parseFloat(x[1].replace(',','.')));if(all.length)n=all[all.length-1]}}if(n==null||n<=0||n>200000)return null;return{tracker:best,n}}
 function matchScore(text,kws){const toks=text.trim().split(/\s+/);let sc=0;for(const k of (kws||[])){const kt=k.split(/\s+/);if(kt.length===1){if(toks.includes(kt[0]))sc+=Math.max(2,kt[0].length)}else for(let i=0;i<=toks.length-kt.length;i++){if(kt.every((w,j)=>toks[i+j]===w)){sc+=kt.join(' ').length*2;break}}}return sc}
 function detectCat(text){const t=norm(text);let best=null,bs=0;for(const c of allCats()){const s=matchScore(t,c.kw);if(s>bs){bs=s;best=c.id}}return best}
+
 const TPL={work:['Họp giao ban đầu ngày','Xử lý email & tin nhắn','Làm báo cáo tiến độ','Viết tài liệu dự án','Gọi điện khách hàng','Phát triển tính năng mới','Rà soát kế hoạch tuần'],study:['Đọc sách chuyên ngành','Học tiếng Anh online','Xem khóa học kỹ năng','Ôn tập & ghi chú'],health:['Chạy bộ buổi sáng','Tập gym','Yoga giãn cơ','Đi bộ công viên','Đạp xe quanh hồ'],family:['Ăn tối cùng gia đình','Cà phê với bạn thân','Gọi điện cho bố mẹ','Chơi với con'],fun:['Lướt mạng xã hội','Xem phim','Chơi game','Đọc tin tức'],rest:['Ngủ trưa','Thiền tĩnh tâm','Nghỉ giải lao'],chore:['Nấu ăn','Đi siêu thị','Dọn dẹp nhà cửa','Giặt quần áo','Rửa chén']};
 function seedData(){const rnd=mulberry32(20250611),out=[],reps=[],today=new Date();const nowMin=today.getHours()*60+today.getMinutes();const pick=a=>a[~~(rnd()*a.length)],j=(b,v)=>b+~~(rnd()*v);
  for(let i=27;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);const isToday=i===0,wknd=d.getDay()==0||d.getDay()==6,list=[];const add=(cat,start,dur)=>list.push({cat,start,dur,text:pick(TPL[cat])});
@@ -516,6 +530,7 @@ function seedData(){const rnd=mulberry32(20250611),out=[],reps=[],today=new Date
   for(let k=0;k<2+~~(rnd()*2);k++){const tm=420+j(0,60)+k*300;if(isToday&&tm>nowMin)continue;reps.push({id:'pushup',n:15+~~(rnd()*20),ts:d.getTime()+tm*60000,dateKey:dk,seed:true})}
   for(let k=0;k<2+~~(rnd()*2);k++){const tm=1200+j(0,60)+k*60;if(isToday&&tm>nowMin)continue;reps.push({id:'situp',n:15+~~(rnd()*20),ts:d.getTime()+tm*60000,dateKey:dk,seed:true})}}
  return{entries:out,reps}}
+
 function periodRange(p){const t=new Date();t.setHours(0,0,0,0);
  if(p==='day')return[t,new Date(t.getTime()+864e5)];
  if(p==='week'){const s=new Date(t);s.setDate(s.getDate()-(s.getDay()+6)%7);return[s,new Date(s.getTime()+7*864e5)]}
@@ -534,8 +549,10 @@ function mergedLogs(p){const acts=entriesOf(p).map(e=>({kind:'act',ts:e.ts,dateK
 function exportRows(){let list=mergedLogs(period).sort((a,b)=>a.dateKey===b.dateKey?(a.startMin-b.startMin)||(a.ts-b.ts):(a.dateKey<b.dateKey?-1:1));if(logFilter==='__rep')list=list.filter(r=>r.kind==='rep');else if(logFilter!=='all')list=list.filter(r=>r.kind==='act'&&r.cat===logFilter);const rows=[['STT','Thời gian','Hoạt động','Phân loại','Thời lượng (phút)','Số lượng']];list.forEach((e,i)=>rows.push([i+1,fmtHM(e.startMin)+' '+fmtDateD(e.dateKey),e.text,e.kind==='rep'?'Bộ đếm':catById(e.cat).name,e.kind==='act'?e.min:'',e.kind==='rep'?fmtNum(e.n)+' '+e.unit:'']));return rows}
 function exportCSV(){const rows=exportRows();if(rows.length<=1){toast('Không có dữ liệu để xuất');return false}const csv='\uFEFF'+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='quy-thoi-gian_'+periodFileLabel()+'.csv';a.click();URL.revokeObjectURL(a.href);toast('Đã xuất '+(rows.length-1)+' dòng (CSV)');return true}
 function exportXLSX(){const rows=exportRows();if(rows.length<=1){toast('Không có dữ liệu để xuất');return}if(window.XLSX){const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=[{wch:5},{wch:17},{wch:38},{wch:16},{wch:10},{wch:12}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'NhatKy');XLSX.writeFile(wb,'quy-thoi-gian_'+periodFileLabel()+'.xlsx');toast('Đã xuất '+(rows.length-1)+' dòng (XLSX)')}else exportCSV()}
+
 function sizeCanvas(cv){const r=cv.parentElement.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=Math.max(10,r.width*dpr);cv.height=Math.max(10,r.height*dpr);cv.style.width=r.width+'px';cv.style.height=r.height+'px';const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,W:r.width,H:r.height}}
 function animate(draw){const t0=performance.now();(function f(now){const t=Math.min(1,(now-t0)/650);draw(1-Math.pow(1-t,3));if(t<1)requestAnimationFrame(f)})(t0)}
+function niceMax(v){if(v<=0)return 1;const p=Math.pow(10,Math.floor(Math.log10(v)));const d=v/p;const m=d<=1?1:d<=2?2:d<=5?5:10;return m*p}
 function drawDonutOn(cv,data,hover){const{ctx,W,H}=sizeCanvas(cv);ctx.clearRect(0,0,W,H);const total=data.reduce((a,d)=>a+d.v,0);const cx=W/2,cy=H/2,R=Math.min(W,H)/2-16,TH=23;if(!total){ctx.fillStyle='#5C7066';ctx.font='13px "Be Vietnam Pro"';ctx.textAlign='center';ctx.fillText('Chưa có dữ liệu',cx,cy);return}let a=-Math.PI/2;data.forEach((d,i)=>{const frac=d.v/total,a0=a,a1=a+frac*2*Math.PI;a=a1;const hov=i===hover,rr=R+(hov?4:0);ctx.beginPath();ctx.strokeStyle=d.cat.c;ctx.globalAlpha=(hover<0||hov)?1:.35;ctx.lineWidth=TH+(hov?4:0);ctx.arc(cx,cy,rr,a0+.012,Math.max(a0+.013,a1-.012));ctx.stroke()});ctx.globalAlpha=1;ctx.textAlign='center';if(hover>=0&&data[hover]){ctx.fillStyle=data[hover].cat.c;ctx.font='700 20px "Space Grotesk"';ctx.fillText(fmtMin(data[hover].v),cx,cy-2);ctx.fillStyle='#94A79C';ctx.font='11px "Be Vietnam Pro"';ctx.fillText(data[hover].cat.name.slice(0,16),cx,cy+17)}else{ctx.fillStyle='#E8F1EB';ctx.font='700 22px "Space Grotesk"';ctx.fillText(fmtMin(total),cx,cy-2);ctx.fillStyle='#5C7066';ctx.font='11px "Be Vietnam Pro"';ctx.fillText('tổng ghi nhận',cx,cy+17)}}
 function computeDonut(){const t=totalsByCat(entriesOf(period));donutData=allCats().map(c=>({cat:c,v:t[c.id]||0})).filter(d=>d.v>0).sort((a,b)=>b.v-a.v)}
 function drawDonut(){if(donutCv)drawDonutOn(donutCv,donutData,donutHover)}
@@ -546,6 +563,45 @@ function computeTrend(){const list=entriesOf(period);let buckets=[];
  else{const[a,b]=periodRange(period);const n=Math.min(400,Math.round((b-a)/864e5));for(let i=0;i<n;i++){const d=new Date(a);d.setDate(d.getDate()+i);buckets.push({label:period==='week'?['T2','T3','T4','T5','T6','T7','CN'][(d.getDay()+6)%7]:String(d.getDate()),dk:dayKey(d),stack:{}})}list.forEach(e=>{const bk=buckets.find(x=>x.dk===e.dateKey);if(bk)bk.stack[e.cat]=(bk.stack[e.cat]||0)+e.min})}
  trendData={buckets,title:{day:'Theo giờ trong ngày',week:'Thứ tự T2 → CN',month:'Các ngày trong tháng',year:'Theo tháng trong năm',range:'Theo ngày trong khoảng chọn'}[period]}}
 function drawTrend(t){trendAnim=t;if(!trendCv)return;const{ctx,W,H}=sizeCanvas(trendCv);ctx.clearRect(0,0,W,H);if(!trendData)return;const catsA=allCats(),B=trendData.buckets;const sums=B.map(b=>catsA.reduce((a,c)=>a+(b.stack[c.id]||0),0));let mx=Math.max(60,...sums);mx=Math.ceil(mx/60)*60;const L=34,Rr=8,T=12,Bb=22,iw=W-L-Rr,ih=H-T-Bb,n=B.length,slot=iw/n;ctx.font='10px "JetBrains Mono"';ctx.fillStyle='#5C7066';ctx.textAlign='right';const step=mx<=120?30:mx<=300?60:mx<=600?120:mx<=2400?240:720;for(let v=0;v<=mx;v+=step){const y=T+ih-v/mx*ih;ctx.strokeStyle='rgba(228,240,233,.06)';ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(W-Rr,y);ctx.stroke();ctx.fillText(v>=60?(v/60)+'g':v+'p',L-6,y+3)}trendCv._lay={L,n,slot};const bw=Math.min(slot*.62,n>14?slot*.55:34);B.forEach((b,i)=>{let y=T+ih;const hov=i===trendHover;catsA.forEach(c=>{const v=b.stack[c.id]||0;if(!v)return;const h=v/mx*ih*t;ctx.globalAlpha=(trendHover<0||hov)?1:.4;ctx.fillStyle=c.c;ctx.fillRect(L+i*slot+(slot-bw)/2,y-h,bw,h);y-=h});ctx.globalAlpha=1;const show=n<=12||(i%Math.ceil(n/12)===0)||i===n-1;if(b.label&&show){ctx.fillStyle=hov?'#E8F1EB':'#5C7066';ctx.textAlign='center';ctx.fillText(b.label,L+i*slot+slot/2,H-7)}})}
+
+/* ===== TIME-SERIES LINE CHART cho bộ đếm (tháng / năm / khoảng) ===== */
+function bucketVal(tr,list){if(!list.length)return null;if(tr.kind==='sum')return list.reduce((s,r)=>s+r.n,0);return list.reduce((s,r)=>s+r.n,0)/list.length}
+function renderTrackerCharts(){
+ const box=$('#trackerCharts');if(!box)return;
+ const show=(period==='month'||period==='year'||period==='range');
+ if(!show||!state.trackers.length){box.innerHTML='';return}
+ let buckets=[];
+ if(period==='year'){for(let m=0;m<12;m++){buckets.push({label:'T'+(m+1),test:(mm=>dk=>+dk.slice(5,7)-1===mm)(m)})}}
+ else{const[a,b]=periodRange(period);const n=Math.min(400,Math.round((b-a)/864e5));
+  for(let i=0;i<n;i++){const d=new Date(a);d.setDate(d.getDate()+i);const dk=dayKey(d);
+   buckets.push({label:(n>40?String(d.getDate()):pad(d.getDate())+'/'+pad(d.getMonth()+1)),test:(k=>dk2=>dk2===k)(dk)})}}
+ const reps=repsOf(period);
+ const groups={};state.trackers.forEach(tr=>{(groups[tr.unit]=groups[tr.unit]||[]).push(tr)});
+ const units=Object.keys(groups).sort((x,y)=>x.localeCompare(y,'vi'));
+ const charts=units.map(u=>({u,series:groups[u].map(tr=>({name:tr.name,color:trackerColor(tr),values:buckets.map(bk=>bucketVal(tr,reps.filter(r=>r.cid===tr.id&&bk.test(r.dateKey)))))}))});
+ box.innerHTML='<div class="cd-sub" style="margin:4px 0 10px">📈 Diễn biến bộ đếm theo thời gian (nhóm theo đơn vị đo)</div>'+charts.map((c,gi)=>'<div class="tchart"><div class="tc-head">Đơn vị: <span class="u">'+c.u+'</span></div><div class="tc-wrap"><canvas id="tc'+gi+'"></canvas><div class="tip" id="tctip'+gi+'"></div></div><div class="tc-legend">'+c.series.map(s=>'<span class="s"><span class="d" style="background:'+s.color+'"></span>'+s.name+'</span>').join('')+'</div></div>').join('');
+ charts.forEach((c,gi)=>drawLineChart($('#tc'+gi),$('#tctip'+gi),buckets.map(b=>b.label),c.series,c.u));
+}
+function drawLineChart(cv,tip,labels,series,unit){
+ if(!cv)return;const{ctx,W,H}=sizeCanvas(cv);ctx.clearRect(0,0,W,H);
+ const L=46,R=12,T=12,B=24,iw=W-L-R,ih=H-T-B,n=labels.length;
+ let mx=0;series.forEach(s=>s.values.forEach(v=>{if(v!=null)mx=Math.max(mx,v)}));mx=niceMax(mx||1);
+ ctx.font='10px "JetBrains Mono"';ctx.textAlign='right';
+ const steps=4;
+ for(let i=0;i<=steps;i++){const v=mx*i/steps,y=T+ih-(v/mx)*ih;ctx.strokeStyle='rgba(228,240,233,.06)';ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(W-R,y);ctx.stroke();ctx.fillStyle='#5C7066';ctx.fillText(fmtNum(v),L-6,y+3)}
+ const x=i=>n===1?L+iw/2:L+iw*i/(n-1);
+ ctx.textAlign='center';const every=Math.max(1,Math.ceil(n/12));
+ labels.forEach((lb,i)=>{if(i%every===0||i===n-1){ctx.fillStyle='#5C7066';ctx.fillText(lb,x(i),H-8)}});
+ series.forEach(s=>{ctx.strokeStyle=s.color;ctx.lineWidth=2;ctx.beginPath();let st=false;
+  s.values.forEach((v,i)=>{if(v==null)return;const px=x(i),py=T+ih-(v/mx)*ih;if(!st){ctx.moveTo(px,py);st=true}else ctx.lineTo(px,py)});ctx.stroke();
+  s.values.forEach((v,i)=>{if(v==null)return;const px=x(i),py=T+ih-(v/mx)*ih;ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(px,py,2.5,0,7);ctx.fill()})});
+ cv.onmousemove=e=>{const r=cv.getBoundingClientRect();const px=e.clientX-r.left;if(px<L-12||px>W-R+12){tip.classList.remove('show');return}const idx=n===1?0:Math.round((px-L)/iw*(n-1));if(idx<0||idx>=n){tip.classList.remove('show');return}
+  tip.innerHTML='<h5>'+labels[idx]+' ('+unit+')</h5>'+series.map(s=>'<div class="tr"><span class="d" style="background:'+s.color+'"></span>'+s.name+'<b>'+(s.values[idx]!=null?fmtNum(s.values[idx]):'—')+'</b></div>').join('');
+  tip.classList.add('show');const pw=cv.parentElement.getBoundingClientRect();
+  tip.style.left=Math.min(e.clientX-r.left+12,pw.width-170)+'px';tip.style.top=Math.max(0,e.clientY-r.top-20)+'px'};
+ cv.onmouseleave=()=>tip.classList.remove('show');
+}
+
 function renderTimeline(){const track=$('#tlTrack'),t0=5*60,t1=24*60,span=t1-t0;const now=new Date(),nowMin=now.getHours()*60+now.getMinutes();const todayList=state.entries.filter(e=>e.dateKey===dayKey(new Date())).sort((a,b)=>a.startMin-b.startMin);const items=[];todayList.forEach(e=>{const s=Math.max(e.startMin,t0),en=Math.min(e.startMin+e.min,t1);if(en>s)items.push({e,s,en})});items.sort((a,b)=>a.s-b.s||a.en-b.en);const laneEnd=[],placed=[];items.forEach(it=>{let li=laneEnd.findIndex(x=>x<=it.s);if(li===-1){li=laneEnd.length;laneEnd.push(0)}laneEnd[li]=it.en;placed.push({it,li})});const rowH=28,topPad=8,laneN=Math.max(1,laneEnd.length);track.style.height=(topPad+laneN*rowH+30)+'px';let html='';for(let h=5;h<=24;h++){const left=(h*60-t0)/span*100;html+='<div class="tl-tick" style="left:'+left+'%">'+(h%3===0||h===5?'<span>'+(h===24?'24h':pad(h)+':00')+'</span>':'')+'</div>'}placed.forEach((p,i)=>{const{e,s,en}=p.it,c=catById(e.cat);html+='<div class="tl-block" title="'+e.text+' · '+fmtFull(e.min)+' ('+fmtHM(e.startMin)+'–'+fmtHM(e.startMin+e.min)+')" style="left:'+((s-t0)/span*100)+'%;width:'+((en-s)/span*100)+'%;top:'+(topPad+p.li*rowH)+'px;background:'+c.c+';animation-delay:'+(i*40)+'ms"><i>'+e.text+'</i></div>'});html+='<div class="tl-now" style="left:'+((nowMin-t0)/span*100)+'%"><span>'+fmtHM(nowMin)+'</span></div>';if(!todayList.length)html+='<div class="tl-empty">Chưa có hoạt động nào hôm nay — bắt đầu bằng ô "Ghi nhanh" →</div>';track.innerHTML=html;const tot=todayList.reduce((a,e)=>a+e.min,0);$('#tlSub').textContent=todayList.length+' hoạt động · '+fmtMin(tot)+(laneN>1?' · '+laneN+' làn':'');const tc=totalsByCat(todayList);$('#tlStats').innerHTML=Object.keys(tc).map(id=>({c:catById(id),v:tc[id]})).sort((a,b)=>b.v-a.v).map(x=>'<div class="s"><span class="d" style="background:'+x.c.c+'"></span>'+x.c.name+' <b>'+fmtMin(x.v)+'</b></div>').join('')}
 function renderFilters(){const present=new Set(entriesOf(period).map(e=>e.cat));const hasRep=repsOf(period).length>0;$('#filters').innerHTML='<button class="fchip '+(logFilter==='all'?'on':'')+'" data-f="all">Tất cả</button>'+allCats().filter(c=>present.has(c.id)).map(c=>'<button class="fchip '+(logFilter===c.id?'on':'')+'" data-f="'+c.id+'"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</button>').join('')+(hasRep?'<button class="fchip '+(logFilter==='__rep'?'on':'')+'" data-f="__rep"><span class="d" style="background:var(--pink)"></span>Bộ đếm</button>':'');document.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>{logFilter=b.dataset.f;renderFilters();renderLog()})}
 function renderLog(){let list=mergedLogs(period).sort((a,b)=>a.dateKey===b.dateKey?b.startMin-a.startMin||b.ts-a.ts:(a.dateKey<b.dateKey?1:-1));$('#logSub').textContent=list.length+' mục';if(logFilter==='__rep')list=list.filter(r=>r.kind==='rep');else if(logFilter!=='all')list=list.filter(r=>r.kind==='act'&&r.cat===logFilter);$('#loglist').innerHTML=list.length?list.map(e=>{const isRep=e.kind==='rep';const c=isRep?{name:'Bộ đếm',c:'var(--pink)'}:catById(e.cat);return '<li class="logrow '+(e.id===lastAddedId?'new':'')+'"><span class="t">'+fmtHM(e.startMin)+(period!=='day'?'<br>'+e.dateKey.slice(8,10)+'/'+e.dateKey.slice(5,7):'')+'</span><span class="x" title="'+e.text+'">'+(isRep?'💪 ':'')+e.text+'</span><span class="cat"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</span><span class="dur">'+(isRep?fmtNum(e.n)+' '+e.unit:fmtMin(e.min))+'</span><button class="del" data-id="'+e.id+'" data-rep="'+(isRep?1:0)+'" title="Xóa">✕</button></li>'}).join(''):(logFilter==='all'?'<div class="logempty">Chưa có hoạt động nào.<br><br><button class="mini" id="btnSample">＋ Nạp 4 tuần dữ liệu mẫu</button></div>':'<div class="logempty">Không có mục nào trong bộ lọc.</div>');document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{if(b.dataset.rep==='1')deleteDoc(repsRef(b.dataset.id));else deleteDoc(entriesRef(b.dataset.id));toast('Đã xóa')});const showExp=period!=='day';$('#btnCSV').style.display=showExp?'':'none';$('#btnXLSX').style.display=showExp?'':'none'}
@@ -554,7 +610,7 @@ function renderGoals(){$('#goalSub').textContent={day:'mỗi ngày',week:'tuần
 function openGoalModal(){const mult=perMult(period);$('#gmTitle').textContent='Sửa mục tiêu '+{week:'tuần này',month:'tháng này',year:'năm nay',range:'khoảng chọn'}[period]+' ('+mult+' ngày)';$('#gmRows').innerHTML=allCats().map(c=>'<label class="gmrow"><span class="d" style="background:'+c.c+'"></span>'+c.name+'<input data-gm="'+c.id+'" type="number" min="0" step="5" value="'+((state.goals[c.id]||0)*mult)+'"></label>').join('')+state.trackers.filter(t=>t.kind==='sum').map(t=>'<label class="gmrow"><span class="d" style="background:var(--pink)"></span>'+t.name+' ('+t.unit+')<input data-gm="t:'+t.id+'" type="number" min="0" step="5" value="'+((t.goal||0)*mult)+'"></label>').join('');$('#goalOverlay').classList.add('show')}
 function repTotal(cid,f,t){return state.reps.filter(r=>r.cid===cid&&(!f||(r.dateKey>=f&&r.dateKey<=t))).reduce((s,r)=>s+r.n,0)}
 function periodRepTotal(cid){return repsOf(period).filter(r=>r.cid===cid).reduce((s,r)=>s+r.n,0)}
-function renderCounts(){$('#countSub').textContent={day:'hôm nay',week:'tuần này',month:'tháng này',year:'năm nay',range:'khoảng chọn'}[period];const isDay=period==='day',mult=perMult(period);$('#countGrid').innerHTML=state.trackers.map(tr=>{const pList=repsOf(period).filter(r=>r.cid===tr.id).sort((a,b)=>a.ts-b.ts);const goalP=(tr.goal||0)*(isDay?1:mult);const hist=[];let mx=1;for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const dk=dayKey(d);const dayList=state.reps.filter(r=>r.cid===tr.id&&r.dateKey===dk);const v=tr.kind==='sum'?dayList.reduce((s,r)=>s+r.n,0):(dayList.length?dayList[dayList.length-1].n:0);mx=Math.max(mx,v,tr.goal||0);hist.push({v,label:pad(d.getDate())+'/'+pad(d.getMonth()+1),hit:tr.goal>0&&(tr.kind==='sum'?v>=tr.goal:v<=tr.goal),now:i===0})}let body='';if(tr.kind==='sum'){const tot=isDay?pList.reduce((s,r)=>s+r.n,0):periodRepTotal(tr.id);const done=goalP>0&&tot>=goalP;const goalEdit=isDay?'<input class="ccgoal" data-cg="'+tr.id+'" type="number" value="'+(tr.goal||0)+'" min="0" step="5"><span class="gunit">/ngày</span>':'<span class="gunit" style="font:600 12px \'JetBrains Mono\';color:var(--txt)">'+fmtNum(goalP)+' '+tr.unit+'/kỳ</span>';body='<div class="cc-num '+(done?'ok':'')+'">'+fmtNum(tot)+'<small> / '+(goalP?fmtNum(goalP):'∞')+' '+tr.unit+(done?' · ✓ đạt':'')+'</small></div><div class="gbar"><i style="width:'+(goalP>0?Math.min(100,tot/goalP*100):0)+'%;background:'+(done?'var(--green)':'var(--gold)')+'"></i></div><div class="cc-btns"><button data-c="'+tr.id+'" data-add="5">+5</button><button data-c="'+tr.id+'" data-add="10">+10</button><button data-c="'+tr.id+'" data-add="20">+20</button><input class="ccinp" type="number" min="1" placeholder="khác"><button data-c="'+tr.id+'" data-add="custom">Cộng</button><button data-c="'+tr.id+'" data-undo title="Hoàn tác lượt gần nhất hôm nay">−</button></div>'}else{const latest=pList.length?pList[pList.length-1].n:null;const avg=pList.length?pList.reduce((s,r)=>s+r.n,0)/pList.length:null;const over=tr.goal>0&&latest!=null&&latest>tr.goal;const goalEdit=isDay?'<input class="ccgoal" data-cg="'+tr.id+'" type="number" value="'+(tr.goal||0)+'" min="0" step="5"><span class="gunit">hạn mức</span>':'<span class="gunit" style="font:600 12px \'JetBrains Mono\';color:var(--txt)">hạn mức '+(tr.goal||'—')+'</span>';body='<div class="cc-num '+(over?'ov':'')+'">'+(latest!=null?fmtNum(latest):'—')+'<small> '+tr.unit+(avg!=null?' · TB kỳ '+fmtNum(avg):'')+'</small></div><div class="gbar"><i style="width:'+(tr.goal>0&&latest!=null?Math.min(100,latest/tr.goal*100):0)+'%;background:'+(over?'var(--red)':'var(--sky)')+'"></i></div><div class="cc-btns"><input class="ccinp" type="number" step="0.1" placeholder="giá trị mới"><button data-c="'+tr.id+'" data-saveval>💾 Lưu</button><button data-c="'+tr.id+'" data-undo title="Xóa lượt gần nhất hôm nay">−</button></div>'}return '<div class="ccount" data-c="'+tr.id+'"><button class="cc-del" data-del="'+tr.id+'" title="Xóa bộ đếm">✕</button><div class="cc-top"><b>'+tr.name+'</b><span class="cc-kind">'+(tr.kind==='sum'?'đếm dồn':'chỉ số')+'</span><span class="cc-goaledit">'+goalEdit+'</span></div>'+body+'<div class="cc-hist">'+hist.map(h=>'<i class="'+(h.hit?'hit':'')+' '+(h.now?'now':'')+'" style="height:'+Math.max(6,h.v/mx*100)+'%" title="'+h.label+': '+fmtNum(h.v)+' '+tr.unit+'"></i>').join('')+'</div></div>'}).join('')}
+function renderCounts(){$('#countSub').textContent={day:'hôm nay',week:'tuần này',month:'tháng này',year:'năm nay',range:'khoảng chọn'}[period];const isDay=period==='day',mult=perMult(period);renderTrackerCharts();$('#countGrid').innerHTML=state.trackers.map(tr=>{const pList=repsOf(period).filter(r=>r.cid===tr.id).sort((a,b)=>a.ts-b.ts);const goalP=(tr.goal||0)*(isDay?1:mult);const hist=[];let mx=1;for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const dk=dayKey(d);const dayList=state.reps.filter(r=>r.cid===tr.id&&r.dateKey===dk);const v=tr.kind==='sum'?dayList.reduce((s,r)=>s+r.n,0):(dayList.length?dayList[dayList.length-1].n:0);mx=Math.max(mx,v,tr.goal||0);hist.push({v,label:pad(d.getDate())+'/'+pad(d.getMonth()+1),hit:tr.goal>0&&(tr.kind==='sum'?v>=tr.goal:v<=tr.goal),now:i===0})}let body='';if(tr.kind==='sum'){const tot=isDay?pList.reduce((s,r)=>s+r.n,0):periodRepTotal(tr.id);const done=goalP>0&&tot>=goalP;const goalEdit=isDay?'<input class="ccgoal" data-cg="'+tr.id+'" type="number" value="'+(tr.goal||0)+'" min="0" step="5"><span class="gunit">/ngày</span>':'<span class="gunit" style="font:600 12px \'JetBrains Mono\';color:var(--txt)">'+fmtNum(goalP)+' '+tr.unit+'/kỳ</span>';body='<div class="cc-num '+(done?'ok':'')+'">'+fmtNum(tot)+'<small> / '+(goalP?fmtNum(goalP):'∞')+' '+tr.unit+(done?' · ✓ đạt':'')+'</small></div><div class="gbar"><i style="width:'+(goalP>0?Math.min(100,tot/goalP*100):0)+'%;background:'+(done?'var(--green)':'var(--gold)')+'"></i></div><div class="cc-btns"><button data-c="'+tr.id+'" data-add="5">+5</button><button data-c="'+tr.id+'" data-add="10">+10</button><button data-c="'+tr.id+'" data-add="20">+20</button><input class="ccinp" type="number" min="1" placeholder="khác"><button data-c="'+tr.id+'" data-add="custom">Cộng</button><button data-c="'+tr.id+'" data-undo title="Hoàn tác lượt gần nhất hôm nay">−</button></div>'}else{const latest=pList.length?pList[pList.length-1].n:null;const avg=pList.length?pList.reduce((s,r)=>s+r.n,0)/pList.length:null;const over=tr.goal>0&&latest!=null&&latest>tr.goal;const goalEdit=isDay?'<input class="ccgoal" data-cg="'+tr.id+'" type="number" value="'+(tr.goal||0)+'" min="0" step="5"><span class="gunit">hạn mức</span>':'<span class="gunit" style="font:600 12px \'JetBrains Mono\';color:var(--txt)">hạn mức '+(tr.goal||'—')+'</span>';body='<div class="cc-num '+(over?'ov':'')+'">'+(latest!=null?fmtNum(latest):'—')+'<small> '+tr.unit+(avg!=null?' · TB kỳ '+fmtNum(avg):'')+'</small></div><div class="gbar"><i style="width:'+(tr.goal>0&&latest!=null?Math.min(100,latest/tr.goal*100):0)+'%;background:'+(over?'var(--red)':'var(--sky)')+'"></i></div><div class="cc-btns"><input class="ccinp" type="number" step="0.1" placeholder="giá trị mới"><button data-c="'+tr.id+'" data-saveval>💾 Lưu</button><button data-c="'+tr.id+'" data-undo title="Xóa lượt gần nhất hôm nay">−</button></div>'}return '<div class="ccount" data-c="'+tr.id+'"><button class="cc-del" data-del="'+tr.id+'" title="Xóa bộ đếm">✕</button><div class="cc-top"><b>'+tr.name+'</b><span class="cc-kind">'+(tr.kind==='sum'?'đếm dồn':'chỉ số')+'</span><span class="cc-goaledit">'+goalEdit+'</span></div>'+body+'<div class="cc-hist">'+hist.map(h=>'<i class="'+(h.hit?'hit':'')+' '+(h.now?'now':'')+'" style="height:'+Math.max(6,h.v/mx*100)+'%" title="'+h.label+': '+fmtNum(h.v)+' '+tr.unit+'"></i>').join('')+'</div></div>'}).join('')}
 function addRep(cid,n){const tr=trackerById(cid);if(!tr)return;const rid='r'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);setDoc(repsRef(rid),{cid,n,ts:Date.now(),dateKey:dayKey(new Date())});toast(tr.kind==='sum'?'💪 '+tr.name+' +'+fmtNum(n)+' '+tr.unit:'📌 '+tr.name+': '+fmtNum(n)+' '+tr.unit)}
 function undoRep(cid){const tk=dayKey(new Date());const list=state.reps.filter(r=>r.cid===cid&&r.dateKey===tk).sort((a,b)=>a.ts-b.ts);if(!list.length){toast('Hôm nay chưa có lượt nào để hoàn tác');return}deleteDoc(repsRef(list[list.length-1].id));toast('Đã hoàn tác lượt gần nhất')}
 function renderKPIs(){const list=entriesOf(period),tc=totalsByCat(list),total=Object.values(tc).reduce((a,b)=>a+b,0);$('#kpiTotalLabel').textContent={day:'Tổng thời gian hôm nay',week:'Tổng thời gian tuần này',month:'Tổng thời gian tháng này',year:'Tổng thời gian năm nay',range:'Tổng thời gian khoảng chọn'}[period];const h=Math.floor(total/60),p=Math.round(total%60);$('#kpiTotal').innerHTML=(h?h+'<small>g </small>':'')+(h?(p?'<small>p</small>':''):(p||0)+'<small>p</small>');const[a,b]=periodRange(period),len=b-a,prev=state.entries.filter(e=>{const t=new Date(e.dateKey+'T00:00:00');return t>=new Date(a-len)&&t<a}).reduce((s,e)=>s+e.min,0);$('#kpiDelta').innerHTML=prev>0?'<span class="delta '+(total>=prev?'up':'down')+'">'+(total>=prev?'▲':'▼')+' '+Math.abs(Math.round((total-prev)/prev*100))+'%</span> so với kỳ trước':'<span style="color:var(--dim)">chưa có dữ liệu kỳ trước</span>';const top=Object.entries(tc).sort((x,y)=>y[1]-x[1])[0];if(top){const c=catById(top[0]);$('#kpiTopVal').innerHTML='<span style="color:'+c.c+'">●</span> '+c.name;$('#kpiTopNote').innerHTML='<b style="font-family:\'JetBrains Mono\'">'+fmtMin(top[1])+'</b>&nbsp;· '+Math.round(top[1]/(total||1)*100)+'% quỹ thời gian'}else{$('#kpiTopVal').textContent='—';$('#kpiTopNote').textContent=''}const prod=total>0?Math.round(((tc.work||0)+(tc.study||0))/total*100):0;$('#kpiProd').innerHTML=prod+'<small>%</small>';$('#kpiCats').textContent=Object.keys(tc).length;$('#kpiEntries').textContent=list.length+' hoạt động được ghi';const sp=$('#spark'),ctx=sp.getContext('2d'),dpr=window.devicePixelRatio||1;sp.width=150*dpr;sp.height=44*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,150,44);const vals=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const dk=dayKey(d);vals.push(state.entries.filter(e=>e.dateKey===dk).reduce((s,e)=>s+e.min,0))}const mx=Math.max(60,...vals);ctx.beginPath();vals.forEach((v,i)=>{const x=6+i*(138/6),y=40-v/mx*34;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.strokeStyle='rgba(255,194,75,.8)';ctx.lineWidth=1.8;ctx.lineJoin='round';ctx.stroke();ctx.lineTo(144,44);ctx.lineTo(6,44);ctx.closePath();const g=ctx.createLinearGradient(0,0,0,44);g.addColorStop(0,'rgba(255,194,75,.22)');g.addColorStop(1,'rgba(255,194,75,0)');ctx.fillStyle=g;ctx.fill();let streak=0;const d=new Date();while(true){const dk=dayKey(d);if(state.entries.some(e=>e.dateKey===dk)){streak++;d.setDate(d.getDate()-1)}else{if(streak===0&&dk===dayKey(new Date())){d.setDate(d.getDate()-1);continue}break}}$('#streak').textContent='🔥 '+streak+' ngày'}
@@ -585,9 +641,10 @@ function renderAll(){clearTimeout(renderAll._t);renderAll._t=setTimeout(()=>{las
 function startCloud(){unsub.push(onSnapshot(doc(db,'users',uid),s=>{if(s.exists()){const d=s.data();state.goals=Object.assign({},DEF_GOALS,d.goals||{});state.customCats=d.customCats||[];if(d.trackers&&d.trackers.length)state.trackers=d.trackers;else if(d.counters&&d.counters.length)state.trackers=d.counters.map(c=>({id:c.id,name:c.name,unit:'cái',kind:'sum',goal:c.goal,kw:c.id==='pushup'?['hit dat']:c.id==='situp'?['gap bung']:[]}))}else pushSettings();renderAll()},err=>toast('Lỗi tải cài đặt: '+err.message)));unsub.push(onSnapshot(collection(db,'users',uid,'entries'),s=>{state.entries=s.docs.map(d=>({id:d.id,...d.data()}));renderAll()},err=>toast('Lỗi tải nhật ký: '+err.message)));unsub.push(onSnapshot(collection(db,'users',uid,'replogs'),s=>{state.reps=s.docs.map(d=>({id:d.id,...d.data()}));renderCounts();renderInsights()},err=>toast('Lỗi tải bộ đếm: '+err.message)));checkMigration()}
 function checkMigration(){if(sessionStorage.getItem('migAsked'))return;let s=null;try{s=JSON.parse(localStorage.getItem(LS_KEY))}catch(e){}if(s&&((s.entries&&s.entries.length)||(s.reps&&s.reps.length))){$('#migCount').textContent=(s.entries||[]).length+' hoạt động, '+(s.reps||[]).length+' lượt đếm';$('#migrateBar').style.display='flex'}}
 
-/* ===== KHỞI ĐỘNG APP (gọi sau khi đăng nhập) ===== */
 function bootApp(){
  if(booted)return;booted=true;
+ rangeFrom=dayKey(new Date(new Date().getFullYear(),new Date().getMonth(),1));
+ rangeTo=dayKey(new Date());
  try{
   donutCv=$('#donut');trendCv=$('#trend');trendTip=$('#trendTip');input=$('#quickInput');prev=$('#parsePrev');
   donutCv.addEventListener('mousemove',e=>{const r=donutCv.getBoundingClientRect(),cx=r.width/2,cy=r.height/2,R=Math.min(r.width,r.height)/2-16;const dx=e.clientX-r.left-cx,dy=e.clientY-r.top-cy,dist=Math.hypot(dx,dy);let idx=-1;if(dist>R-17&&dist<R+18&&donutData.length){let ang=Math.atan2(dy,dx);if(ang<-Math.PI/2)ang+=2*Math.PI;let a=-Math.PI/2;const total=donutData.reduce((s,d)=>s+d.v,0);for(let i=0;i<donutData.length;i++){const a1=a+donutData[i].v/total*2*Math.PI;if(ang>=a&&ang<=a1){idx=i;break}a=a1}}if(idx!==donutHover){donutHover=idx;drawDonut();renderLegend()}});
@@ -623,14 +680,13 @@ function bootApp(){
   $('#btnMigSkip').onclick=()=>{sessionStorage.setItem('migAsked','1');$('#migrateBar').style.display='none'};
   setInterval(tickClock,1000);setInterval(()=>{if(uid)renderTimeline()},60000);
   setInterval(()=>{if(tickMsgs.length<2||!uid)return;const el=$('#tickText');el.style.opacity=0;setTimeout(()=>{tickIdx=(tickIdx+1)%tickMsgs.length;el.innerHTML=tickMsgs[tickIdx];el.style.opacity=1},420)},7000);
-  window.addEventListener('resize',()=>{clearTimeout(rsz);rsz=setTimeout(()=>{if(!uid)return;drawDonut();drawTrend(trendAnim);moveGlider();if(calSelected&&period!=='day'&&period!=='range')renderCalDetail()},150)});
+  window.addEventListener('resize',()=>{clearTimeout(rsz);rsz=setTimeout(()=>{if(!uid)return;drawDonut();drawTrend(trendAnim);moveGlider();if(calSelected&&period!=='day'&&period!=='range')renderCalDetail();renderTrackerCharts()},150)});
   tickClock();renderSwatches();
   dbg('✓ Dashboard sẵn sàng','ok');
- }catch(e){dbg('✗ LI bootApp: '+e.message,'err')}
+ }catch(e){dbg('✗ LỖI bootApp: '+e.message,'err')}
 }
-let rsz;
 
-/* ===== ĐĂNG NHẬP (gắn NGAY, không chờ app) ===== */
+/* ===== ĐĂNG NHẬP (gắn NGAY) ===== */
 if(auth){
  dbg('✓ Sẵn sàng đăng nhập','ok');
  $('#btnLogin').onclick=async()=>{
@@ -651,7 +707,7 @@ if(auth){
   else{uid=null;$('#loginScreen').style.display='grid';$('#app').style.display='none';$('#migrateBar').style.display='none'}
  });
 }else{dbg('✗ Firebase chưa sẵn sàng','err')}
-dbg('=== FILE v4 ĐẦY ĐỦ ===','ok');
+dbg('=== FILE v5 ĐẦY ĐỦ ===','ok');
 </script>
 </body>
 </html>
