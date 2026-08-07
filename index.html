@@ -321,6 +321,9 @@ footer .right{margin-left:auto}
 </style>
 </head>
 <body>
+<script>
+window.addEventListener('error',function(e){var b=document.getElementById('loginDebug');if(b){var d=document.createElement('div');d.className='err';d.textContent='[lỗi file] '+e.message+' (dòng '+e.lineno+')';b.appendChild(d);}},true);
+</script>
 <div class="glow g1"></div><div class="glow g2"></div>
 
 <div id="loginScreen">
@@ -465,7 +468,6 @@ let auth=null,db=null;
 try{const fb=initializeApp(firebaseConfig);auth=getAuth(fb);db=getFirestore(fb);dbg('✓ Firebase khởi tạo thành công','ok')}
 catch(e){dbg('✗ LỖI khởi tạo: '+e.message,'err')}
 
-/* ========== TIỆN ÍCH (định nghĩa TRƯỚC khi dùng) ========== */
 const pad=n=>String(n).padStart(2,'0');
 function dayKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
