@@ -96,6 +96,9 @@ select{background:var(--inset);border:1px solid var(--line);color:var(--txt);bor
 .preset-row span{flex:1;font-size:12.5px;color:#D6E3DA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .preset-row button{width:28px;height:26px;border:1px solid var(--line);background:none;color:var(--mut);border-radius:7px;cursor:pointer}
 .preset-row button:hover{color:var(--gold)}
+.preset-row .preset-main{flex:1;min-width:0}.preset-row .preset-main b{display:block;font-size:12.5px;color:#D6E3DA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.preset-row .preset-main small{display:block;margin-top:3px;color:var(--dim);font-size:10.5px}
+.quick-config-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick-config-grid .wide{grid-column:1/-1}.quick-config-grid select{width:100%;padding:10px 12px}
+.chip.activity{border-color:rgba(255,194,75,.25)}.chip.expense{border-color:rgba(62,213,152,.35);color:#A8DCC5}.chip small{opacity:.68;margin-left:4px}
 .examples p{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:600;margin-bottom:9px}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .chip{border:1px solid var(--line);background:var(--inset);color:var(--mut);font-size:12px;border-radius:999px;padding:6px 12px;cursor:pointer;transition:all .18s}
@@ -383,11 +386,19 @@ canvas{max-width:100%}
 .quickwrap .btn-add{white-space:nowrap}
 .p-input{grid-column:span 12}
 .p-expense{grid-column:span 12;border-color:rgba(62,213,152,.17)}
+.p-mode{grid-column:span 12;border-color:rgba(192,139,255,.22);background:linear-gradient(145deg,rgba(192,139,255,.055),var(--panel) 55%)}
+.mode-buttons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin:12px 0}.mode-btn{border:1px solid var(--line);background:var(--inset);color:var(--mut);border-radius:11px;padding:12px 8px;cursor:pointer;font:700 12px 'Be Vietnam Pro';transition:.18s}.mode-btn:hover{transform:translateY(-2px);border-color:rgba(192,139,255,.5);color:var(--txt)}.mode-btn.on{color:#fff;border-color:var(--mode-color);box-shadow:0 0 0 2px color-mix(in srgb,var(--mode-color) 22%,transparent);background:color-mix(in srgb,var(--mode-color) 10%,var(--inset))}
+.mode-summary{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(300px,1.5fr);gap:18px;align-items:center}.mode-status{font-size:12px;color:var(--mut);line-height:1.65}.mode-status b{color:var(--txt)}.mode-status .actual{font:700 16px 'Space Grotesk';color:var(--gold)}
+.mode-gauge{position:relative;padding-top:28px}.mode-track{height:13px;border-radius:99px;background:linear-gradient(90deg,#53C7F0 0 30%,#38C4BF 30% 50%,#3ED598 50% 70%,#FFB020 70% 85%,#FF6B5E 85%);position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}.mode-marker{position:absolute;top:-7px;width:3px;height:27px;background:#fff;border-radius:3px;box-shadow:0 0 10px rgba(255,255,255,.7);transform:translateX(-50%)}.mode-marker:before{content:attr(data-score);position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font:700 11px 'JetBrains Mono';color:#fff;background:#0C1310;border:1px solid var(--line);border-radius:6px;padding:3px 6px;white-space:nowrap}.mode-scale{display:flex;justify-content:space-between;font-size:9.5px;color:var(--dim);margin-top:7px}.mode-plan{margin-top:9px;font-size:11px;color:var(--dim)}
+.orientation-readout{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(83,199,240,.28);border-radius:999px;padding:4px 9px;color:#A9DDEF;font-size:10.5px}.week-only-note{color:var(--dim);font-size:10.5px}.setting-action:disabled{opacity:.4;cursor:not-allowed}
+.orientation-range{width:100%;accent-color:var(--gold)}.orientation-labels{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:7px;font-size:9.5px;color:var(--dim);text-align:center}.mode-threshold-row{display:grid;grid-template-columns:1fr 110px;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line2)}
+.mode-threshold-row input{width:100%;background:var(--inset);border:1px solid var(--line);border-radius:8px;color:var(--txt);font:600 12px 'JetBrains Mono';padding:8px 10px;outline:none}
 .expensewrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(180px,.65fr) auto auto;gap:8px;align-items:stretch;min-width:0}
 .expensewrap input{min-width:0;width:100%;background:var(--inset);border:1px solid var(--line);border-radius:10px;color:var(--txt);font:500 14px 'Be Vietnam Pro';padding:12px 14px;outline:none}
 .expensewrap input:focus{border-color:rgba(62,213,152,.5);box-shadow:0 0 0 3px rgba(62,213,152,.1)}
 .expense-unit{display:flex;align-items:center;justify-content:center;min-width:64px;padding:0 12px;border:1px solid rgba(62,213,152,.25);border-radius:10px;background:rgba(62,213,152,.07);color:var(--green);font:700 12px 'JetBrains Mono';white-space:nowrap}
 .expense-help{margin-top:9px;font-size:11.5px;color:var(--dim);line-height:1.5}
+.expense-template-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:10px}.expense-template-row>span{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
 .p-count,.p-health{grid-column:span 6}
 .p-goals,.p-settings{grid-column:span 12}
 .count-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
@@ -408,11 +419,12 @@ canvas{max-width:100%}
 /* Earlier stacking prevents zoom from turning cards into unreadably thin columns. */
 @media(max-width:1280px){
  main{grid-template-columns:repeat(12,minmax(0,1fr));padding-left:22px;padding-right:22px}
- .p-input,.p-expense,.p-count,.p-health,.p-donut,.p-trend,.p-time,.p-cal,.p-log,.p-insight,.p-goals,.p-settings,.kpis{grid-column:span 12}
+ .p-input,.p-expense,.p-mode,.p-count,.p-health,.p-donut,.p-trend,.p-time,.p-cal,.p-log,.p-insight,.p-goals,.p-settings,.kpis{grid-column:span 12}
  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
  .kpi{min-width:0}
  .donutflex{align-items:flex-start}
  .settings-grid{grid-template-columns:1fr}
+ .mode-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}.mode-summary{grid-template-columns:1fr}
 }
 @media(max-width:900px){
  header{padding:14px 18px;gap:10px}
@@ -450,6 +462,7 @@ canvas{max-width:100%}
  .ptitle .pt-right .sub{white-space:normal}
  .expensewrap{grid-template-columns:1fr}
  .expense-unit,.expensewrap .btn-add{grid-column:auto;grid-row:auto;min-height:42px}
+ .mode-buttons{grid-template-columns:1fr 1fr}.quick-config-grid{grid-template-columns:1fr}.quick-config-grid .wide{grid-column:auto}.mode-scale span:nth-child(even){display:none}
  .cntform{padding:10px}
  .cntform input,.cntform select{flex-basis:100%;width:100%!important}
  .cntform .gunit{width:100%}
@@ -554,6 +567,15 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
    <button class="btn-add" id="btnAddExpense">Ghi chi tiêu</button>
   </div>
   <div class="expense-help" id="expenseHelp">Mặc định VNĐ · hỗ trợ 50k, 1tr2, 3tr350 · thêm “đô”, “do” hoặc “USD” để ghi bằng USD.</div>
+  <div class="expense-template-row"><span>Template chi tiêu</span><div class="chips" id="expenseTemplateChips"></div></div>
+ </section>
+ <section class="panel p-mode" style="--d:.1s">
+  <div class="ptitle">Mode cường độ hôm nay <span class="pt-right"><span class="orientation-readout" id="orientationReadout">Định hướng tuần: Cân bằng</span><span class="sub" id="modeCloseStatus">chưa đăng ký</span></span></div>
+  <div class="mode-buttons" id="modeButtons"></div>
+  <div class="mode-summary">
+   <div class="mode-status" id="modeStatus"></div>
+   <div class="mode-gauge"><div class="mode-track"><i class="mode-marker" id="modeMarker" data-score="0" style="left:0%"></i></div><div class="mode-scale"><span>Nghỉ dưỡng</span><span>Thư giãn</span><span>Cân bằng</span><span>Tryhard</span><span>Super Tryhard</span></div><div class="mode-plan" id="modePlan"></div></div>
+  </div>
  </section>
  <section class="panel p-count" style="--d:.32s">
   <div class="ptitle">Bộ đếm mục tiêu 💪 <span class="pt-right"><span class="sub">mẹo: gõ “Hít đất 30 cái” vào ô Ghi nhanh để cộng nhanh</span><span class="sub" id="countSub">hôm nay</span><button class="mini" id="btnAddCounter">+ Bộ đếm</button></span></div>
@@ -635,6 +657,16 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
     <div class="setting-body"><b>Công thức hiệu suất</b><p>Điều chỉnh trọng số của từng nhóm hoạt động để chỉ số Hiệu suất phản ánh đúng cách bạn muốn đánh giá một ngày.</p></div>
     <button class="mini setting-action" id="btnProdCfg">⚙ Điều chỉnh</button>
    </div>
+   <div class="setting-card">
+    <div class="setting-icon">▥</div>
+    <div class="setting-body"><b>Thang định nghĩa mode</b><p>Ngưỡng điểm dùng để chốt mode thực tế. Việc sửa được bảo vệ bằng ba bước cảnh báo và chỉ mở ở tab Tuần này.</p></div>
+    <button class="mini setting-action" id="btnModeScaleCfg">🔒 Sửa thang đo</button>
+   </div>
+   <div class="setting-card">
+    <div class="setting-icon">↔</div>
+    <div class="setting-body"><b>Định hướng tuần</b><p id="orientationSettingText">Vận động viên ← Cân bằng → Học giả. Chỉ thay đổi được khi đang xem tab Tuần này.</p></div>
+    <button class="mini setting-action" id="btnOrientationCfg">⚙ Chỉnh theo tuần</button>
+   </div>
   </div>
  </section>
 </main>
@@ -676,8 +708,15 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
  <div class="modal">
   <div class="mhead"><h3>Cài câu lệnh nhanh</h3><button id="quickClose">✕</button></div>
   <div class="preset-list" id="quickMgrList"></div>
-  <div class="mform-wrap" style="margin-top:14px"><div class="mrow"><label>Nội dung câu lệnh</label><input type="text" id="quickPresetInput" placeholder="VD: Họp team 45 phút"></div><div class="mactions"><button class="btn-add sm" id="quickPresetSave">Thêm</button><button class="btn-ghost" id="quickPresetCancel" style="display:none">Hủy sửa</button></div></div>
-  <p class="mnote">Các nút này là mẫu điền nhanh. Khi bấm, câu lệnh được đưa vào ô Ghi nhanh để dùng ngay.</p>
+  <div class="mform-wrap" style="margin-top:14px"><div class="quick-config-grid">
+   <div class="mrow"><label>Tên nút template</label><input type="text" id="quickPresetLabel" placeholder="VD: Họp nhanh"></div>
+   <div class="mrow"><label>Dùng tại</label><select id="quickPresetTarget"><option value="activity">Ghi nhanh hoạt động</option><option value="expense">Theo dõi chi tiêu</option></select></div>
+   <div class="mrow wide" id="quickActivityTextRow"><label>Câu lệnh hoạt động</label><input type="text" id="quickPresetInput" placeholder="VD: Họp team 45 phút"></div>
+   <div class="mrow" id="quickActivityCatRow"><label>Nhóm hoạt động cố định</label><select id="quickPresetCat"></select></div>
+   <div class="mrow wide" id="quickExpenseTextRow" style="display:none"><label>Nội dung chi tiêu</label><input type="text" id="quickExpenseText" placeholder="VD: Ăn trưa"></div>
+   <div class="mrow" id="quickExpenseAmountRow" style="display:none"><label>Số tiền mẫu <span>— có thể để trống</span></label><input type="text" id="quickExpenseAmount" placeholder="VD: 50k, 20 đô"></div>
+  </div><div class="mactions"><button class="btn-add sm" id="quickPresetSave">Thêm</button><button class="btn-ghost" id="quickPresetCancel" style="display:none">Hủy sửa</button></div></div>
+  <p class="mnote">Template hoạt động giữ đúng nhóm đã chọn, không phải đoán lại. Template chi tiêu sẽ điền vào ô Theo dõi chi tiêu cùng số tiền mẫu nếu có.</p>
  </div>
 </div>
 <div class="overlay" id="prodOverlay">
@@ -686,6 +725,21 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
   <div class="prod-formula">Mỗi nhóm có một <b>trọng số 0–100%</b>. Hiệu suất = tổng (thời gian nhóm × trọng số) ÷ tổng thời gian ghi nhận. Ví dụ: Công việc 100%, Học tập 100%, Sức khỏe 50%, Giải trí 0%.</div>
   <div id="prodRows"></div>
   <div class="mactions" style="margin-top:14px"><button class="btn-add sm" id="prodSave">Lưu công thức</button><button class="btn-ghost" id="prodReset">Mặc định</button></div>
+ </div>
+</div>
+<div class="overlay" id="orientationOverlay">
+ <div class="modal">
+  <div class="mhead"><h3>Định hướng tuần</h3><button id="orientationClose">✕</button></div>
+  <p class="mnote" style="margin-top:0">Định hướng chỉ thay đổi cách mode phân bổ mục tiêu giữa Sức khỏe và Học tập. Nó không tự thay đổi mode cường độ và được khóa theo từng tuần.</p>
+  <div class="mform-wrap"><div class="mrow"><label id="orientationWeekLabel">Tuần</label><input class="orientation-range" id="orientationRange" type="range" min="1" max="5" step="1" value="3"><div class="orientation-labels"><span>Vận động viên</span><span>Thiên VĐV</span><span>Cân bằng</span><span>Thiên Học giả</span><span>Học giả</span></div></div><div class="mode-status" id="orientationPreview"></div><div class="mactions"><button class="btn-add sm" id="orientationSave">Lưu định hướng tuần</button></div></div>
+ </div>
+</div>
+<div class="overlay" id="modeScaleOverlay">
+ <div class="modal">
+  <div class="mhead"><h3>Thang định nghĩa mode thực tế</h3><button id="modeScaleClose">✕</button></div>
+  <p class="mnote" style="margin-top:0">Điểm thực tế chỉ tính hoạt động Công việc/Học tập/Sức khỏe và bộ đếm mục tiêu. Hãy giữ các ngưỡng ổn định để lịch sử giữa các ngày còn so sánh được.</p>
+  <div id="modeThresholdRows"></div>
+  <div class="mactions" style="margin-top:15px"><button class="btn-add sm" id="modeScaleSave">Lưu thang đo</button><button class="btn-ghost" id="modeScaleReset">Khôi phục mặc định</button></div>
  </div>
 </div>
 <div id="toast"><span class="tick">✓</span><span id="toastMsg"></span></div>
@@ -733,14 +787,28 @@ const DEF_TRACKERS=[
  {id:'weight',name:'Cân nặng',unit:'kg',kind:'value',goal:0,kw:['can nang','weight']},
  {id:'stress',name:'Stress',unit:'điểm',kind:'value',goal:0,kw:['stress','cang thang']}
 ];
-const DEF_QUICK=['19h30 - 20h00 Chơi game','21h - 22h đọc sách','Hít đất 30 cái','Họp team 45 phút'];
+const DEF_QUICK=[
+ {id:'q_game',label:'Chơi game',target:'activity',text:'19h30 - 20h00 Chơi game',cat:'fun'},
+ {id:'q_read',label:'Đọc sách',target:'activity',text:'21h - 22h đọc sách',cat:'study'},
+ {id:'q_pushup',label:'Hít đất',target:'activity',text:'Hít đất 30 cái',cat:'health'},
+ {id:'q_meeting',label:'Họp team',target:'activity',text:'Họp team 45 phút',cat:'work'}
+];
 const DEF_PROD={work:100,study:100};
+const MODE_DEFS=[
+ {id:'super',name:'Super Tryhard',color:'#FF6B5E',active:540,work:270,focus:270,counter:1.5},
+ {id:'tryhard',name:'Tryhard',color:'#FFB020',active:420,work:210,focus:210,counter:1.25},
+ {id:'balanced',name:'Cân bằng',color:'#3ED598',active:280,work:140,focus:140,counter:1},
+ {id:'relax',name:'Thư giãn',color:'#38C4BF',active:160,work:80,focus:80,counter:.6},
+ {id:'resort',name:'Nghỉ dưỡng',color:'#53C7F0',active:60,work:20,focus:40,counter:.25}
+];
+const DEF_MODE_THRESHOLDS={super:85,tryhard:70,balanced:50,relax:30,resort:0};
+const ORIENTATION_LABELS={1:'Vận động viên',2:'Thiên Vận động viên',3:'Cân bằng',4:'Thiên Học giả',5:'Học giả'};
 function legacyGoalsToItems(goals){const g=goals||DEF_GOALS;return Object.entries(g).filter(([,v])=>+v>0).map(([cat,daily])=>({id:'g_'+cat,name:catById(cat).name,cat,kw:'',daily:+daily||0,limit:isLimit(cat)}))}
 const PALETTE=['#FFB020','#53C7F0','#3ED598','#FF7E79','#C08BFF','#38C4BF','#F472B6','#A3E635','#FB923C','#94A3B8','#E879F9','#FACC15'];
 const $=q=>document.querySelector(q);
 const LS_KEY='quyThoigian.v3';
 
-let state={entries:[],expenses:[],goals:{...DEF_GOALS},goalItems:[],customCats:[],trackers:DEF_TRACKERS.map(t=>({...t})),quickPresets:[...DEF_QUICK],prodWeights:{...DEF_PROD},reps:[]};
+let state={entries:[],expenses:[],goals:{...DEF_GOALS},goalItems:[],customCats:[],trackers:DEF_TRACKERS.map(t=>({...t})),quickPresets:DEF_QUICK.map(x=>({...x})),prodWeights:{...DEF_PROD},reps:[],modeLogs:[],orientationByWeek:{},modeThresholds:{...DEF_MODE_THRESHOLDS}};
 let period='day',logFilter='all',donutHover=-1,trendHover=-1,calSelected=null,uid=null,unsub=[],lastAddedId=null,booted=false;
 let rangeFrom,rangeTo;
 let donutData=[],trendData=null,donutCv=null,trendCv=null,trendTip=null,input=null,prev=null,trendAnim=1,rsz,editingGoalId=null,editingPresetIndex=-1;
@@ -753,7 +821,9 @@ function trackerColor(tr){const i=state.trackers.indexOf(tr);return PALETTE[(i<0
 const entriesRef=id=>doc(db,'users',uid,'entries',id);
 const repsRef=id=>doc(db,'users',uid,'replogs',id);
 const expensesRef=id=>doc(db,'users',uid,'expenses',id);
-function pushSettings(){setDoc(doc(db,'users',uid),{goals:state.goals,goalItems:state.goalItems,customCats:state.customCats,trackers:state.trackers,quickPresets:state.quickPresets,prodWeights:state.prodWeights,healthV1:true})}
+const modeLogsRef=id=>doc(db,'users',uid,'modelogs',id);
+function pushSettings(){setDoc(doc(db,'users',uid),{goals:state.goals,goalItems:state.goalItems,customCats:state.customCats,trackers:state.trackers,quickPresets:state.quickPresets,prodWeights:state.prodWeights,orientationByWeek:state.orientationByWeek,modeThresholds:state.modeThresholds,healthV1:true})}
+function normalizeQuickPresets(list){return(Array.isArray(list)?list:DEF_QUICK).map((x,i)=>typeof x==='string'?{id:'legacy_'+i,label:x,target:'activity',text:x,cat:''}:{id:x.id||('q_'+i+'_'+Date.now().toString(36)),label:x.label||x.text||x.expenseText||'Template',target:x.target==='expense'?'expense':'activity',text:x.text||'',cat:x.cat||'',expenseText:x.expenseText||'',amountRaw:x.amountRaw||''})}
 
 function parseMinutes(raw){const s=raw.toLowerCase();let m=null,f=false,r;
  if((r=s.match(/(\d+[.,](\d+))\s*(?:h|gio|giờ|tieng|tiếng)/))){m=Math.round(parseFloat(r[1].replace(',','.'))*60);f=true}
@@ -791,11 +861,40 @@ function inRangeDK(dk,a,b){const t=new Date(dk+'T00:00:00');return t>=a&&t<b}
 function entriesOf(p){const[a,b]=periodRange(p);return state.entries.filter(e=>inRangeDK(e.dateKey,a,b))}
 function repsOf(p){const[a,b]=periodRange(p);return state.reps.filter(r=>inRangeDK(r.dateKey,a,b))}
 function expensesOf(p){const[a,b]=periodRange(p);return state.expenses.filter(e=>inRangeDK(e.dateKey,a,b))}
+function modeLogsOf(p){const[a,b]=periodRange(p);return(state.modeLogs||[]).filter(x=>inRangeDK(x.dateKey,a,b))}
 function totalsByCat(list){const t={};list.forEach(e=>t[e.cat]=(t[e.cat]||0)+e.min);return t}
 function perMult(p){if(p==='day')return 1;const[a,b]=periodRange(p);return Math.round((b-a)/864e5)}
 function daysElapsed(p){if(p==='day')return 1;const[a]=periodRange(p);const today=new Date();today.setHours(0,0,0,0);if(p==='week')return Math.min(7,Math.round((today-a)/864e5)+1);if(p==='month')return today.getDate();if(p==='year')return Math.floor((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())-Date.UTC(today.getFullYear(),0,1))/864e5)+1;return Math.min(perMult(p),Math.max(1,Math.round((today-a)/864e5)+1))}
 function weekNo(d){const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()+3-(x.getDay()+6)%7);const w1=new Date(x.getFullYear(),0,4);return 1+Math.round(((x-w1)/864e5-3+(w1.getDay()+6)%7)/7)}
 function periodFileLabel(){if(period==='week'){const[a]=periodRange('week');const b=new Date(a);b.setDate(b.getDate()+6);return 'tuan_'+pad(a.getDate())+'-'+pad(a.getMonth()+1)+'_'+pad(b.getDate())+'-'+pad(b.getMonth()+1)+'-'+b.getFullYear()}if(period==='month'){const[a]=periodRange('month');return 'thang_'+pad(a.getMonth()+1)+'-'+a.getFullYear()}if(period==='year')return 'nam_'+new Date().getFullYear();if(period==='range')return 'ky_'+rangeFrom+'_'+rangeTo;return dayKey(new Date())}
+function modeById(id){return MODE_DEFS.find(x=>x.id===id)||null}
+function weekKeyForDate(d){const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-(x.getDay()+6)%7);return dayKey(x)}
+function weekKeyForDK(dk){return weekKeyForDate(new Date(dk+'T00:00:00'))}
+function orientationForDK(dk){return Math.max(1,Math.min(5,+(state.orientationByWeek||{})[weekKeyForDK(dk)]||3))}
+function modeLogByDate(dk){return(state.modeLogs||[]).find(x=>x.dateKey===dk)||null}
+function upsertLocalModeLog(data){const i=state.modeLogs.findIndex(x=>x.dateKey===data.dateKey);if(i>=0)state.modeLogs[i]={...state.modeLogs[i],...data};else state.modeLogs.push({...data})}
+function modeAllocation(modeId,orientation){const m=modeById(modeId)||modeById('balanced'),studyRatio={1:.2,2:.35,3:.5,4:.65,5:.8}[orientation]||.5,study=Math.round(m.focus*studyRatio/5)*5,health=m.focus-study;return{work:m.work,study,health,active:m.work+study+health,living:1440-(m.work+study+health),counter:m.counter}}
+function actualModeFromScore(score){const t={...DEF_MODE_THRESHOLDS,...(state.modeThresholds||{})};if(score>=t.super)return'super';if(score>=t.tryhard)return'tryhard';if(score>=t.balanced)return'balanced';if(score>=t.relax)return'relax';return'resort'}
+function dailyModeScore(dk){
+ const ori=orientationForDK(dk),weights={1:{study:.85,health:1.25},2:{study:.95,health:1.15},3:{study:1,health:1},4:{study:1.15,health:.95},5:{study:1.25,health:.85}}[ori],es=state.entries.filter(e=>e.dateKey===dk),mins={work:0,study:0,health:0};
+ es.forEach(e=>{if(e.cat in mins)mins[e.cat]+=+e.min||0});const effective=mins.work+mins.study*weights.study+mins.health*weights.health,activityPoints=Math.min(75,effective/600*75);
+ const counters=state.trackers.filter(t=>t.kind==='sum'&&+(t.baseGoal||t.goal)>0),ratios=counters.map(t=>{const base=+(t.baseGoal||t.goal)||1,total=state.reps.filter(r=>r.cid===t.id&&r.dateKey===dk).reduce((s,r)=>s+(+r.n||0),0);return Math.min(1,total/base)}),counterPoints=ratios.length?ratios.reduce((a,b)=>a+b,0)/ratios.length*25:0,score=Math.max(0,Math.min(100,Math.round((activityPoints+counterPoints)*10)/10));
+ return{score,mode:actualModeFromScore(score),minutes:mins,effective:Math.round(effective),activityPoints:Math.round(activityPoints*10)/10,counterPoints:Math.round(counterPoints*10)/10,orientation:ori};
+}
+function ensureBaseGoalItem(cat,name,daily){let g=state.goalItems.find(x=>x.id==='g_'+cat)||state.goalItems.find(x=>x.cat===cat&&!x.kw&&!x.limit);if(g)g.daily=daily;else state.goalItems.push({id:'g_'+cat,name,cat,kw:'',daily,limit:false});state.goals[cat]=daily}
+function applyModeGoals(modeId,orientation){const a=modeAllocation(modeId,orientation);ensureBaseGoalItem('work','Công việc',a.work);ensureBaseGoalItem('study','Học tập',a.study);ensureBaseGoalItem('health','Sức khỏe',a.health);state.trackers.filter(t=>t.kind==='sum').forEach(t=>{if(!(t.baseGoal>0))t.baseGoal=+t.goal||50;t.goal=Math.max(1,Math.round(t.baseGoal*a.counter))});pushSettings();return a}
+function registerDailyMode(modeId){const today=dayKey(new Date()),old=modeLogByDate(today);if(old&&old.actualMode){toast('Mode hôm nay đã chốt lúc 23:59, không thể đổi đăng ký');return}const orientation=orientationForDK(today),allocation=applyModeGoals(modeId,orientation),data={dateKey:today,registeredMode:modeId,registeredAt:Date.now(),orientation,plan:allocation};upsertLocalModeLog(data);setDoc(modeLogsRef(today),data,{merge:true});renderModePanel();renderGoals();renderCounts();toast('Đã đăng ký '+modeById(modeId).name+' và áp dụng mục tiêu nhanh')}
+function finalizeModeForDate(dk){const log=modeLogByDate(dk);if(!log||!log.registeredMode||log.actualMode)return;const result=dailyModeScore(dk),data={actualMode:result.mode,score:result.score,metrics:result,evaluatedAt:Date.now(),locked:true};upsertLocalModeLog({dateKey:dk,...data});setDoc(modeLogsRef(dk),data,{merge:true});if(dk===dayKey(new Date()))toast('Đã chốt mode thực tế: '+modeById(result.mode).name+' · '+result.score+' điểm')}
+function evaluatePendingModes(){if(!uid)return;const now=new Date(),today=dayKey(now),canCloseToday=now.getHours()===23&&now.getMinutes()>=59;(state.modeLogs||[]).forEach(x=>{if(!x.actualMode&&(x.dateKey<today||(x.dateKey===today&&canCloseToday)))finalizeModeForDate(x.dateKey)})}
+function renderModePanel(){
+ const today=dayKey(new Date()),log=modeLogByDate(today),live=dailyModeScore(today),actual=log&&log.actualMode?{mode:log.actualMode,score:+log.score||0}:live,registered=log&&modeById(log.registeredMode),am=modeById(actual.mode),ori=orientationForDK(today),allocation=registered?modeAllocation(registered.id,ori):null;
+ $('#modeButtons').innerHTML=MODE_DEFS.map(m=>'<button class="mode-btn '+(registered&&registered.id===m.id?'on':'')+'" style="--mode-color:'+m.color+'" data-mode="'+m.id+'">'+m.name+'</button>').join('');
+ $('#orientationReadout').textContent='Định hướng tuần: '+ORIENTATION_LABELS[ori]+' ('+ori+'/5)';$('#modeCloseStatus').textContent=log&&log.actualMode?'đã chốt 23:59':registered?'đang theo dõi':'chưa đăng ký';
+ let compare='';if(registered){const d=MODE_DEFS.findIndex(x=>x.id===actual.mode)-MODE_DEFS.findIndex(x=>x.id===registered.id);compare=d===0?'đúng mức đăng ký':d>0?'thực tế nhẹ hơn '+d+' bậc':'thực tế nặng hơn '+Math.abs(d)+' bậc'}
+ $('#modeStatus').innerHTML='<div>Mode đăng ký: <b>'+(registered?registered.name:'Chưa chọn')+'</b></div><div>'+(log&&log.actualMode?'Mode thực tế đã chốt':'Mode thực tế tạm tính')+': <span class="actual" style="color:'+(am?am.color:'var(--mut)')+'">'+(am?am.name:'—')+'</span> · <b>'+actual.score+'/100</b></div>'+(compare?'<div>'+compare+'</div>':'<div>Chọn một mode để áp dụng nhanh mục tiêu hoạt động và bộ đếm.</div>');
+ const marker=$('#modeMarker');marker.style.left=Math.max(0,Math.min(100,actual.score))+'%';marker.dataset.score=actual.score;const t={...DEF_MODE_THRESHOLDS,...(state.modeThresholds||{})},track=document.querySelector('.mode-track');track.style.background='linear-gradient(90deg,#53C7F0 0 '+t.relax+'%,#38C4BF '+t.relax+'% '+t.balanced+'%,#3ED598 '+t.balanced+'% '+t.tryhard+'%,#FFB020 '+t.tryhard+'% '+t.super+'%,#FF6B5E '+t.super+'% 100%)';$('.mode-scale').innerHTML='<span>Nghỉ dưỡng 0–'+(t.relax-1)+'</span><span>Thư giãn '+t.relax+'–'+(t.balanced-1)+'</span><span>Cân bằng '+t.balanced+'–'+(t.tryhard-1)+'</span><span>Tryhard '+t.tryhard+'–'+(t.super-1)+'</span><span>Super '+t.super+'–100</span>';
+ $('#modePlan').textContent=allocation?'Mục tiêu mode: Công việc '+allocation.work+'p · Học '+allocation.study+'p · Sức khỏe '+allocation.health+'p · Bộ đếm ×'+allocation.counter+' · Ngủ & Sinh hoạt '+allocation.living+'p (chỉ cân đủ 24h)':'Thang điểm: hoạt động 75 điểm + bộ đếm 25 điểm; chốt tự động lúc 23:59.';syncWeeklySettingsControls();
+}
 function mergedLogs(p){
  const acts=entriesOf(p).map(e=>({kind:'act',ts:e.ts,dateKey:e.dateKey,startMin:e.startMin,text:e.text,cat:e.cat,min:e.min,unit:'',id:e.id}));
  const reps=repsOf(p).map(r=>{const tr=trackerById(r.cid),sub=tr&&tr.kind==='value'?'health':'counter';return{kind:'rep',sub,ts:r.ts,dateKey:r.dateKey,startMin:new Date(r.ts).getHours()*60+new Date(r.ts).getMinutes(),text:tr?(tr.kind==='sum'?tr.name+' +'+fmtNum(r.n)+' '+tr.unit:tr.name+': '+fmtNum(r.n)+' '+tr.unit):'',cat:sub==='health'?'__health':'__counter',min:0,n:r.n,unit:tr?tr.unit:'',id:r.id}});
@@ -809,7 +908,8 @@ function exportXLSX(){
  const counterReps=repsOf(period).filter(r=>trackerById(r.cid)?.kind==='sum').slice().sort((a,b)=>a.ts-b.ts);
  const healthReps=repsOf(period).filter(r=>trackerById(r.cid)?.kind==='value').slice().sort((a,b)=>a.ts-b.ts);
  const expenses=expensesOf(period).slice().sort((a,b)=>a.dateKey===b.dateKey?((a.startMin||0)-(b.startMin||0))||(a.ts-b.ts):(a.dateKey<b.dateKey?-1:1));
- if(!acts.length&&!counterReps.length&&!healthReps.length&&!expenses.length){toast('Không có dữ liệu để xuất');return}
+ const modeLogs=modeLogsOf(period).slice().sort((a,b)=>a.dateKey<b.dateKey?-1:1);
+ if(!acts.length&&!counterReps.length&&!healthReps.length&&!expenses.length&&!modeLogs.length){toast('Không có dữ liệu để xuất');return}
  const actRows=[['STT','Ngày','Giờ bắt đầu','Hoạt động','Nhóm','Thời lượng (phút)','Thời lượng']];
  acts.forEach((e,i)=>actRows.push([i+1,fmtDateD(e.dateKey),fmtHM(e.startMin),e.text,catById(e.cat).name,e.min,fmtMin(e.min)]));
  const counterRows=[['STT','Ngày','Giờ','Bộ đếm mục tiêu','Số lượng','Đơn vị','Mục tiêu/ngày']];
@@ -818,18 +918,22 @@ function exportXLSX(){
  expenses.forEach((e,i)=>expenseRows.push([i+1,fmtDateD(e.dateKey),fmtHM(e.startMin!=null?e.startMin:(new Date(e.ts).getHours()*60+new Date(e.ts).getMinutes())),e.text||'Chi tiêu',+e.amount||0,e.unit||'VNĐ']));
  const healthRows=[['STT','Ngày','Giờ','Chỉ số sức khỏe','Giá trị','Đơn vị']];
  healthReps.forEach((r,i)=>{const tr=trackerById(r.cid)||{name:'Chỉ số đã xóa',unit:''};const d=new Date(r.ts);healthRows.push([i+1,fmtDateD(r.dateKey),pad(d.getHours())+':'+pad(d.getMinutes()),tr.name,r.n,tr.unit])});
+ const modeRows=[['STT','Tháng','Ngày','Mode đăng ký','Mode thực tế']];
+ modeLogs.forEach((m,i)=>{const d=new Date(m.dateKey+'T00:00:00'),actual=m.actualMode||dailyModeScore(m.dateKey).mode;modeRows.push([i+1,m.dateKey.slice(5,7),DAYS[d.getDay()]+', '+fmtDateD(m.dateKey),modeById(m.registeredMode)?.name||'Chưa đăng ký',modeById(actual)?.name||'Chưa đánh giá'])});
  const wb=window.XLSX.utils.book_new();
  const wsAct=xlsxSheet(actRows,[5,12,12,42,22,18,16]);
  const wsCounter=xlsxSheet(counterRows,[5,12,10,28,14,12,18]);
  const wsExpense=xlsxSheet(expenseRows,[5,12,10,40,18,10]);
  const wsHealth=xlsxSheet(healthRows,[5,12,10,28,14,12]);
+ const wsMode=xlsxSheet(modeRows,[5,10,28,20,20]);
  for(let r=2;r<=expenseRows.length;r++){const c=wsExpense['E'+r],unit=expenseRows[r-1][5];if(c)c.z=unit==='USD'?'#,##0.## "USD"':'#,##0 "VNĐ"'}
  window.XLSX.utils.book_append_sheet(wb,wsAct,'Ghi nhanh hoạt động');
  window.XLSX.utils.book_append_sheet(wb,wsCounter,'Bộ đếm mục tiêu');
  window.XLSX.utils.book_append_sheet(wb,wsExpense,'Theo dõi chi tiêu');
  window.XLSX.utils.book_append_sheet(wb,wsHealth,'Chỉ số sức khỏe');
+ window.XLSX.utils.book_append_sheet(wb,wsMode,'Đối chiếu mode');
  window.XLSX.writeFile(wb,'quy-thoi-gian_'+periodFileLabel()+'.xlsx');
- toast('Đã xuất XLSX: hoạt động · bộ đếm · chi tiêu · sức khỏe')
+ toast('Đã xuất XLSX: hoạt động · bộ đếm · chi tiêu · sức khỏe · mode')
 }
 
 function sizeCanvas(cv){const r=cv.parentElement.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=Math.max(10,r.width*dpr);cv.height=Math.max(10,r.height*dpr);cv.style.width=r.width+'px';cv.style.height=r.height+'px';const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,W:r.width,H:r.height}}
@@ -1022,13 +1126,40 @@ let toastTimer;
 function toast(msg){$('#toastMsg').textContent=msg;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),2600)}
 function moveGlider(){const btn=document.querySelector('.tabs button.on'),g=$('#glider');if(btn){g.style.left=btn.offsetLeft+'px';g.style.width=btn.offsetWidth+'px'}}
 const DAYS=['Chủ nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
-function tickClock(){const n=new Date();$('#clock').textContent=pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());$('#datestr').textContent=DAYS[n.getDay()]+', '+pad(n.getDate())+'/'+pad(n.getMonth()+1)+'/'+n.getFullYear()}
-function renderAll(){clearTimeout(renderAll._t);renderAll._t=setTimeout(()=>{lastAddedId=null},1800);renderKPIs();computeDonut();animate(drawDonut);renderLegend();computeTrend();animate(drawTrend);$('#donutSub').textContent={day:'hôm nay',week:'tuần này',month:'tháng này',year:'năm nay',range:'khoảng chọn'}[period];$('#trendSub').textContent=trendData?trendData.title:'';renderTimeline();renderFilters();renderLog();renderGoals();renderCounts();renderHealth();renderQuickPresets();renderCalendar();renderInsights();startTicker()}
-function renderQuickPresets(){$('#chips').innerHTML=(state.quickPresets||[]).map((e,i)=>'<button class="chip" data-preset="'+i+'">'+e.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</button>').join('')||'<span class="sub">Chưa có câu lệnh nhanh — bấm Tùy chỉnh để thêm.</span>'}
-function renderQuickManager(){$('#quickMgrList').innerHTML=(state.quickPresets||[]).map((x,i)=>'<div class="preset-row"><span>'+x.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span><button data-qedit="'+i+'">✎</button><button data-qdel="'+i+'">✕</button></div>').join('')||'<div class="logempty">Chưa có câu lệnh nhanh.</div>'}
-function resetPresetForm(){editingPresetIndex=-1;$('#quickPresetInput').value='';$('#quickPresetSave').textContent='Thêm';$('#quickPresetCancel').style.display='none'}
+function tickClock(){const n=new Date();$('#clock').textContent=pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());$('#datestr').textContent=DAYS[n.getDay()]+', '+pad(n.getDate())+'/'+pad(n.getMonth()+1)+'/'+n.getFullYear();if(uid&&n.getHours()===23&&n.getMinutes()===59)evaluatePendingModes()}
+function renderAll(){clearTimeout(renderAll._t);renderAll._t=setTimeout(()=>{lastAddedId=null},1800);renderKPIs();computeDonut();animate(drawDonut);renderLegend();computeTrend();animate(drawTrend);$('#donutSub').textContent={day:'hôm nay',week:'tuần này',month:'tháng này',year:'năm nay',range:'khoảng chọn'}[period];$('#trendSub').textContent=trendData?trendData.title:'';renderTimeline();renderFilters();renderLog();renderGoals();renderCounts();renderHealth();renderQuickPresets();renderModePanel();renderCalendar();renderInsights();startTicker()}
+function escHtml(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function quickCatName(q){return q.target==='expense'?'Chi tiêu':q.cat?(catById(q.cat).name):'Tự nhận diện'}
+function renderQuickPresets(){const all=state.quickPresets||[],button=(q,i)=>'<button class="chip '+q.target+'" data-preset="'+i+'">'+(q.target==='expense'?'💸 ':'⚡ ')+escHtml(q.label||q.text||q.expenseText)+'<small>· '+escHtml(quickCatName(q))+'</small></button>';$('#chips').innerHTML=all.map(button).join('')||'<span class="sub">Chưa có câu lệnh nhanh — mở Cài đặt cá nhân để thêm.</span>';const expense=all.map((q,i)=>({q,i})).filter(x=>x.q.target==='expense');$('#expenseTemplateChips').innerHTML=expense.map(x=>button(x.q,x.i)).join('')||'<span class="sub">Chưa có</span>'}
+function renderQuickManager(){$('#quickMgrList').innerHTML=(state.quickPresets||[]).map((q,i)=>'<div class="preset-row"><div class="preset-main"><b>'+(q.target==='expense'?'💸 ':'⚡ ')+escHtml(q.label||q.text||q.expenseText)+'</b><small>'+escHtml(quickCatName(q))+' · '+escHtml(q.target==='expense'?(q.expenseText+(q.amountRaw?' · '+q.amountRaw:'')):q.text)+'</small></div><button data-qedit="'+i+'">✎</button><button data-qdel="'+i+'">✕</button></div>').join('')||'<div class="logempty">Chưa có câu lệnh nhanh.</div>'}
+function fillQuickCategoryOptions(){const sel=$('#quickPresetCat');sel.innerHTML='<option value="">Tự nhận diện theo nội dung</option>'+allCats().map(c=>'<option value="'+c.id+'">'+escHtml(c.name)+'</option>').join('')}
+function syncQuickTargetFields(){const expense=$('#quickPresetTarget').value==='expense';$('#quickActivityTextRow').style.display=expense?'none':'';$('#quickActivityCatRow').style.display=expense?'none':'';$('#quickExpenseTextRow').style.display=expense?'':'none';$('#quickExpenseAmountRow').style.display=expense?'':'none'}
+function resetPresetForm(){editingPresetIndex=-1;$('#quickPresetLabel').value='';$('#quickPresetTarget').value='activity';$('#quickPresetInput').value='';$('#quickPresetCat').value='';$('#quickExpenseText').value='';$('#quickExpenseAmount').value='';$('#quickPresetSave').textContent='Thêm';$('#quickPresetCancel').style.display='none';syncQuickTargetFields()}
+function editQuickPreset(i){const q=state.quickPresets[i];if(!q)return;editingPresetIndex=i;fillQuickCategoryOptions();$('#quickPresetLabel').value=q.label||'';$('#quickPresetTarget').value=q.target||'activity';$('#quickPresetInput').value=q.text||'';$('#quickPresetCat').value=q.cat||'';$('#quickExpenseText').value=q.expenseText||'';$('#quickExpenseAmount').value=q.amountRaw||'';$('#quickPresetSave').textContent='Cập nhật';$('#quickPresetCancel').style.display='inline-block';syncQuickTargetFields();$('#quickPresetLabel').focus()}
+function saveQuickPreset(){const target=$('#quickPresetTarget').value,label=$('#quickPresetLabel').value.trim(),text=$('#quickPresetInput').value.trim(),expenseText=$('#quickExpenseText').value.trim(),amountRaw=$('#quickExpenseAmount').value.trim();if(!label){toast('Nhập tên nút template');return}if(target==='activity'&&!text){toast('Nhập câu lệnh hoạt động');return}if(target==='expense'&&!expenseText){toast('Nhập nội dung chi tiêu');return}if(target==='expense'&&amountRaw&&parseExpenseAmount(amountRaw).amount<=0){toast('Số tiền mẫu chưa hợp lệ');return}const old=editingPresetIndex>=0?state.quickPresets[editingPresetIndex]:null,q={id:old?.id||('q'+Date.now().toString(36)),label,target,text:target==='activity'?text:'',cat:target==='activity'?$('#quickPresetCat').value:'',expenseText:target==='expense'?expenseText:'',amountRaw:target==='expense'?amountRaw:''};if(editingPresetIndex>=0)state.quickPresets[editingPresetIndex]=q;else state.quickPresets.push(q);pushSettings();renderQuickManager();renderQuickPresets();resetPresetForm();toast('Đã lưu template '+(target==='expense'?'chi tiêu':'hoạt động'))}
+function applyQuickPreset(i){const q=state.quickPresets[i];if(!q)return;if(q.target==='expense'){$('#expenseText').value=q.expenseText||'';$('#expenseAmount').value=q.amountRaw||'';updateExpensePreview();document.querySelector('.p-expense').scrollIntoView({behavior:'smooth',block:'center'});(q.amountRaw?$('#btnAddExpense'):$('#expenseAmount')).focus();return}input.value=q.text||'';updatePrev();const sel=$('#catOvr');if(sel&&q.cat){sel.value=q.cat;const c=catById(q.cat),b=prev.querySelector('b'),dot=prev.querySelector('.pd');if(b)b.textContent=c.name;if(dot)dot.style.background=c.c}input.focus()}
 function openProdConfig(){$('#prodRows').innerHTML=allCats().map(c=>'<label class="prod-row"><span class="d" style="width:9px;height:9px;border-radius:3px;background:'+c.c+'"></span><span>'+c.name+'</span><span><input data-pw="'+c.id+'" type="number" min="0" max="100" step="10" value="'+(state.prodWeights&&state.prodWeights[c.id]||0)+'">%</span></label>').join('');$('#prodOverlay').classList.add('show')}
-function startCloud(){unsub.push(onSnapshot(doc(db,'users',uid),snap=>{if(snap.exists()){const d=snap.data();state.goals=Object.assign({},DEF_GOALS,d.goals||{});state.customCats=d.customCats||[];state.goalItems=Array.isArray(d.goalItems)?d.goalItems:legacyGoalsToItems(state.goals);state.quickPresets=Array.isArray(d.quickPresets)?d.quickPresets:[...DEF_QUICK];state.prodWeights=Object.assign({},DEF_PROD,d.prodWeights||{});if(d.trackers&&d.trackers.length)state.trackers=d.trackers;else if(d.counters&&d.counters.length)state.trackers=d.counters.map(c=>({id:c.id,name:c.name,unit:'cái',kind:'sum',goal:c.goal,kw:c.id==='pushup'?['hit dat']:c.id==='situp'?['gap bung']:[]}));if(!d.healthV1){for(const ht of DEF_TRACKERS.filter(t=>t.kind==='value'))if(!state.trackers.some(t=>t.id===ht.id))state.trackers.push({...ht});pushSettings()}}else{state.goalItems=legacyGoalsToItems(state.goals);pushSettings()}renderAll()},err=>toast('Lỗi tải cài đặt: '+err.message)));unsub.push(onSnapshot(collection(db,'users',uid,'entries'),snap=>{state.entries=snap.docs.map(d=>({id:d.id,...d.data()}));renderAll()},err=>toast('Lỗi tải nhật ký: '+err.message)));unsub.push(onSnapshot(collection(db,'users',uid,'replogs'),snap=>{state.reps=snap.docs.map(d=>({id:d.id,...d.data()}));renderCounts();renderHealth();renderFilters();renderLog();renderCalendar();renderInsights()},err=>toast('Lỗi tải bộ đếm/chỉ số: '+err.message)));unsub.push(onSnapshot(collection(db,'users',uid,'expenses'),snap=>{state.expenses=snap.docs.map(d=>({id:d.id,...d.data()}));renderFilters();renderLog()},err=>toast('Lỗi tải chi tiêu: '+err.message)));checkMigration()}
+function syncWeeklySettingsControls(){const weekly=period==='week',o=$('#btnOrientationCfg'),m=$('#btnModeScaleCfg');if(!o||!m)return;o.style.display=weekly?'':'none';m.style.display=weekly?'':'none';o.disabled=!weekly;m.disabled=!weekly;o.textContent='⚙ Chỉnh tuần này';m.textContent='🔒 Sửa thang đo'}
+function orientationPreviewText(v){const a=modeAllocation('balanced',v);return'<b>'+ORIENTATION_LABELS[v]+'</b> · với mode Cân bằng: Học '+a.study+' phút, Sức khỏe '+a.health+' phút.'}
+function openOrientationConfig(){if(period!=='week'){toast('Chỉ chỉnh định hướng tại tab Tuần này');return}const wk=weekKeyForDate(new Date()),v=+(state.orientationByWeek||{})[wk]||3;$('#orientationRange').value=v;$('#orientationWeekLabel').textContent='Tuần bắt đầu '+fmtDateD(wk);$('#orientationPreview').innerHTML=orientationPreviewText(v);$('#orientationOverlay').classList.add('show')}
+function renderModeThresholdRows(values){const v={...DEF_MODE_THRESHOLDS,...values};$('#modeThresholdRows').innerHTML=MODE_DEFS.filter(m=>m.id!=='resort').map(m=>'<label class="mode-threshold-row"><span style="color:'+m.color+';font-weight:700">'+m.name+' từ</span><input data-threshold="'+m.id+'" type="number" min="1" max="100" value="'+v[m.id]+'"></label>').join('')+'<div class="mode-threshold-row"><span style="color:#53C7F0;font-weight:700">Nghỉ dưỡng</span><span>từ 0 điểm</span></div>'}
+function openModeScaleConfig(){if(period!=='week'){toast('Chỉ sửa thang mode tại tab Tuần này');return}if(!confirm('Cảnh báo 1/3: Sửa thang mode sẽ làm thay đổi cách đánh giá các ngày sau này. Tiếp tục?'))return;if(!confirm('Cảnh báo 2/3: Không nên hạ ngưỡng chỉ để biến kết quả thấp thành mode cao hơn. Tiếp tục?'))return;if(!confirm('Cảnh báo 3/3: Lịch sử đã chốt sẽ không bị viết lại. Bạn xác nhận hiểu và muốn sửa?'))return;renderModeThresholdRows(state.modeThresholds);$('#modeScaleOverlay').classList.add('show')}
+function saveModeScale(){const v={resort:0};document.querySelectorAll('[data-threshold]').forEach(x=>v[x.dataset.threshold]=Math.round(+x.value||0));if(!(v.super-v.tryhard>=5&&v.tryhard-v.balanced>=5&&v.balanced-v.relax>=5&&v.relax>=5)){toast('Mỗi mode phải cách mode kế tiếp ít nhất 5 điểm');return}if(v.super>100){toast('Điểm tối đa là 100');return}state.modeThresholds=v;pushSettings();$('#modeScaleOverlay').classList.remove('show');renderModePanel();toast('Đã lưu thang định nghĩa mode')}
+function startCloud(){
+ unsub.push(onSnapshot(doc(db,'users',uid),snap=>{
+  if(snap.exists()){
+   const d=snap.data();state.goals=Object.assign({},DEF_GOALS,d.goals||{});state.customCats=d.customCats||[];state.goalItems=Array.isArray(d.goalItems)?d.goalItems:legacyGoalsToItems(state.goals);state.quickPresets=normalizeQuickPresets(d.quickPresets);state.prodWeights=Object.assign({},DEF_PROD,d.prodWeights||{});state.orientationByWeek=d.orientationByWeek||{};state.modeThresholds=Object.assign({},DEF_MODE_THRESHOLDS,d.modeThresholds||{});
+   if(d.trackers&&d.trackers.length)state.trackers=d.trackers;else if(d.counters&&d.counters.length)state.trackers=d.counters.map(c=>({id:c.id,name:c.name,unit:'cái',kind:'sum',goal:c.goal,baseGoal:c.goal,kw:c.id==='pushup'?['hit dat']:c.id==='situp'?['gap bung']:[]}));
+   if(!d.healthV1){for(const ht of DEF_TRACKERS.filter(t=>t.kind==='value'))if(!state.trackers.some(t=>t.id===ht.id))state.trackers.push({...ht});pushSettings()}
+  }else{state.goalItems=legacyGoalsToItems(state.goals);state.quickPresets=DEF_QUICK.map(x=>({...x}));pushSettings()}
+  renderAll()
+ },err=>toast('Lỗi tải cài đặt: '+err.message)));
+ unsub.push(onSnapshot(collection(db,'users',uid,'entries'),snap=>{state.entries=snap.docs.map(d=>({id:d.id,...d.data()}));renderAll();evaluatePendingModes()},err=>toast('Lỗi tải nhật ký: '+err.message)));
+ unsub.push(onSnapshot(collection(db,'users',uid,'replogs'),snap=>{state.reps=snap.docs.map(d=>({id:d.id,...d.data()}));renderCounts();renderHealth();renderFilters();renderLog();renderCalendar();renderInsights();renderModePanel();evaluatePendingModes()},err=>toast('Lỗi tải bộ đếm/chỉ số: '+err.message)));
+ unsub.push(onSnapshot(collection(db,'users',uid,'expenses'),snap=>{state.expenses=snap.docs.map(d=>({id:d.id,...d.data()}));renderFilters();renderLog()},err=>toast('Lỗi tải chi tiêu: '+err.message)));
+ unsub.push(onSnapshot(collection(db,'users',uid,'modelogs'),snap=>{state.modeLogs=snap.docs.map(d=>({dateKey:d.id,...d.data()}));renderModePanel();evaluatePendingModes()},err=>toast('Lỗi tải mode: '+err.message)));
+ checkMigration()
+}
 function checkMigration(){if(sessionStorage.getItem('migAsked'))return;let s=null;try{s=JSON.parse(localStorage.getItem(LS_KEY))}catch(e){}if(s&&((s.entries&&s.entries.length)||(s.reps&&s.reps.length))){$('#migCount').textContent=(s.entries||[]).length+' hoạt động, '+(s.reps||[]).length+' lượt đếm';$('#migrateBar').style.display='flex'}}
 
 function bootApp(){
@@ -1049,13 +1180,16 @@ function bootApp(){
   $('#goalOverlay').addEventListener('click',e=>{if(e.target.id==='goalOverlay')$('#goalOverlay').classList.remove('show')});
   $('#gmSave').onclick=()=>{const mult=perMult(period);document.querySelectorAll('#gmRows input[data-gm]').forEach(inp=>{const g=state.goalItems.find(x=>x.id===inp.dataset.gm);if(g)g.daily=Math.round(Math.max(0,Math.min(100000,parseInt(inp.value)||0))/mult)});pushSettings();$('#goalOverlay').classList.remove('show');renderGoals();renderInsights();startTicker();toast('Đã lưu mục tiêu kỳ & chia trung bình về ngày')};
   $('#countGrid').addEventListener('click',e=>{const add=e.target.closest('[data-add]');if(add){let n=0;if(add.dataset.add==='custom'){const inp=add.parentElement.querySelector('.ccinp');n=parseFloat(inp.value)||0;if(n<=0){toast('Nhập số cần cộng');return}inp.value=''}else n=+add.dataset.add;addRep(add.dataset.c,n);return}const un=e.target.closest('[data-undo]');if(un){undoRep(un.dataset.c);return}const del=e.target.closest('[data-del]');if(del){const tr=trackerById(del.dataset.del);if(tr&&confirm('Xóa "'+tr.name+'" và toàn bộ dữ liệu của nó?')){state.reps.filter(r=>r.cid===tr.id).forEach(r=>deleteDoc(repsRef(r.id)));state.trackers=state.trackers.filter(x=>x.id!==tr.id);pushSettings();renderCounts();renderFilters();renderLog();toast('Đã xóa "'+tr.name+'"')}}});
-  $('#countGrid').addEventListener('change',e=>{if(e.target.classList.contains('ccgoal')){const tr=trackerById(e.target.dataset.cg);if(tr){tr.goal=Math.max(0,Math.min(5000,parseFloat(e.target.value)||0));e.target.value=tr.goal;pushSettings();renderCounts()}}});
+  $('#countGrid').addEventListener('change',e=>{if(e.target.classList.contains('ccgoal')){const tr=trackerById(e.target.dataset.cg);if(tr){tr.goal=Math.max(0,Math.min(5000,parseFloat(e.target.value)||0));tr.baseGoal=tr.goal;e.target.value=tr.goal;pushSettings();renderCounts();renderModePanel()}}});
   $('#btnAddCounter').onclick=()=>{if(period!=='day'){toast('Chuyển về tab Hôm nay để thêm bộ đếm');return}const f=$('#cntForm');f.style.display=f.style.display==='none'?'flex':'none';$('#cntName').focus()};
   $('#cntCancel').onclick=()=>$('#cntForm').style.display='none';
-  $('#cntSave').onclick=()=>{const name=$('#cntName').value.trim();if(!name){toast('Nhập tên');return}const unit=$('#cntUnit').value.trim()||'đơn vị',goal=Math.max(0,Math.min(500000,parseFloat($('#cntGoal').value)||0));state.trackers.push({id:'x'+Date.now().toString(36),name,unit,kind:'sum',goal,kw:[norm(name)]});pushSettings();renderCounts();$('#cntForm').style.display='none';$('#cntName').value='';$('#cntUnit').value='';toast('Đã thêm "'+name+'"')};
-  renderQuickPresets();$('#chips').addEventListener('click',e=>{const c=e.target.closest('[data-preset]');if(!c)return;input.value=state.quickPresets[+c.dataset.preset]||'';input.focus();updatePrev()});
-  $('#btnQuickCfg').onclick=()=>{renderQuickManager();resetPresetForm();$('#quickOverlay').classList.add('show')};$('#quickClose').onclick=()=>$('#quickOverlay').classList.remove('show');$('#quickOverlay').addEventListener('click',e=>{if(e.target.id==='quickOverlay')$('#quickOverlay').classList.remove('show')});$('#quickMgrList').addEventListener('click',e=>{const ed=e.target.closest('[data-qedit]');if(ed){editingPresetIndex=+ed.dataset.qedit;$('#quickPresetInput').value=state.quickPresets[editingPresetIndex]||'';$('#quickPresetSave').textContent='Cập nhật';$('#quickPresetCancel').style.display='inline-block';$('#quickPresetInput').focus();return}const del=e.target.closest('[data-qdel]');if(del){state.quickPresets.splice(+del.dataset.qdel,1);pushSettings();renderQuickManager();renderQuickPresets()}});$('#quickPresetCancel').onclick=resetPresetForm;$('#quickPresetSave').onclick=()=>{const v=$('#quickPresetInput').value.trim();if(!v){toast('Nhập nội dung câu lệnh');return}if(editingPresetIndex>=0)state.quickPresets[editingPresetIndex]=v;else state.quickPresets.push(v);pushSettings();renderQuickManager();renderQuickPresets();resetPresetForm();toast('Đã lưu câu lệnh nhanh')};
+  $('#cntSave').onclick=()=>{const name=$('#cntName').value.trim();if(!name){toast('Nhập tên');return}const unit=$('#cntUnit').value.trim()||'đơn vị',goal=Math.max(0,Math.min(500000,parseFloat($('#cntGoal').value)||0));state.trackers.push({id:'x'+Date.now().toString(36),name,unit,kind:'sum',goal,baseGoal:goal,kw:[norm(name)]});pushSettings();renderCounts();renderModePanel();$('#cntForm').style.display='none';$('#cntName').value='';$('#cntUnit').value='';toast('Đã thêm "'+name+'"')};
+  renderQuickPresets();const usePreset=e=>{const c=e.target.closest('[data-preset]');if(c)applyQuickPreset(+c.dataset.preset)};$('#chips').addEventListener('click',usePreset);$('#expenseTemplateChips').addEventListener('click',usePreset);
+  $('#btnQuickCfg').onclick=()=>{fillQuickCategoryOptions();renderQuickManager();resetPresetForm();$('#quickOverlay').classList.add('show')};$('#quickClose').onclick=()=>$('#quickOverlay').classList.remove('show');$('#quickOverlay').addEventListener('click',e=>{if(e.target.id==='quickOverlay')$('#quickOverlay').classList.remove('show')});$('#quickMgrList').addEventListener('click',e=>{const ed=e.target.closest('[data-qedit]');if(ed){editQuickPreset(+ed.dataset.qedit);return}const del=e.target.closest('[data-qdel]');if(del){state.quickPresets.splice(+del.dataset.qdel,1);pushSettings();renderQuickManager();renderQuickPresets()}});$('#quickPresetTarget').onchange=syncQuickTargetFields;$('#quickPresetCancel').onclick=resetPresetForm;$('#quickPresetSave').onclick=saveQuickPreset;
+  $('#modeButtons').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(b)registerDailyMode(b.dataset.mode)});
   $('#btnProdCfg').onclick=openProdConfig;$('#prodClose').onclick=()=>$('#prodOverlay').classList.remove('show');$('#prodOverlay').addEventListener('click',e=>{if(e.target.id==='prodOverlay')$('#prodOverlay').classList.remove('show')});$('#prodSave').onclick=()=>{const w={};document.querySelectorAll('[data-pw]').forEach(i=>w[i.dataset.pw]=Math.max(0,Math.min(100,parseFloat(i.value)||0)));state.prodWeights=w;pushSettings();$('#prodOverlay').classList.remove('show');renderKPIs();toast('Đã lưu công thức hiệu suất')};$('#prodReset').onclick=()=>{state.prodWeights={...DEF_PROD};openProdConfig()};
+  $('#btnOrientationCfg').onclick=openOrientationConfig;$('#orientationClose').onclick=()=>$('#orientationOverlay').classList.remove('show');$('#orientationOverlay').addEventListener('click',e=>{if(e.target.id==='orientationOverlay')$('#orientationOverlay').classList.remove('show')});$('#orientationRange').oninput=e=>$('#orientationPreview').innerHTML=orientationPreviewText(+e.target.value);$('#orientationSave').onclick=()=>{const wk=weekKeyForDate(new Date()),v=+$('#orientationRange').value;state.orientationByWeek={...(state.orientationByWeek||{}),[wk]:v};const today=dayKey(new Date()),log=modeLogByDate(today);if(log&&log.registeredMode&&!log.actualMode)applyModeGoals(log.registeredMode,v);else pushSettings();$('#orientationOverlay').classList.remove('show');renderModePanel();renderGoals();renderCounts();toast('Đã lưu định hướng tuần: '+ORIENTATION_LABELS[v])};
+  $('#btnModeScaleCfg').onclick=openModeScaleConfig;$('#modeScaleClose').onclick=()=>$('#modeScaleOverlay').classList.remove('show');$('#modeScaleOverlay').addEventListener('click',e=>{if(e.target.id==='modeScaleOverlay')$('#modeScaleOverlay').classList.remove('show')});$('#modeScaleSave').onclick=saveModeScale;$('#modeScaleReset').onclick=()=>renderModeThresholdRows(DEF_MODE_THRESHOLDS);
   $('#btnAddHealth').onclick=()=>{if(period!=='day'){toast('Chuyển về tab Hôm nay để thêm chỉ số');return}const f=$('#healthForm');f.style.display=f.style.display==='none'?'flex':'none';if(f.style.display!=='none')$('#healthName').focus()};$('#healthCancel').onclick=()=>$('#healthForm').style.display='none';$('#healthSave').onclick=()=>{const name=$('#healthName').value.trim();if(!name){toast('Nhập tên chỉ số');return}const unit=$('#healthUnit').value.trim()||'đơn vị';state.trackers.push({id:'h'+Date.now().toString(36),name,unit,kind:'value',goal:0,kw:[norm(name)]});pushSettings();renderHealth();$('#healthForm').style.display='none';$('#healthName').value='';$('#healthUnit').value='';toast('Đã thêm chỉ số "'+name+'"')};$('#healthGrid').addEventListener('click',e=>{const sv=e.target.closest('[data-health-save]');if(sv){const inp=sv.parentElement.querySelector('.ccinp'),n=parseFloat(inp.value);if(!Number.isFinite(n)){toast('Nhập giá trị chỉ số');return}inp.value='';addRep(sv.dataset.healthSave,n);return}const un=e.target.closest('[data-undo]');if(un){undoRep(un.dataset.c);return}const del=e.target.closest('[data-health-del]');if(del){const tr=trackerById(del.dataset.healthDel);if(tr&&confirm('Xóa chỉ số "'+tr.name+'" và toàn bộ dữ liệu của nó?')){state.reps.filter(r=>r.cid===tr.id).forEach(r=>deleteDoc(repsRef(r.id)));state.trackers=state.trackers.filter(x=>x.id!==tr.id);pushSettings();renderHealth();renderFilters();renderLog();toast('Đã xóa "'+tr.name+'"')}}});
   input.addEventListener('input',updatePrev);
   input.addEventListener('keydown',e=>{if(e.key==='Enter')addEntry()});
@@ -1067,12 +1201,12 @@ function bootApp(){
   $('#btnCats').onclick=()=>{renderCatMgr();resetCatForm();$('#overlay').classList.add('show')};
   $('#btnCloseCat').onclick=()=>$('#overlay').classList.remove('show');
   $('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')$('#overlay').classList.remove('show')});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#overlay').classList.remove('show');$('#goalOverlay').classList.remove('show');$('#quickOverlay').classList.remove('show');$('#prodOverlay').classList.remove('show')}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#overlay').classList.remove('show');$('#goalOverlay').classList.remove('show');$('#quickOverlay').classList.remove('show');$('#prodOverlay').classList.remove('show');$('#orientationOverlay').classList.remove('show');$('#modeScaleOverlay').classList.remove('show')}});
   $('#btnSaveCat').onclick=saveCat;$('#btnCancelEdit').onclick=resetCatForm;
   document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{period=b.dataset.p;document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));if(period==='range'){$('#rFrom').value=rangeFrom;$('#rTo').value=rangeTo}$('#rangeBar').style.display=period==='range'?'flex':'none';if(period!=='day'){$('#cntForm').style.display='none';$('#healthForm').style.display='none'}moveGlider();donutHover=-1;trendHover=-1;logFilter='all';calSelected=null;renderAll()});
   $('#btnRange').onclick=()=>{let f=$('#rFrom').value,t=$('#rTo').value;if(!f||!t){toast('Chọn đủ từ ngày – đến ngày');return}if(f>t){const tmp=f;f=t;t=tmp}rangeFrom=f;rangeTo=t;renderAll();toast('Đang xem '+fmtDateD(f)+' → '+fmtDateD(t))};
   $('#btnXLSX').onclick=exportXLSX;
-  $('#btnWipe').onclick=()=>{if(!confirm('Xóa TOÀN BỘ dữ liệu trên cloud? Không thể hoàn tác.'))return;state.entries.forEach(e=>deleteDoc(entriesRef(e.id)));state.reps.forEach(r=>deleteDoc(repsRef(r.id)));state.expenses.forEach(e=>deleteDoc(expensesRef(e.id)));state.goals={...DEF_GOALS};state.customCats=[];state.goalItems=legacyGoalsToItems(state.goals);state.trackers=DEF_TRACKERS.map(t=>({...t}));state.quickPresets=[...DEF_QUICK];state.prodWeights={...DEF_PROD};pushSettings();toast('Đã xóa toàn bộ dữ liệu')};
+  $('#btnWipe').onclick=()=>{if(!confirm('Xóa TOÀN BỘ dữ liệu trên cloud? Không thể hoàn tác.'))return;state.entries.forEach(e=>deleteDoc(entriesRef(e.id)));state.reps.forEach(r=>deleteDoc(repsRef(r.id)));state.expenses.forEach(e=>deleteDoc(expensesRef(e.id)));state.modeLogs.forEach(e=>deleteDoc(modeLogsRef(e.dateKey)));state.goals={...DEF_GOALS};state.customCats=[];state.goalItems=legacyGoalsToItems(state.goals);state.trackers=DEF_TRACKERS.map(t=>({...t}));state.quickPresets=DEF_QUICK.map(x=>({...x}));state.prodWeights={...DEF_PROD};state.orientationByWeek={};state.modeThresholds={...DEF_MODE_THRESHOLDS};pushSettings();toast('Đã xóa toàn bộ dữ liệu')};
   $('#btnMigrate').onclick=async()=>{let s;try{s=JSON.parse(localStorage.getItem(LS_KEY))}catch(e){s=null}if(!s)return;const b=writeBatch(db);(s.entries||[]).forEach((e,i)=>{const{id,...d}=e;b.set(entriesRef(id||('m'+Date.now()+i)),d)});(s.reps||[]).forEach((r,i)=>{b.set(repsRef('mr'+Date.now()+i),{cid:r.cid||r.id,n:r.n,ts:r.ts,dateKey:r.dateKey,seed:r.seed||false})});await b.commit();localStorage.removeItem(LS_KEY);sessionStorage.setItem('migAsked','1');$('#migrateBar').style.display='none';toast('☁ Đã đồng bộ dữ liệu cũ lên cloud')};
   $('#btnMigSkip').onclick=()=>{sessionStorage.setItem('migAsked','1');$('#migrateBar').style.display='none'};
   setInterval(tickClock,1000);setInterval(()=>{if(uid)renderTimeline()},60000);
@@ -1096,7 +1230,7 @@ if(auth){
  $('#btnLogout').onclick=()=>signOut(auth);
  onAuthStateChanged(auth,user=>{
   unsub.forEach(u=>u());unsub=[];
-  state={entries:[],expenses:[],goals:{...DEF_GOALS},goalItems:[],customCats:[],trackers:DEF_TRACKERS.map(t=>({...t})),quickPresets:[...DEF_QUICK],prodWeights:{...DEF_PROD},reps:[]};
+  state={entries:[],expenses:[],goals:{...DEF_GOALS},goalItems:[],customCats:[],trackers:DEF_TRACKERS.map(t=>({...t})),quickPresets:DEF_QUICK.map(x=>({...x})),prodWeights:{...DEF_PROD},reps:[],modeLogs:[],orientationByWeek:{},modeThresholds:{...DEF_MODE_THRESHOLDS}};
   period='day';logFilter='all';calSelected=null;
   document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x.dataset.p==='day'));
   $('#rangeBar').style.display='none';
@@ -1104,7 +1238,7 @@ if(auth){
   else{uid=null;$('#loginScreen').style.display='grid';$('#app').style.display='none';$('#migrateBar').style.display='none'}
  });
 }else{dbg('✗ Firebase chưa sẵn sàng','err')}
-dbg('=== MỞ APP ===','ok');
+dbg('=== MỞ APP===','ok');
 </script>
 </body>
 </html>
