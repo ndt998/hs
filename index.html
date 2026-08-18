@@ -549,11 +549,11 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
   <div class="ptitle">Theo dõi chi tiêu 💸 <span class="pt-right"><span class="sub">ghi riêng · đồng bộ cloud · xuất XLSX</span></span></div>
   <div class="expensewrap">
    <input id="expenseText" type="text" placeholder="Nội dung chi tiêu (VD: Ăn trưa, Taxi, Mua sách…)" autocomplete="off">
-   <input id="expenseAmount" type="text" inputmode="numeric" placeholder="Số tiền (VD: 50.000)" autocomplete="off">
-   <span class="expense-unit">VNĐ</span>
+   <input id="expenseAmount" type="text" inputmode="text" placeholder="Số tiền (VD: 50k, 1tr2, 20 đô)" autocomplete="off">
+   <span class="expense-unit" id="expenseUnit">VNĐ</span>
    <button class="btn-add" id="btnAddExpense">Ghi chi tiêu</button>
   </div>
-  <div class="expense-help" id="expenseHelp">Đơn vị mặc định: VNĐ. Khoản chi sẽ xuất hiện ngay trong Nhật ký hoạt động.</div>
+  <div class="expense-help" id="expenseHelp">Mặc định VNĐ · hỗ trợ 50k, 1tr2, 3tr350 · thêm “đô”, “do” hoặc “USD” để ghi bằng USD.</div>
  </section>
  <section class="panel p-count" style="--d:.32s">
   <div class="ptitle">Bộ đếm mục tiêu 💪 <span class="pt-right"><span class="sub">mẹo: gõ “Hít đất 30 cái” vào ô Ghi nhanh để cộng nhanh</span><span class="sub" id="countSub">hôm nay</span><button class="mini" id="btnAddCounter">+ Bộ đếm</button></span></div>
@@ -814,7 +814,7 @@ function exportXLSX(){
  acts.forEach((e,i)=>actRows.push([i+1,fmtDateD(e.dateKey),fmtHM(e.startMin),e.text,catById(e.cat).name,e.min,fmtMin(e.min)]));
  const counterRows=[['STT','Ngày','Giờ','Bộ đếm mục tiêu','Số lượng','Đơn vị','Mục tiêu/ngày']];
  counterReps.forEach((r,i)=>{const tr=trackerById(r.cid)||{name:'Bộ đếm đã xóa',unit:'',goal:''};const d=new Date(r.ts);counterRows.push([i+1,fmtDateD(r.dateKey),pad(d.getHours())+':'+pad(d.getMinutes()),tr.name,r.n,tr.unit,tr.goal||''])});
- const expenseRows=[['STT','Ngày','Giờ','Nội dung chi tiêu','Số tiền (VNĐ)','Đơn vị']];
+ const expenseRows=[['STT','Ngày','Giờ','Nội dung chi tiêu','Số tiền','Đơn vị']];
  expenses.forEach((e,i)=>expenseRows.push([i+1,fmtDateD(e.dateKey),fmtHM(e.startMin!=null?e.startMin:(new Date(e.ts).getHours()*60+new Date(e.ts).getMinutes())),e.text||'Chi tiêu',+e.amount||0,e.unit||'VNĐ']));
  const healthRows=[['STT','Ngày','Giờ','Chỉ số sức khỏe','Giá trị','Đơn vị']];
  healthReps.forEach((r,i)=>{const tr=trackerById(r.cid)||{name:'Chỉ số đã xóa',unit:''};const d=new Date(r.ts);healthRows.push([i+1,fmtDateD(r.dateKey),pad(d.getHours())+':'+pad(d.getMinutes()),tr.name,r.n,tr.unit])});
@@ -823,7 +823,7 @@ function exportXLSX(){
  const wsCounter=xlsxSheet(counterRows,[5,12,10,28,14,12,18]);
  const wsExpense=xlsxSheet(expenseRows,[5,12,10,40,18,10]);
  const wsHealth=xlsxSheet(healthRows,[5,12,10,28,14,12]);
- for(let r=2;r<=expenseRows.length;r++){const c=wsExpense['E'+r];if(c)c.z='#,##0 "VNĐ"'}
+ for(let r=2;r<=expenseRows.length;r++){const c=wsExpense['E'+r],unit=expenseRows[r-1][5];if(c)c.z=unit==='USD'?'#,##0.## "USD"':'#,##0 "VNĐ"'}
  window.XLSX.utils.book_append_sheet(wb,wsAct,'Ghi nhanh hoạt động');
  window.XLSX.utils.book_append_sheet(wb,wsCounter,'Bộ đếm mục tiêu');
  window.XLSX.utils.book_append_sheet(wb,wsExpense,'Theo dõi chi tiêu');
@@ -855,7 +855,8 @@ function bucketVal(tr,list){
 function trackerSeriesBuckets(){
  let buckets=[];
  if(period==='year'){
-  for(let m=0;m<12;m++)buckets.push({label:'T'+(m+1),test:(mm=>dk=>+dk.slice(5,7)-1===mm)(m)});
+  const y=new Date().getFullYear();
+  for(let m=0;m<12;m++)buckets.push({label:'T'+(m+1),fullLabel:'01/'+pad(m+1)+'/'+y,timeUnit:'tháng',test:(mm=>dk=>+dk.slice(5,7)-1===mm)(m)});
   return buckets;
  }
  const[a,b]=periodRange(period),n=Math.min(400,Math.round((b-a)/864e5));
@@ -864,7 +865,7 @@ function trackerSeriesBuckets(){
   let label=pad(d.getDate())+'/'+pad(d.getMonth()+1);
   if(period==='week')label=['T2','T3','T4','T5','T6','T7','CN'][(d.getDay()+6)%7];
   else if(period==='month')label=String(d.getDate());
-  buckets.push({label,test:(k=>dk2=>dk2===k)(dk)});
+  buckets.push({label,fullLabel:pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear(),timeUnit:'ngày',test:(k=>dk2=>dk2===k)(dk)});
  }
  return buckets;
 }
@@ -876,12 +877,12 @@ function renderTrackerChartGroup(box,trackers,titlePrefix){
  const charts=units.map(u=>({u,series:groups[u].map(tr=>({name:tr.name,color:trackerColor(tr),kind:tr.kind,values:buckets.map(bk=>bucketVal(tr,reps.filter(r=>r.cid===tr.id&&bk.test(r.dateKey))))}))}));
  const title={week:'7 ngày trong tuần',month:'từng ngày trong tháng',year:'12 tháng trong năm',range:'theo khoảng ngày đã chọn'}[period],prefix=box.id==='healthCharts'?'hc':'tc';
  box.innerHTML='<div class="tracker-series-head"><b>'+titlePrefix+'</b><span>'+title+' · chỉ xem thống kê, không nhập dữ liệu ở chế độ này</span></div>'+charts.map((c,gi)=>'<div class="tchart"><div class="tc-head">Đơn vị: <span class="u">'+c.u+'</span></div><div class="tc-wrap"><canvas id="'+prefix+gi+'"></canvas><div class="tip" id="'+prefix+'tip'+gi+'"></div></div><div class="tc-legend">'+c.series.map(ss=>'<span class="s"><span class="d" style="background:'+ss.color+'"></span>'+ss.name+(ss.kind==='value'?' · giá trị cuối mốc':'')+'</span>').join('')+'</div></div>').join('');
- charts.forEach((c,gi)=>drawLineChart($('#'+prefix+gi),$('#'+prefix+'tip'+gi),buckets.map(b=>b.label),c.series,c.u));
+ charts.forEach((c,gi)=>drawLineChart($('#'+prefix+gi),$('#'+prefix+'tip'+gi),buckets,c.series,c.u));
 }
 function renderTrackerCharts(){renderTrackerChartGroup($('#trackerCharts'),state.trackers.filter(t=>t.kind==='sum'),'📈 TIME SERIES BỘ ĐẾM');renderTrackerChartGroup($('#healthCharts'),state.trackers.filter(t=>t.kind==='value'),'❤️ TIME SERIES SỨC KHỎE')}
-function drawLineChart(cv,tip,labels,series,unit){
+function drawLineChart(cv,tip,buckets,series,unit){
  if(!cv)return;const{ctx,W,H}=sizeCanvas(cv);ctx.clearRect(0,0,W,H);
- const L=46,R=12,T=12,B=24,iw=W-L-R,ih=H-T-B,n=labels.length;
+ const labels=buckets.map(b=>b.label),L=46,R=12,T=12,B=24,iw=W-L-R,ih=H-T-B,n=labels.length;
  let mx=0;series.forEach(s=>s.values.forEach(v=>{if(v!=null)mx=Math.max(mx,v)}));mx=niceMax(mx||1);
  ctx.font='10px "JetBrains Mono"';ctx.textAlign='right';const steps=4;
  for(let i=0;i<=steps;i++){const v=mx*i/steps,y=T+ih-(v/mx)*ih;ctx.strokeStyle='rgba(228,240,233,.06)';ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(W-R,y);ctx.stroke();ctx.fillStyle='#5C7066';ctx.fillText(fmtNum(v),L-6,y+3)}
@@ -891,14 +892,15 @@ function drawLineChart(cv,tip,labels,series,unit){
   s.values.forEach((v,i)=>{if(v==null){st=false;return}const px=x(i),py=T+ih-(v/mx)*ih;if(!st){ctx.moveTo(px,py);st=true}else ctx.lineTo(px,py)});ctx.stroke();
   s.values.forEach((v,i)=>{if(v==null)return;const px=x(i),py=T+ih-(v/mx)*ih;ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(px,py,2.5,0,7);ctx.fill()})});
  cv.onmousemove=e=>{const r=cv.getBoundingClientRect(),px=e.clientX-r.left;if(px<L-12||px>W-R+12){tip.classList.remove('show');return}const idx=n===1?0:Math.round((px-L)/iw*(n-1));if(idx<0||idx>=n){tip.classList.remove('show');return}
-  tip.innerHTML='<h5>'+labels[idx]+' ('+unit+')</h5>'+series.map(s=>'<div class="tr"><span class="d" style="background:'+s.color+'"></span>'+s.name+'<b>'+(s.values[idx]!=null?fmtNum(s.values[idx]):'—')+'</b></div>').join('');
+  const bucket=buckets[idx],timeLabel=bucket.fullLabel||labels[idx],timeUnit=bucket.timeUnit||'ngày';
+  tip.innerHTML='<h5>'+timeLabel+' ('+timeUnit+')</h5>'+series.map(s=>'<div class="tr"><span class="d" style="background:'+s.color+'"></span>'+s.name+'<b>'+(s.values[idx]!=null?fmtNum(s.values[idx])+' '+unit:'—')+'</b></div>').join('');
   tip.classList.add('show');const pw=cv.parentElement.getBoundingClientRect();tip.style.left=Math.min(e.clientX-r.left+12,pw.width-170)+'px';tip.style.top=Math.max(0,e.clientY-r.top-20)+'px'};
  cv.onmouseleave=()=>tip.classList.remove('show');
 }
 
 function renderTimeline(){const track=$('#tlTrack'),t0=5*60,t1=24*60,span=t1-t0;const now=new Date(),nowMin=now.getHours()*60+now.getMinutes();const todayList=state.entries.filter(e=>e.dateKey===dayKey(new Date())).sort((a,b)=>a.startMin-b.startMin);const items=[];todayList.forEach(e=>{const s=Math.max(e.startMin,t0),en=Math.min(e.startMin+e.min,t1);if(en>s)items.push({e,s,en})});items.sort((a,b)=>a.s-b.s||a.en-b.en);const laneEnd=[],placed=[];items.forEach(it=>{let li=laneEnd.findIndex(x=>x<=it.s);if(li===-1){li=laneEnd.length;laneEnd.push(0)}laneEnd[li]=it.en;placed.push({it,li})});const rowH=28,topPad=8,laneN=Math.max(1,laneEnd.length);track.style.height=(topPad+laneN*rowH+30)+'px';let html='';for(let h=5;h<=24;h++){const left=(h*60-t0)/span*100;html+='<div class="tl-tick" style="left:'+left+'%">'+(h%3===0||h===5?'<span>'+(h===24?'24h':pad(h)+':00')+'</span>':'')+'</div>'}placed.forEach((p,i)=>{const{e,s,en}=p.it,c=catById(e.cat);html+='<div class="tl-block" title="'+e.text+' · '+fmtFull(e.min)+' ('+fmtHM(e.startMin)+'–'+fmtHM(e.startMin+e.min)+')" style="left:'+((s-t0)/span*100)+'%;width:'+((en-s)/span*100)+'%;top:'+(topPad+p.li*rowH)+'px;background:'+c.c+';animation-delay:'+(i*40)+'ms"><i>'+e.text+'</i></div>'});html+='<div class="tl-now" style="left:'+((nowMin-t0)/span*100)+'%"><span>'+fmtHM(nowMin)+'</span></div>';if(!todayList.length)html+='<div class="tl-empty">Chưa có hoạt động nào hôm nay — bắt đầu bằng ô "Ghi nhanh" →</div>';track.innerHTML=html;const tot=todayList.reduce((a,e)=>a+e.min,0);$('#tlSub').textContent=todayList.length+' hoạt động · '+fmtMin(tot)+(laneN>1?' · '+laneN+' làn':'');const tc=totalsByCat(todayList);$('#tlStats').innerHTML=Object.keys(tc).map(id=>({c:catById(id),v:tc[id]})).sort((a,b)=>b.v-a.v).map(x=>'<div class="s"><span class="d" style="background:'+x.c.c+'"></span>'+x.c.name+' <b>'+fmtMin(x.v)+'</b></div>').join('')}
 function renderFilters(){const present=new Set(entriesOf(period).map(e=>e.cat)),prs=repsOf(period),hasCounter=prs.some(r=>trackerById(r.cid)?.kind==='sum'),hasHealth=prs.some(r=>trackerById(r.cid)?.kind==='value'),hasExpense=expensesOf(period).length>0;$('#filters').innerHTML='<button class="fchip '+(logFilter==='all'?'on':'')+'" data-f="all">Tất cả</button>'+allCats().filter(c=>present.has(c.id)).map(c=>'<button class="fchip '+(logFilter===c.id?'on':'')+'" data-f="'+c.id+'"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</button>').join('')+(hasCounter?'<button class="fchip '+(logFilter==='__counter'?'on':'')+'" data-f="__counter"><span class="d" style="background:var(--pink)"></span>Bộ đếm</button>':'')+(hasHealth?'<button class="fchip '+(logFilter==='__health'?'on':'')+'" data-f="__health"><span class="d" style="background:var(--sky)"></span>Sức khỏe</button>':'')+(hasExpense?'<button class="fchip '+(logFilter==='__expense'?'on':'')+'" data-f="__expense"><span class="d" style="background:var(--green)"></span>Chi tiêu</button>':'');document.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>{logFilter=b.dataset.f;renderFilters();renderLog()})}
-function renderLog(){let list=mergedLogs(period).sort((a,b)=>a.dateKey===b.dateKey?b.startMin-a.startMin||b.ts-a.ts:(a.dateKey<b.dateKey?1:-1));$('#logSub').textContent=list.length+' mục';if(logFilter==='__counter')list=list.filter(r=>r.kind==='rep'&&r.sub==='counter');else if(logFilter==='__health')list=list.filter(r=>r.kind==='rep'&&r.sub==='health');else if(logFilter==='__expense')list=list.filter(r=>r.kind==='expense');else if(logFilter!=='all')list=list.filter(r=>r.kind==='act'&&r.cat===logFilter);$('#loglist').innerHTML=list.length?list.map(e=>{const isRep=e.kind==='rep',isHealth=isRep&&e.sub==='health',isExpense=e.kind==='expense',c=isExpense?{name:'Chi tiêu',c:'var(--green)'}:isRep?{name:isHealth?'Sức khỏe':'Bộ đếm',c:isHealth?'var(--sky)':'var(--pink)'}:catById(e.cat),prefix=isExpense?'💸 ':isRep?(isHealth?'❤️ ':'💪 '):'',value=isExpense?Math.round(e.amount).toLocaleString('vi-VN')+' VNĐ':isRep?fmtNum(e.n)+' '+e.unit:fmtMin(e.min);return '<li class="logrow '+(e.id===lastAddedId?'new':'')+'"><span class="t">'+fmtHM(e.startMin)+(period!=='day'?'<br>'+e.dateKey.slice(8,10)+'/'+e.dateKey.slice(5,7):'')+'</span><span class="x" title="'+e.text+'">'+prefix+e.text+'</span><span class="cat"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</span><span class="dur">'+value+'</span><button class="del" data-id="'+e.id+'" data-kind="'+e.kind+'" title="Xóa">✕</button></li>'}).join(''):(logFilter==='all'?'<div class="logempty">Chưa có hoạt động nào.<br><br><button class="mini" id="btnSample">＋ Nạp 4 tuần dữ liệu mẫu</button></div>':'<div class="logempty">Không có mục nào trong bộ lọc.</div>');document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{if(b.dataset.kind==='rep')deleteDoc(repsRef(b.dataset.id));else if(b.dataset.kind==='expense')deleteDoc(expensesRef(b.dataset.id));else deleteDoc(entriesRef(b.dataset.id));toast('Đã xóa')});const showExp=period!=='day';$('#btnXLSX').style.display=showExp?'':'none'}
+function renderLog(){let list=mergedLogs(period).sort((a,b)=>a.dateKey===b.dateKey?b.startMin-a.startMin||b.ts-a.ts:(a.dateKey<b.dateKey?1:-1));$('#logSub').textContent=list.length+' mục';if(logFilter==='__counter')list=list.filter(r=>r.kind==='rep'&&r.sub==='counter');else if(logFilter==='__health')list=list.filter(r=>r.kind==='rep'&&r.sub==='health');else if(logFilter==='__expense')list=list.filter(r=>r.kind==='expense');else if(logFilter!=='all')list=list.filter(r=>r.kind==='act'&&r.cat===logFilter);$('#loglist').innerHTML=list.length?list.map(e=>{const isRep=e.kind==='rep',isHealth=isRep&&e.sub==='health',isExpense=e.kind==='expense',c=isExpense?{name:'Chi tiêu',c:'var(--green)'}:isRep?{name:isHealth?'Sức khỏe':'Bộ đếm',c:isHealth?'var(--sky)':'var(--pink)'}:catById(e.cat),prefix=isExpense?'💸 ':isRep?(isHealth?'❤️ ':'💪 '):'',value=isExpense?formatExpenseMoney(e.amount,e.unit||'VNĐ'):isRep?fmtNum(e.n)+' '+e.unit:fmtMin(e.min);return '<li class="logrow '+(e.id===lastAddedId?'new':'')+'"><span class="t">'+fmtHM(e.startMin)+(period!=='day'?'<br>'+e.dateKey.slice(8,10)+'/'+e.dateKey.slice(5,7):'')+'</span><span class="x" title="'+e.text+'">'+prefix+e.text+'</span><span class="cat"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</span><span class="dur">'+value+'</span><button class="del" data-id="'+e.id+'" data-kind="'+e.kind+'" title="Xóa">✕</button></li>'}).join(''):(logFilter==='all'?'<div class="logempty">Chưa có hoạt động nào.<br><br><button class="mini" id="btnSample">＋ Nạp 4 tuần dữ liệu mẫu</button></div>':'<div class="logempty">Không có mục nào trong bộ lọc.</div>');document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{if(b.dataset.kind==='rep')deleteDoc(repsRef(b.dataset.id));else if(b.dataset.kind==='expense')deleteDoc(expensesRef(b.dataset.id));else deleteDoc(entriesRef(b.dataset.id));toast('Đã xóa')});const showExp=period!=='day';$('#btnXLSX').style.display=showExp?'':'none'}
 
 async function loadSample(){const s=seedData(),b=writeBatch(db);s.entries.forEach(e=>{const{id,...d}=e;b.set(entriesRef(id),d)});s.reps.forEach((r,i)=>{const{id,...d}=r;b.set(repsRef('sr'+i),{cid:id,...d})});await b.commit();toast('Đã nạp 4 tuần dữ liệu mẫu')}
 function goalColor(g){return g.cat&&g.cat!=='all'?catById(g.cat).c:'var(--gold)'}
@@ -931,8 +933,29 @@ function renderCounts(){
 }
 function renderHealth(){const box=$('#healthGrid');if(!box)return;const isDay=period==='day';$('#btnAddHealth').style.display=isDay?'':'none';$('#healthSub').textContent={day:'hôm nay',week:'tuần này',month:'tháng này',year:'năm nay',range:'khoảng chọn'}[period];const trackers=state.trackers.filter(t=>t.kind==='value'),pReps=repsOf(period);box.innerHTML=trackers.length?trackers.map(tr=>{const pList=pReps.filter(r=>r.cid===tr.id).sort((a,b)=>a.ts-b.ts),hist=counterMiniBuckets(tr);let mx=Math.max(1,...hist.map(h=>h.v==null?0:h.v));const latest=pList.length?pList[pList.length-1].n:null,avg=pList.length?pList.reduce((sum,r)=>sum+r.n,0)/pList.length:null,minv=pList.length?Math.min(...pList.map(r=>r.n)):null,maxv=pList.length?Math.max(...pList.map(r=>r.n)):null,histTitle=isDay?'7 ngày gần nhất':period==='year'?'12 tháng trong năm':'các ngày trong kỳ',many=hist.length>12?' period-many':'',stats=pList.length?'<div class="cc-period-meta"><span>TB <b>'+fmtNum(avg)+' '+tr.unit+'</b></span><span>Thấp nhất <b>'+fmtNum(minv)+'</b></span><span>Cao nhất <b>'+fmtNum(maxv)+'</b></span><span>'+pList.length+' lần ghi</span></div>':'<div class="cc-period-meta"><span>Chưa có dữ liệu trong kỳ</span></div>',controls=isDay?'<div class="cc-btns"><input class="ccinp" type="number" step="0.1" placeholder="giá trị mới"><button data-health-save="'+tr.id+'">💾 Lưu</button><button data-c="'+tr.id+'" data-undo title="Xóa lượt gần nhất hôm nay">−</button></div>':'<div class="cc-btns"><span class="readonly-note">🔒 Chế độ thống kê — chỉ nhập ở Hôm nay</span></div>',del=isDay?'<button class="cc-del" data-health-del="'+tr.id+'" title="Xóa chỉ số">✕</button>':'';return '<div class="ccount" data-h="'+tr.id+'">'+del+'<div class="cc-top"><b>'+tr.name+'</b><span class="cc-kind" style="color:var(--sky);border-color:rgba(83,199,240,.4)">chỉ số sức khỏe</span></div><div class="cc-num">'+(latest!=null?fmtNum(latest):'—')+'<small> '+tr.unit+' · mới nhất trong kỳ</small></div>'+stats+controls+'<div class="cc-hist-head"><b>'+histTitle+'</b><span>'+hist.length+' mốc</span></div><div class="cc-hist'+many+'">'+hist.map(h=>'<i class="'+(h.now?'now':'')+'" style="height:'+Math.max(5,(h.v==null?0:h.v)/mx*100)+'%;background:rgba(83,199,240,.45)" title="'+h.label+': '+(h.v==null?'—':fmtNum(h.v)+' '+tr.unit)+'"></i>').join('')+'</div></div>'}).join(''):'<div class="logempty">Chưa có chỉ số sức khỏe. Bấm “+ Chỉ số” để thêm Cân nặng, Stress, Nhịp tim…</div>';renderTrackerCharts()}
 function addRep(cid,n){const tr=trackerById(cid);if(!tr)return;if(period!=='day'){toast('Chỉ được ghi Bộ đếm/Chỉ số ở tab Hôm nay');return;}const rid='r'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);setDoc(repsRef(rid),{cid,n,ts:Date.now(),dateKey:dayKey(new Date())});toast(tr.kind==='sum'?'💪 '+tr.name+' +'+fmtNum(n)+' '+tr.unit:'📌 '+tr.name+': '+fmtNum(n)+' '+tr.unit)}
-function parseExpenseAmount(v){const digits=String(v||'').replace(/[^0-9]/g,'');return digits?parseInt(digits,10):0}
-function addExpense(){const text=$('#expenseText').value.trim(),amount=parseExpenseAmount($('#expenseAmount').value);if(amount<=0){toast('Nhập số tiền chi tiêu');$('#expenseAmount').focus();return}const now=new Date(),id='xpn'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);setDoc(expensesRef(id),{text:text||'Chi tiêu',amount,unit:'VNĐ',dateKey:dayKey(now),startMin:now.getHours()*60+now.getMinutes(),ts:Date.now()});lastAddedId=id;$('#expenseText').value='';$('#expenseAmount').value='';toast('💸 Đã ghi '+amount.toLocaleString('vi-VN')+' VNĐ'+(text?' · '+text:''))}
+const EXPENSE_HELP_DEFAULT='Mặc định VNĐ · hỗ trợ 50k, 1tr2, 3tr350 · thêm “đô”, “do” hoặc “USD” để ghi bằng USD.';
+function parseExpenseNumber(s){
+ if(!s)return 0;
+ if(/^\d+$/.test(s))return Number(s);
+ if(/^\d{1,3}(?:[.,]\d{3})+$/.test(s))return Number(s.replace(/[.,]/g,''));
+ if(/^\d+[.,]\d+$/.test(s))return Number(s.replace(',','.'));
+ const digits=s.replace(/[^0-9]/g,'');return digits?Number(digits):0;
+}
+function parseExpenseAmount(v){
+ let s=String(v||'').trim().toLowerCase(),unit=/(?:usd|đô|do)\s*$/.test(s)?'USD':'VNĐ';
+ s=s.replace(/(?:usd|đô|do)\s*$/,'').replace(/[₫$]/g,'').replace(/\s+/g,'');
+ let amount=0,m;
+ if((m=s.match(/^(\d+)tr(\d{0,3})$/))){
+  const tail=m[2]?Number(m[2])*Math.pow(10,6-m[2].length):0;amount=Number(m[1])*1000000+tail;
+ }else if((m=s.match(/^(\d+(?:[.,]\d+)?)tr$/))){amount=parseExpenseNumber(m[1])*1000000;
+ }else if((m=s.match(/^(\d+(?:[.,]\d+)?)k$/))){amount=parseExpenseNumber(m[1])*1000;
+ }else amount=parseExpenseNumber(s);
+ if(!Number.isFinite(amount)||amount<=0)return{amount:0,unit};
+ return{amount:unit==='VNĐ'?Math.round(amount):Math.round(amount*100)/100,unit};
+}
+function formatExpenseMoney(amount,unit){return Number(amount||0).toLocaleString(unit==='USD'?'en-US':'vi-VN',{maximumFractionDigits:2})+' '+unit}
+function updateExpensePreview(){const raw=$('#expenseAmount').value,p=parseExpenseAmount(raw);$('#expenseUnit').textContent=p.unit;$('#expenseHelp').textContent=raw.trim()&&p.amount>0?'Hệ thống hiểu: '+formatExpenseMoney(p.amount,p.unit)+(p.unit==='USD'?' · không tự quy đổi tỷ giá.':''):EXPENSE_HELP_DEFAULT}
+function addExpense(){const text=$('#expenseText').value.trim(),parsed=parseExpenseAmount($('#expenseAmount').value),amount=parsed.amount,unit=parsed.unit;if(amount<=0){toast('Nhập số tiền chi tiêu');$('#expenseAmount').focus();return}const now=new Date(),id='xpn'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);setDoc(expensesRef(id),{text:text||'Chi tiêu',amount,unit,dateKey:dayKey(now),startMin:now.getHours()*60+now.getMinutes(),ts:Date.now()});lastAddedId=id;$('#expenseText').value='';$('#expenseAmount').value='';updateExpensePreview();toast('💸 Đã ghi '+formatExpenseMoney(amount,unit)+(text?' · '+text:''))}
 function undoRep(cid){const tk=dayKey(new Date());const list=state.reps.filter(r=>r.cid===cid&&r.dateKey===tk).sort((a,b)=>a.ts-b.ts);if(!list.length){toast('Hôm nay chưa có lượt nào để hoàn tác');return}deleteDoc(repsRef(list[list.length-1].id));toast('Đã hoàn tác lượt gần nhất')}
 function renderKPIs(){const list=entriesOf(period),tc=totalsByCat(list),total=Object.values(tc).reduce((a,b)=>a+b,0);$('#kpiTotalLabel').textContent={day:'Tổng thời gian hôm nay',week:'Tổng thời gian tuần này',month:'Tổng thời gian tháng này',year:'Tổng thời gian năm nay',range:'Tổng thời gian khoảng chọn'}[period];const h=Math.floor(total/60),p=Math.round(total%60);$('#kpiTotal').innerHTML=(h?h+'<small>g </small>':'')+(h?(p?'<small>p</small>':''):(p||0)+'<small>p</small>');const[a,b]=periodRange(period),len=b-a,prev=state.entries.filter(e=>{const t=new Date(e.dateKey+'T00:00:00');return t>=new Date(a-len)&&t<a}).reduce((s,e)=>s+e.min,0);$('#kpiDelta').innerHTML=prev>0?'<span class="delta '+(total>=prev?'up':'down')+'">'+(total>=prev?'▲':'▼')+' '+Math.abs(Math.round((total-prev)/prev*100))+'%</span> so với kỳ trước':'<span style="color:var(--dim)">chưa có dữ liệu kỳ trước</span>';const top=Object.entries(tc).sort((x,y)=>y[1]-x[1])[0];if(top){const c=catById(top[0]);$('#kpiTopVal').innerHTML='<span style="color:'+c.c+'">●</span> '+c.name;$('#kpiTopNote').innerHTML='<b style="font-family:\'JetBrains Mono\'">'+fmtMin(top[1])+'</b>&nbsp;· '+Math.round(top[1]/(total||1)*100)+'% quỹ thời gian'}else{$('#kpiTopVal').textContent='—';$('#kpiTopNote').textContent=''}const weighted=Object.entries(tc).reduce((sum,[id,min])=>sum+min*((state.prodWeights&&state.prodWeights[id]||0)/100),0),prod=total>0?Math.round(weighted/total*100):0;$('#kpiProd').innerHTML=prod+'<small>%</small>';const activeW=allCats().filter(c=>(state.prodWeights&&state.prodWeights[c.id]||0)>0);$('#kpiProdNote').textContent=activeW.length?'Trọng số: '+activeW.slice(0,3).map(c=>c.name+' '+(state.prodWeights[c.id]||0)+'%').join(' · ')+(activeW.length>3?'…':''):'Chưa chọn nhóm tính hiệu suất';$('#kpiCats').textContent=Object.keys(tc).length;$('#kpiEntries').textContent=list.length+' hoạt động được ghi';const sp=$('#spark'),ctx=sp.getContext('2d'),dpr=window.devicePixelRatio||1;sp.width=150*dpr;sp.height=44*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,150,44);const vals=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const dk=dayKey(d);vals.push(state.entries.filter(e=>e.dateKey===dk).reduce((s,e)=>s+e.min,0))}const mx=Math.max(60,...vals);ctx.beginPath();vals.forEach((v,i)=>{const x=6+i*(138/6),y=40-v/mx*34;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.strokeStyle='rgba(255,194,75,.8)';ctx.lineWidth=1.8;ctx.lineJoin='round';ctx.stroke();ctx.lineTo(144,44);ctx.lineTo(6,44);ctx.closePath();const g=ctx.createLinearGradient(0,0,0,44);g.addColorStop(0,'rgba(255,194,75,.22)');g.addColorStop(1,'rgba(255,194,75,0)');ctx.fillStyle=g;ctx.fill();let streak=0;const d=new Date();while(true){const dk=dayKey(d);if(state.entries.some(e=>e.dateKey===dk)){streak++;d.setDate(d.getDate()-1)}else{if(streak===0&&dk===dayKey(new Date())){d.setDate(d.getDate()-1);continue}break}}$('#streak').textContent='🔥 '+streak+' ngày'}
 const TIPS={study:'thử chặn cố định 30 phút buổi tối cho việc học.',health:'đặt lịch tập như một cuộc họp không được dời.',family:'dành trọn bữa tối — không điện thoại.',work:'chia việc lớn thành các khối 45 phút tập trung.'};
@@ -1038,6 +1061,7 @@ function bootApp(){
   input.addEventListener('keydown',e=>{if(e.key==='Enter')addEntry()});
   $('#btnAdd').addEventListener('click',addEntry);
   $('#btnAddExpense').addEventListener('click',addExpense);
+  $('#expenseAmount').addEventListener('input',updateExpensePreview);
   $('#expenseAmount').addEventListener('keydown',e=>{if(e.key==='Enter')addExpense()});
   $('#expenseText').addEventListener('keydown',e=>{if(e.key==='Enter')$('#expenseAmount').focus()});
   $('#btnCats').onclick=()=>{renderCatMgr();resetCatForm();$('#overlay').classList.add('show')};
