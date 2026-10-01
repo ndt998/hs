@@ -370,6 +370,72 @@ footer .right{margin-left:auto}
 #toast .tick{color:var(--gold);font-weight:700}
 @media(max-width:1180px){main{grid-template-columns:repeat(6,1fr)}.p-input,.p-donut,.p-trend,.p-goals{grid-column:span 3}.p-time,.p-log,.p-insight,.kpis,.p-cal,.p-count,.p-health{grid-column:span 6}.kpis{grid-template-columns:1fr 1fr}.kpi{border-top:1px solid var(--line2)}.cw{grid-template-columns:repeat(4,1fr)}.ygrid{grid-template-columns:repeat(2,1fr)}.cd-analysis{grid-template-columns:1fr}}
 @media(max-width:760px){header{padding:14px 16px;gap:10px}.tabs{margin-left:0;order:3;width:100%;justify-content:center}.tabs button{padding:8px 8px;font-size:11px}main{padding:16px 16px 30px;grid-template-columns:1fr}.p-input,.p-donut,.p-trend,.p-goals,.p-time,.p-log,.p-insight,.kpis,.p-cal,.p-count,.p-health{grid-column:span 1}.donutflex,.cd-piewrap{flex-direction:column}.kpi .val{font-size:28px}.mrow.split{grid-template-columns:1fr}.cw{grid-template-columns:repeat(2,1fr)}.cm-cell{min-height:56px;padding:6px}.cm-cell .tt,.cw-bar{display:none}footer{padding:0 16px 30px}}
+
+/* ===== PROTOCOL // 2027 TARGET LOCK — clickable launcher card ===== */
+.p-launcher-protocol{grid-column:span 12;cursor:pointer;border:1px solid rgba(255,194,75,.32);background:linear-gradient(135deg,rgba(18,27,22,.95),rgba(11,17,14,.85));position:relative;overflow:hidden;transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .25s,border-color .25s;animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:.085s}
+.p-launcher-protocol:hover{transform:translateY(-2px);border-color:rgba(255,194,75,.6);box-shadow:0 14px 40px rgba(255,194,75,.18)}
+.p-launcher-protocol:active{transform:translateY(0)}
+.p-launcher-protocol::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,194,75,.045) 50%,transparent 50%);background-size:100% 3px;pointer-events:none;opacity:.6}
+.pl-inner{position:relative;z-index:1;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:18px 20px}
+.pl-badge{flex:none;display:flex;align-items:center;gap:9px;font:700 11.5px 'Space Grotesk';letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.pl-badge .lockdot{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 9px rgba(255,107,94,.85);animation:cdPulse 1.4s ease-in-out infinite}
+.pl-mid{flex:1;min-width:0}
+.pl-title{font:700 18px/1.15 'Space Grotesk';color:#fff;letter-spacing:.01em}
+.pl-sub{margin-top:5px;font:500 12.5px 'Be Vietnam Pro';color:var(--mut);line-height:1.55}
+.pl-stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
+.pl-stat{display:flex;align-items:baseline;gap:5px;font:600 11px 'JetBrains Mono';color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+.pl-stat b{font:700 15px 'JetBrains Mono';color:var(--gold)}
+.pl-cta{flex:none;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,194,75,.45);background:rgba(255,194,75,.08);color:var(--gold);font:700 12px 'Be Vietnam Pro';letter-spacing:.08em;text-transform:uppercase;padding:11px 15px;border-radius:10px;transition:all .22s}
+.p-launcher-protocol:hover .pl-cta{background:rgba(255,194,75,.18);box-shadow:0 4px 18px rgba(255,194,75,.32)}
+.pl-cta svg{width:14px;height:14px;flex:none}
+@media(max-width:680px){.pl-inner{padding:14px 16px;gap:12px}.pl-title{font-size:15px}.pl-sub{font-size:11.5px}.pl-cta{padding:9px 12px;font-size:11px}}
+
+/* ===== Tactical HUD subpage overlay (scoped) ===== */
+#tacticalHudOverlay{position:fixed;inset:0;z-index:90;background:#08090C;display:none;flex-direction:column;overflow-y:auto}
+#tacticalHudOverlay.open{display:flex;animation:thIn .35s cubic-bezier(.2,.7,.3,1)}
+@keyframes thIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.th-close{position:fixed;top:18px;right:20px;z-index:5;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.18);background:rgba(13,15,20,.92);color:#fff;font:700 11px 'Chakra Petch',sans-serif;letter-spacing:.15em;text-transform:uppercase;padding:9px 14px;border-radius:8px;cursor:pointer;transition:all .2s;backdrop-filter:blur(8px)}
+.th-close:hover{border-color:#fff;background:rgba(30,35,45,.96)}
+.th-close svg{width:14px;height:14px}
+
+/* Body wrapper — scoped tactical typography */
+.th-body{font-family:'Share Tech Mono',monospace;letter-spacing:.05em;color:#E6E8EE;background-color:#08090C;background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:24px 24px;min-height:100vh;padding:20px 16px 80px;display:flex;flex-direction:column;align-items:center}
+.th-body *{box-sizing:border-box}
+.th-hud{font-family:'Chakra Petch',sans-serif}
+.th-body ::-webkit-scrollbar{width:6px;height:6px}
+.th-body ::-webkit-scrollbar-track{background:#090a0d}
+.th-body ::-webkit-scrollbar-thumb{background:#232733;border-radius:2px}
+.th-body ::-webkit-scrollbar-thumb:hover{background:#404756}
+
+/* LED dot matrix (scoped) */
+.th-led{width:14px;height:14px;border-radius:50%;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;cursor:pointer;border:0;padding:0;background:none}
+.th-led.th-s0{background-color:transparent;border:1.5px solid rgba(255,255,255,.16)}
+.th-led.th-s0:hover{border-color:rgba(255,255,255,.45);transform:scale(1.15)}
+.th-led.th-slow{background-color:#ff9d00;border:1px solid #ffba42;box-shadow:0 0 6px rgba(255,157,0,.65),0 0 14px rgba(255,157,0,.3)}
+.th-led.th-slow:hover{transform:scale(1.2);box-shadow:0 0 10px rgba(255,157,0,.9),0 0 20px rgba(255,157,0,.5)}
+.th-led.th-smid{background-color:#72e7ff;border:1px solid #c2f6ff;box-shadow:0 0 6px rgba(114,231,255,.75),0 0 16px rgba(114,231,255,.4)}
+.th-led.th-smid:hover{transform:scale(1.2);box-shadow:0 0 10px rgba(114,231,255,.95),0 0 24px rgba(114,231,255,.6)}
+.th-led.th-sfull{background-color:#fff;border:1px solid #fff;box-shadow:0 0 4px #fff,0 0 12px #fff,0 0 24px rgba(255,255,255,.85)}
+.th-led.th-sfull:hover{transform:scale(1.25);box-shadow:0 0 6px #fff,0 0 16px #fff,0 0 32px rgba(255,255,255,1)}
+.th-today{position:relative}
+.th-today::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1.5px solid #ff3344;animation:thRing 1.8s infinite ease-out;pointer-events:none}
+@keyframes thRing{0%{transform:scale(.9);opacity:1}70%{transform:scale(1.6);opacity:0}100%{transform:scale(1.6);opacity:0}}
+.th-sel{outline:2px dashed #fff;outline-offset:3px}
+
+/* 3D runway perspective */
+.th-stage{perspective:750px;perspective-origin:50% 25%;overflow:hidden}
+.th-runway{transform:rotateX(68deg) translateY(-20px);transform-style:preserve-3d;mask-image:linear-gradient(to top,rgba(0,0,0,1) 40%,rgba(0,0,0,.05) 98%);-webkit-mask-image:linear-gradient(to top,rgba(0,0,0,1) 40%,rgba(0,0,0,.05) 98%)}
+
+/* Tactical toast (scoped) */
+#tacticalToast{position:fixed;bottom:18px;right:18px;background:#131620;border:1px solid #2a3142;color:#fff;font-size:12px;padding:10px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,0,0,.8);transform:translateY(80px);opacity:0;transition:all .3s;z-index:60;display:flex;align-items:center;gap:8px}
+#tacticalToast.show{transform:none;opacity:1}
+#tacticalToast .th-ping{width:8px;height:8px;border-radius:50%;background:#64e3ff;animation:thPing 1s infinite}
+@keyframes thPing{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Tactical modal (scoped) */
+#tacticalModal{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);z-index:95;display:none;align-items:center;justify-content:center;padding:16px}
+#tacticalModal.open{display:flex;animation:thIn .25s ease-out}
+
 </style>
 <style id="responsive-v5">
 /* ===== v5: zoom-safe / multi-device layout ===== */
@@ -590,31 +656,6 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
 <div class="pastdate" id="pastDateRow" style="display:none"><span>📅 Ghi vào ngày (chỉ quá khứ):</span><input type="date" id="targetDate"><span id="targetDateHint"></span></div>
 <div class="examples"><div class="quick-head"><p>Câu lệnh nhanh của bạn</p><span class="quick-hint">bấm để điền nhanh</span></div><div class="chips" id="chips"></div></div>
 </section>
-<section class="panel p-countdown" style="--d:.07s">
-<div class="cd-hud">
-<div class="cd-hud-left"><span class="lockdot"></span><span>PROTOCOL // 2027 TARGET LOCK</span></div>
-<div class="cd-hud-right" id="liveClockHud">--:--:-- LOCAL</div>
-</div>
-<div class="cd-hero">
-<span class="cd-days-num" id="daysRemainingNumber">000</span>
-<div class="cd-days-label">
-<span class="big">DAYS LEFT.</span>
-<span class="sub" id="subCountdownTimer">00H 00M 00S</span>
-</div>
-</div>
-<div class="cd-target-line">
-<span class="t-label">From</span>
-<span id="cdRangeStart">OCT 01, 2026</span>
-<span class="dot"></span>
-<span class="t-label">Target:</span>
-<span class="t-val">2027.01.01</span>
-</div>
-<div class="cd-bar"><i id="cdProgressBar" style="width:0%"></i></div>
-<div class="cd-foot">
-<span id="cdFootLeft">Tỷ lệ thời gian đã trôi qua trong năm</span>
-<span><b id="cdFootRight">0.00%</b></span>
-</div>
-</section>
 
 <section class="panel p-expense" style="--d:.08s">
 <div class="ptitle">Theo dõi chi tiêu 💸 <span class="pt-right"><span class="sub">ghi riêng · đồng bộ cloud · xuất XLSX</span></span></div>
@@ -627,6 +668,25 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
 <div class="expense-help" id="expenseHelp">Mặc định VNĐ · hỗ trợ 50k, 1tr2, 3tr350 · thêm “đô”, “do” hoặc “USD” để ghi bằng USD.</div>
 <div class="expense-template-row"><span>Template chi tiêu</span><div class="chips" id="expenseTemplateChips"></div></div>
 </section>
+
+<section class="panel p-launcher-protocol" id="protocolLauncher" style="--d:.085s" role="button" tabindex="0" aria-label="Mở subpage PROTOCOL // 2027 TARGET LOCK">
+<div class="pl-inner">
+<div class="pl-badge"><span class="lockdot"></span><span>PROTOCOL // 2027 TARGET LOCK</span></div>
+<div class="pl-mid">
+<div class="pl-title">Tactical Dot Matrix Countdown — 13 weekends until 2027</div>
+<div class="pl-sub">Mở subpage để ghi PROTOCOL DIRECTIVE theo từng ngày (Work · Dream · Health), xem matrix 13 tuần × 7 ngày LED dot, và xuất JSON / XLSX. Directive hoàn thành sẽ tự đồng bộ vào Nhật ký hoạt động của hệ thống.</div>
+<div class="pl-stats">
+<span class="pl-stat"><span id="plStatDays">--</span><b>DAYS LEFT</b></span>
+<span class="pl-stat"><span id="plStatDirectives">0</span><b>DIRECTIVES</b></span>
+<span class="pl-stat"><span id="plStatDone">0</span><b>CLEARED</b></span>
+</div>
+</div>
+<span class="pl-cta">Mở Tactical HUD
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+</span>
+</div>
+</section>
+
 <section class="panel p-mode" style="--d:.1s">
 <div class="ptitle">Mode cường độ hôm nay <span class="pt-right"><span class="orientation-readout" id="orientationReadout">Định hướng tuần: Cân bằng</span><span class="sub" id="modeCloseStatus">chưa đăng ký</span></span></div>
 <div class="mode-buttons" id="modeButtons"></div>
@@ -811,7 +871,7 @@ function dbg(m,t){if(!dbgBox)return;const d=document.createElement('div');if(t==
 window.addEventListener('error',e=>dbg('✗ LỖI SCRIPT: '+e.message+' (dòng '+e.lineno+')','err'));
 window.addEventListener('unhandledrejection',e=>dbg('✗ LỖI ASYNC: '+(e.reason&&e.reason.message||e.reason),'err'));
 let auth=null,db=null;
-try{const fb=initializeApp(firebaseConfig);auth=getAuth(fb);db=getFirestore(fb);dbg('✓ Firebase khởi tạo thành công','ok')}
+try{const fb=initializeApp(firebaseConfig);auth=getAuth(fb);db=getFirestore(fb);window.FSapi={doc,setDoc,deleteDoc,collection,onSnapshot,updateDoc,writeBatch};window.FSdb=db;if(!window._tacticalDb&&window.makeTacticalDbBridge)window._tacticalDb=window.makeTacticalDbBridge(db);dbg('✓ Firebase khởi tạo thành công','ok')}
 catch(e){dbg('✗ LỖI khởi tạo: '+e.message,'err')}
 const pad=n=>String(n).padStart(2,'0');
 function dayKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
@@ -1310,7 +1370,7 @@ state={entries:[],expenses:[],goals:{...DEF_GOALS},goalItems:[],customCats:[],tr
 period='day';logFilter='all';calSelected=null;
 document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x.dataset.p==='day'));
 $('#rangeBar').style.display='none';
-if(user){uid=user.uid;$('#loginScreen').style.display='none';$('#app').style.display='';$('#userMail').textContent=user.email||'';bootApp();startCloud();moveGlider()}
+if(user){uid=user.uid;window._tacticalUid=uid;if(typeof db!=='undefined'&&!window._tacticalDb&&window.makeTacticalDbBridge)window._tacticalDb=window.makeTacticalDbBridge(db);;$('#loginScreen').style.display='none';$('#app').style.display='';$('#userMail').textContent=user.email||'';bootApp();startCloud();moveGlider()}
 else{uid=null;$('#loginScreen').style.display='grid';$('#app').style.display='none';$('#migrateBar').style.display='none'}
 });
 }else{dbg('✗ Firebase chưa sẵn sàng','err')}
@@ -1378,6 +1438,975 @@ dbg('=== MỞ APP ===','ok');
     setInterval(update, 1000);
   }
 })();
+</script>
+
+
+<!-- ===== Tactical HUD subpage overlay (full interface) ===== -->
+<div id="tacticalHudOverlay" aria-hidden="true">
+  <button class="th-close" id="tacticalHudClose" type="button" aria-label="Đóng Tactical HUD">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+    <span>Đóng (ESC)</span>
+  </button>
+
+  <div class="th-body">
+    <div class="w-full" style="max-width:1152px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+
+      <!-- Top status bar -->
+      <header class="w-full" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #1E232D;padding-bottom:16px;font-size:12px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ff3344;box-shadow:0 0 8px #ff3344;animation:thPing 1.4s infinite"></span>
+          <span style="text-transform:uppercase;letter-spacing:.18em;font-weight:600;color:#cbd0d9" class="th-hud">PROTOCOL // 2027 TARGET LOCK</span>
+          <span style="color:#5b626e">|</span>
+          <span id="thLiveClock" style="color:#9aa0ad;font-family:'JetBrains Mono',monospace">--:--:-- LOCAL</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <button id="thAudioToggle" style="padding:5px 11px;border:1px solid #2B313E;border-radius:4px;background:#0D0F14;color:#cbd0d9;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px">
+            <span id="thAudioDot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 5px #34d399"></span>
+            <span id="thAudioText">AUDIO: ON</span>
+          </button>
+          <button id="thExpJson" style="padding:5px 11px;border:1px solid #2B313E;border-radius:4px;background:#0D0F14;color:#cbd0d9;cursor:pointer;font-size:11px">EXPORT JSON</button>
+          <button id="thExpXlsx" style="padding:5px 11px;border:1px solid #064e3b;border-radius:4px;background:rgba(6,78,59,.2);color:#34d399;cursor:pointer;font-size:11px">EXPORT .XLSX</button>
+          <label for="thImportJson" style="padding:5px 11px;border:1px solid #2B313E;border-radius:4px;background:#0D0F14;color:#cbd0d9;cursor:pointer;font-size:11px">RESTORE JSON</label>
+          <input type="file" id="thImportJson" accept=".json" style="display:none" />
+        </div>
+      </header>
+
+      <!-- Big countdown hero -->
+      <section style="text-align:center;padding:16px 0;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.3em;color:#9aa0ad;margin-bottom:4px">YOU HAVE</div>
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:8px;margin:8px 0">
+          <span id="thDays" class="th-hud" style="font-size:96px;font-weight:700;color:#fff;letter-spacing:-.02em;text-shadow:0 0 20px rgba(255,255,255,.7),0 0 60px rgba(255,157,0,.32);font-variant-numeric:tabular-nums">--</span>
+          <div style="display:flex;flex-direction:column;text-align:left">
+            <span class="th-hud" style="font-size:24px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.16em">DAYS LEFT.</span>
+            <span id="thSubTimer" style="font-size:12px;color:#9aa0ad;font-family:'JetBrains Mono',monospace;letter-spacing:.05em">00H 00M 00S</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.25em;color:#9aa0ad;text-transform:uppercase;margin-top:4px">
+          <span id="thDateRange">OCT 02, 2026 — DEC 31, 2026</span>
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff3344;box-shadow:0 0 6px #ff3344"></span>
+          <span style="color:#fff;font-weight:700">TARGET: 2027.01.01</span>
+        </div>
+      </section>
+
+      <!-- Tab nav -->
+      <nav style="width:100%;display:flex;justify-content:center;border-bottom:1px solid #1E232D">
+        <div class="th-hud" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:100%;max-width:720px;text-align:center;font-size:13px">
+          <button data-thtab="work" class="th-tab" style="padding:12px 8px;border:0;background:none;border-bottom:2px solid transparent;color:#9aa0ad;cursor:pointer;text-transform:uppercase;letter-spacing:.1em;transition:color .2s,border-color .2s;display:flex;align-items:center;justify-content:center;gap:6px">
+            <span style="font-size:10px;color:#5b626e;font-family:'JetBrains Mono',monospace">01.</span> WORK
+          </button>
+          <button data-thtab="dream" class="th-tab" style="padding:12px 8px;border:0;background:none;border-bottom:2px solid transparent;color:#9aa0ad;cursor:pointer;text-transform:uppercase;letter-spacing:.1em;transition:color .2s,border-color .2s;display:flex;align-items:center;justify-content:center;gap:6px">
+            <span style="font-size:10px;color:#5b626e;font-family:'JetBrains Mono',monospace">02.</span> DREAM
+          </button>
+          <button data-thtab="health" class="th-tab" style="padding:12px 8px;border:0;background:none;border-bottom:2px solid transparent;color:#9aa0ad;cursor:pointer;text-transform:uppercase;letter-spacing:.1em;transition:color .2s,border-color .2s;display:flex;align-items:center;justify-content:center;gap:6px">
+            <span style="font-size:10px;color:#5b626e;font-family:'JetBrains Mono',monospace">03.</span> HEALTH
+          </button>
+          <button data-thtab="all" class="th-tab th-tab-on" style="padding:12px 8px;border:0;background:none;border-bottom:2px solid #fff;color:#fff;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.18em;display:flex;align-items:center;justify-content:center;gap:6px">
+            <span style="font-size:10px;color:#34d399;font-family:'JetBrains Mono',monospace">[★]</span> MERGE ALL
+          </button>
+        </div>
+      </nav>
+      <style>.th-tab:hover{color:#fff}.th-tab.th-tab-on{color:#fff;border-bottom-color:#fff;font-weight:700}</style>
+
+      <!-- Main grid -->
+      <main style="display:grid;grid-template-columns:1fr;gap:24px;width:100%" class="th-main-grid">
+        <style>@media(min-width:1024px){.th-main-grid{grid-template-columns:7fr 5fr !important}}</style>
+
+        <!-- LEFT: dot matrix -->
+        <section style="display:flex;flex-direction:column;gap:16px;background:#0B0D12;border:1px solid #1C202B;border-radius:8px;padding:20px;position:relative">
+          <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1A1F2A;padding-bottom:12px;flex-wrap:wrap;gap:8px">
+            <div>
+              <h2 id="thMatrixTitle" class="th-hud" style="font-size:14px;font-weight:700;letter-spacing:.18em;color:#fff;text-transform:uppercase;margin:0">PROTOCOL MATRIX // ALL DOMAINS</h2>
+              <p style="font-size:11px;color:#9aa0ad;margin:4px 0 0">ONLY 13 WEEKENDS UNTIL 2027</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;background:#13161F;padding:4px;border-radius:4px;border:1px solid #232836;font-size:10px">
+              <button id="thViewGrid" style="padding:5px 11px;border:0;border-radius:4px;background:#202534;color:#fff;font-weight:600;cursor:pointer">GRID</button>
+              <button id="thView3d" style="padding:5px 11px;border:0;border-radius:4px;background:none;color:#9aa0ad;cursor:pointer">3D RUNWAY</button>
+            </div>
+          </div>
+
+          <!-- 2D matrix -->
+          <div id="thGridContainer" style="display:flex;flex-direction:column;align-items:center;overflow-x:auto;padding:8px 0">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px;font-size:12px;font-family:'JetBrains Mono',monospace;color:#9aa0ad;letter-spacing:.05em">
+              <span style="width:24px;text-align:center;color:transparent">W#</span>
+              <div style="display:flex;gap:12px">
+                <span style="width:14px;text-align:center;color:#5b626e">F</span>
+                <span style="width:14px;text-align:center;color:#e6e8ee;font-weight:700">S</span>
+                <span style="width:14px;text-align:center;color:#e6e8ee;font-weight:700">S</span>
+                <span style="width:14px;text-align:center;color:#5b626e">M</span>
+                <span style="width:14px;text-align:center;color:#5b626e">T</span>
+                <span style="width:14px;text-align:center;color:#5b626e">W</span>
+                <span style="width:14px;text-align:center;color:#5b626e">T</span>
+              </div>
+              <span style="width:56px;text-align:right;font-size:10px;color:#4b5260">DATE</span>
+            </div>
+            <div id="thMatrixRows" style="display:flex;flex-direction:column;gap:10px"></div>
+          </div>
+
+          <!-- 3D runway -->
+          <div id="thPerspective" style="display:none;height:360px;position:relative;align-items:center;justify-content:center" class="th-stage">
+            <div style="position:absolute;top:8px;text-align:center;z-index:10">
+              <span style="font-size:11px;text-transform:uppercase;letter-spacing:.25em;color:#9aa0ad">MOST PEOPLE WILL WAIT FOR JANUARY.</span>
+              <div class="th-hud" style="font-size:20px;font-weight:700;letter-spacing:.18em;color:#fff">2027 JAN 01</div>
+            </div>
+            <div id="thRunwayGrid" class="th-runway" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;padding:32px;background:#090b0e;border:1px solid #202636;border-radius:12px"></div>
+          </div>
+
+          <!-- Legend -->
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid #181D26;font-size:11px;color:#9aa0ad">
+            <div style="display:flex;align-items:center;gap:6px"><div class="th-led th-s0" style="width:10px;height:10px"></div><span>0% Hollow</span></div>
+            <div style="display:flex;align-items:center;gap:6px"><div class="th-led th-slow" style="width:10px;height:10px"></div><span>1-49% Amber</span></div>
+            <div style="display:flex;align-items:center;gap:6px"><div class="th-led th-smid" style="width:10px;height:10px"></div><span>50-99% Cyan</span></div>
+            <div style="display:flex;align-items:center;gap:6px"><div class="th-led th-sfull" style="width:10px;height:10px"></div><span>100% Solid</span></div>
+            <div style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ff3344;box-shadow:0 0 6px #ff3344"></span><span>Today</span></div>
+          </div>
+        </section>
+
+        <!-- RIGHT: day HUD -->
+        <section style="display:flex;flex-direction:column;gap:16px;background:#0B0D12;border:1px solid #1C202B;border-radius:8px;padding:20px">
+          <div style="display:flex;flex-direction:column;gap:4px;border-bottom:1px solid #1A1F2A;padding-bottom:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span id="thSelTodayBadge" style="display:none;padding:2px 6px;border-radius:4px;font-size:10px;background:rgba(255,51,68,.2);color:#ff4d5e;border:1px solid rgba(255,51,68,.5);font-weight:700;text-transform:uppercase;letter-spacing:.1em">TODAY</span>
+                <span id="thSelDate" class="th-hud" style="font-size:14px;font-weight:700;color:#fff;letter-spacing:.18em">2026-10-01</span>
+              </div>
+              <div style="text-align:right">
+                <span id="thDayPct" class="th-hud" style="font-size:18px;font-weight:700;color:#34d399">0%</span>
+                <span style="display:block;font-size:10px;color:#9aa0ad;letter-spacing:.1em;text-transform:uppercase">EFFICIENCY</span>
+              </div>
+            </div>
+            <div style="width:100%;height:6px;background:#171A24;border-radius:99px;overflow:hidden;margin-top:4px">
+              <div id="thDayBar" style="height:100%;width:0;background:linear-gradient(90deg,#22d3ee,#fff);transition:width .3s"></div>
+            </div>
+          </div>
+
+          <!-- Task input -->
+          <form id="thAddForm" style="display:flex;flex-direction:column;gap:8px">
+            <input type="text" id="thTaskInput" placeholder="+ NEW PROTOCOL DIRECTIVE..." required
+              style="width:100%;background:#12151D;border:1px solid #232937;border-radius:4px;padding:10px 12px;font-size:13px;color:#f3f4f6;font-family:'Share Tech Mono',monospace;outline:none;transition:border-color .2s" />
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:6px;font-size:11px">
+                <span style="color:#5b626e;margin-right:4px">DOMAIN:</span>
+                <select id="thCategory" style="background:#12151D;border:1px solid #232937;color:#cbd0d9;border-radius:4px;padding:5px 8px;font-size:12px;outline:none">
+                  <option value="work">WORK</option>
+                  <option value="dream">DREAM</option>
+                  <option value="health">HEALTH</option>
+                </select>
+              </div>
+              <button type="submit" class="th-hud" style="padding:6px 14px;border:0;border-radius:4px;background:#fff;color:#000;font-weight:700;font-size:12px;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:background .2s">DEPLOY</button>
+            </div>
+          </form>
+
+          <div id="thTasksList" style="display:flex;flex-direction:column;gap:8px;flex-grow:1;overflow-y:auto;max-height:360px;padding-right:4px"></div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid #181D26;font-size:11px;color:#9aa0ad;flex-wrap:wrap;gap:8px">
+            <span id="thSummary">0 / 0 DIRECTIVES CLEARED</span>
+            <button id="thClearDone" style="background:none;border:0;color:#9aa0ad;cursor:pointer;font-size:10px;text-transform:uppercase;letter-spacing:.1em;transition:color .15s">[ CLEAR COMPLETED ]</button>
+          </div>
+        </section>
+      </main>
+
+    </div>
+  </div>
+</div>
+
+<!-- Tactical modal (scoped) -->
+<div id="tacticalModal" aria-hidden="true">
+  <div style="background:#0e1117;border:1px solid #2e3547;border-radius:8px;max-width:480px;width:100%;padding:24px;display:flex;flex-direction:column;gap:16px;box-shadow:0 0 30px rgba(0,0,0,.8)">
+    <div style="display:flex;align-items:center;gap:8px;border-bottom:1px solid #202534;padding-bottom:12px">
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34d399"></span>
+      <h3 id="thModalTitle" class="th-hud" style="font-size:14px;font-weight:700;letter-spacing:.18em;color:#fff;text-transform:uppercase;margin:0">SYSTEM MESSAGE</h3>
+    </div>
+    <p id="thModalBody" style="font-size:12px;color:#cbd0d9;line-height:1.6;font-family:'JetBrains Mono',monospace;margin:0">Information</p>
+    <div style="display:flex;justify-content:flex-end;gap:8px;padding-top:8px">
+      <button id="thModalCancel" style="display:none;padding:6px 12px;border:1px solid #2d3344;border-radius:4px;background:none;color:#9aa0ad;font-size:12px;cursor:pointer">HỦY</button>
+      <button id="thModalOk" class="th-hud" style="padding:6px 16px;border:0;border-radius:4px;background:#fff;color:#000;font-weight:700;font-size:12px;cursor:pointer">XÁC NHẬN</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tactical toast (scoped) -->
+<div id="tacticalToast"><span class="th-ping"></span><span id="thToastMsg">ACTION COMPLETED</span></div>
+
+
+<script>
+/* ===== Tactical HUD subpage engine (cloud-synced) =====
+   - Reads/writes protocols via Firestore subcollection `users/{uid}/protocols`
+   - On directive completion, mirrors to `entries` (main journal) for unified log
+   - JSON/XLSX export mirrors tactical_2027_countdown_hud behavior
+   - All element IDs prefixed with `th` to avoid clashes with main app
+*/
+(function(){
+  'use strict';
+
+  // ----- Constants matching tactical_2027_countdown_hud -----
+  var TARGET_DATE = new Date('2027-01-01T00:00:00');
+  var START_DATE  = new Date('2026-10-02T00:00:00');
+  var END_DATE    = new Date('2026-12-31T23:59:59');
+  var MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  var REAL_NOW = new Date();
+  var TODAY_STR = (REAL_NOW < TARGET_DATE && REAL_NOW >= new Date(REAL_NOW.getFullYear()+'-01-01T00:00:00'))
+    ? REAL_NOW.toISOString().split('T')[0]
+    : '2026-10-01';
+
+  var th = {
+    overlay:      document.getElementById('tacticalHudOverlay'),
+    closeBtn:     document.getElementById('tacticalHudClose'),
+    liveClock:    document.getElementById('thLiveClock'),
+    days:         document.getElementById('thDays'),
+    subTimer:     document.getElementById('thSubTimer'),
+    dateRange:    document.getElementById('thDateRange'),
+    matrixRows:   document.getElementById('thMatrixRows'),
+    runwayGrid:   document.getElementById('thRunwayGrid'),
+    gridContainer:document.getElementById('thGridContainer'),
+    perspective:  document.getElementById('thPerspective'),
+    viewGridBtn:  document.getElementById('thViewGrid'),
+    view3dBtn:    document.getElementById('thView3d'),
+    selDate:      document.getElementById('thSelDate'),
+    selTodayBadge:document.getElementById('thSelTodayBadge'),
+    dayPct:       document.getElementById('thDayPct'),
+    dayBar:       document.getElementById('thDayBar'),
+    tasksList:    document.getElementById('thTasksList'),
+    summary:      document.getElementById('thSummary'),
+    addForm:      document.getElementById('thAddForm'),
+    taskInput:    document.getElementById('thTaskInput'),
+    category:     document.getElementById('thCategory'),
+    clearDone:    document.getElementById('thClearDone'),
+    matrixTitle:  document.getElementById('thMatrixTitle'),
+    audioToggle:  document.getElementById('thAudioToggle'),
+    audioDot:     document.getElementById('thAudioDot'),
+    audioText:    document.getElementById('thAudioText'),
+    expJson:      document.getElementById('thExpJson'),
+    expXlsx:      document.getElementById('thExpXlsx'),
+    importJson:   document.getElementById('thImportJson'),
+    modal:        document.getElementById('tacticalModal'),
+    modalTitle:   document.getElementById('thModalTitle'),
+    modalBody:    document.getElementById('thModalBody'),
+    modalOk:      document.getElementById('thModalOk'),
+    modalCancel:  document.getElementById('thModalCancel'),
+    toast:        document.getElementById('tacticalToast'),
+    toastMsg:     document.getElementById('thToastMsg')
+  };
+
+  // Launcher stat slots
+  var plDays = document.getElementById('plStatDays');
+  var plDir  = document.getElementById('plStatDirectives');
+  var plDone = document.getElementById('plStatDone');
+  var launcher = document.getElementById('protocolLauncher');
+
+  // ----- Audio engine (procedural, no external files) -----
+  var sound = {
+    ctx:null, enabled:true,
+    init:function(){
+      if(!this.ctx){
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if(AC) this.ctx = new AC();
+      }
+      if(this.ctx && this.ctx.state==='suspended') this.ctx.resume();
+    },
+    click:function(){
+      if(!this.enabled) return; this.init(); if(!this.ctx) return;
+      var o=this.ctx.createOscillator(), g=this.ctx.createGain();
+      o.type='triangle'; o.frequency.setValueAtTime(420,this.ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(140,this.ctx.currentTime+0.035);
+      g.gain.setValueAtTime(0.12,this.ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+0.035);
+      o.connect(g); g.connect(this.ctx.destination);
+      o.start(); o.stop(this.ctx.currentTime+0.035);
+    },
+    chirp:function(){
+      if(!this.enabled) return; this.init(); if(!this.ctx) return;
+      var o=this.ctx.createOscillator(), g=this.ctx.createGain();
+      o.type='sine'; o.frequency.setValueAtTime(880,this.ctx.currentTime);
+      o.frequency.setValueAtTime(1320,this.ctx.currentTime+0.04);
+      g.gain.setValueAtTime(0.15,this.ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+0.08);
+      o.connect(g); g.connect(this.ctx.destination);
+      o.start(); o.stop(this.ctx.currentTime+0.08);
+    },
+    tab:function(){
+      if(!this.enabled) return; this.init(); if(!this.ctx) return;
+      var o=this.ctx.createOscillator(), g=this.ctx.createGain();
+      o.type='square'; o.frequency.setValueAtTime(650,this.ctx.currentTime);
+      g.gain.setValueAtTime(0.05,this.ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,this.ctx.currentTime+0.04);
+      o.connect(g); g.connect(this.ctx.destination);
+      o.start(); o.stop(this.ctx.currentTime+0.04);
+    },
+    toggle:function(){ this.enabled=!this.enabled; return this.enabled; }
+  };
+
+  // ----- State -----
+  var state = {
+    activeTab:'all',
+    selectedDate: TODAY_STR,
+    activeView:'grid',
+    tasks:{},            // dateKey -> array of {id,text,category,completed,syncedToJournal}
+    unsub:null,
+    booted:false
+  };
+
+  var DEFAULT_SAMPLE_TASKS = {
+    "2026-10-01":[
+      {id:"t1",text:"Finalize Q4 sprint architecture & roadmap",category:"work",completed:true,syncedToJournal:true},
+      {id:"t2",text:"Review pull requests for telemetry API",category:"work",completed:true,syncedToJournal:true},
+      {id:"t3",text:"Write 1 chapter for cyberpunk sci-fi novel",category:"dream",completed:false,syncedToJournal:false},
+      {id:"t4",text:"5km morning Zone 2 cardio workout",category:"health",completed:true,syncedToJournal:true},
+      {id:"t5",text:"Zero sugar protocol & 3L hydration",category:"health",completed:true,syncedToJournal:true}
+    ],
+    "2026-10-02":[
+      {id:"t6",text:"Deploy staging build v2.4",category:"work",completed:true,syncedToJournal:true},
+      {id:"t7",text:"30-min Japanese language lesson",category:"dream",completed:true,syncedToJournal:true},
+      {id:"t8",text:"Upper body strength training",category:"health",completed:true,syncedToJournal:true}
+    ],
+    "2026-10-03":[
+      {id:"t9",text:"Sketch UI mockups for hardware synthesizer",category:"dream",completed:true,syncedToJournal:true},
+      {id:"t10",text:"Long mountain bicycle ride (40km)",category:"health",completed:false,syncedToJournal:false}
+    ]
+  };
+
+  var LS_KEY = 'tactical_protocols_v1';
+
+  // ----- Cloud / storage helpers -----
+  function protocolsRef(id){
+    if(!window._tacticalUid || !window._tacticalDb) return null;
+    return window._tacticalDb.doc(window._tacticalDb._db,'users',window._tacticalUid,'protocols',id);
+  }
+  function protocolsCollection(){
+    if(!window._tacticalUid || !window._tacticalDb) return null;
+    return window._tacticalDb.collection(window._tacticalDb._db,'users',window._tacticalUid,'protocols');
+  }
+  function entriesRef(id){
+    if(!window._tacticalUid || !window._tacticalDb) return null;
+    return window._tacticalDb.doc(window._tacticalDb._db,'users',window._tacticalUid,'entries',id);
+  }
+
+  // Wait until main app sets window._tacticalUid (set after Firebase login)
+  function uidReady(){
+    return !!(window._tacticalUid && window._tacticalDb);
+  }
+
+  function loadStateLocal(){
+    try{
+      var raw = localStorage.getItem(LS_KEY);
+      if(raw){ var p = JSON.parse(raw); state.tasks = p.tasks || {}; }
+      else { state.tasks = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_TASKS)); }
+    }catch(e){ state.tasks = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_TASKS)); }
+  }
+  function saveStateLocal(){
+    try{ localStorage.setItem(LS_KEY, JSON.stringify({tasks:state.tasks})); }catch(e){}
+  }
+
+  // ----- Subscribe to cloud updates (called when uid becomes available) -----
+  function subscribeCloud(){
+    if(state.unsub){ state.unsub(); state.unsub=null; }
+    var col = protocolsCollection();
+    if(!col) return;
+    var FS = window._tacticalDb;
+    state.unsub = FS.onSnapshot(col, function(snap){
+      state.tasks = {};
+      snap.docs.forEach(function(d){
+        var p = d.data(); if(!p || !p.dateKey) return;
+        if(!state.tasks[p.dateKey]) state.tasks[p.dateKey]=[];
+        state.tasks[p.dateKey].push({
+          id:p.id || d.id,
+          text:p.text||'(no text)',
+          category:p.category||'work',
+          completed:!!p.completed,
+          syncedToJournal:!!p.syncedToJournal,
+          ts:p.ts||Date.now()
+        });
+      });
+      renderAll();
+    }, function(err){
+      console.warn('Tactical protocols sync error:', err);
+      toast('Lỗi đồng bộ protocols: '+err.message);
+    });
+  }
+
+  // Push one protocol doc to cloud (insert or update)
+  function pushProtocol(task, dateKey){
+    if(!uidReady()){ saveStateLocal(); return; }
+    var ref = protocolsRef(task.id);
+    if(!ref) return;
+    var FS = window._tacticalDb;
+    FS.setDoc(ref, {
+      id:task.id,
+      dateKey:dateKey,
+      text:task.text,
+      category:task.category,
+      completed:!!task.completed,
+      syncedToJournal:!!task.syncedToJournal,
+      ts:task.ts || Date.now()
+    });
+  }
+
+  function deleteProtocolCloud(id){
+    if(!uidReady()) return;
+    var ref = protocolsRef(id); if(!ref) return;
+    var FS = window._tacticalDb;
+    FS.deleteDoc(ref);
+  }
+
+  // ----- Sync to main journal (entries collection) on completion -----
+  // Map protocol domain -> main app activity category
+  function domainToCat(domain){
+    if(domain==='work') return 'work';
+    if(domain==='dream') return 'study';
+    if(domain==='health') return 'health';
+    return 'work';
+  }
+
+  function syncDirectiveToJournal(task, dateKey){
+    if(!uidReady()) return; // skip when not logged in (offline mode)
+    if(task.syncedToJournal) return; // already mirrored
+    var now = new Date();
+    var target = getRecordTargetDK(dateKey);
+    var startMin = (target.isToday) ? (now.getHours()*60 + now.getMinutes()) : 540;
+    var ts = target.date.getTime() + startMin*60000;
+    var entryId = 'proto_'+task.id;
+    var cat = domainToCat(task.category);
+    var FS = window._tacticalDb;
+    FS.setDoc(entriesRef(entryId), {
+      id: entryId,
+      text: '🛰 '+task.text,
+      cat: cat,
+      min: 30,
+      dateKey: target.dateKey,
+      startMin: startMin,
+      ts: ts,
+      syncSource: 'protocol',
+      protocolId: task.id,
+      protocolDomain: task.category
+    });
+    task.syncedToJournal = true;
+    // update cloud doc to flag synced
+    pushProtocol(task, dateKey);
+  }
+
+  function getRecordTargetDK(dk){
+    var today = todayStr();
+    if(dk > today) return {dateKey:today, date:new Date(today+'T00:00:00'), isToday:true, isPast:false};
+    return {dateKey:dk, date:new Date(dk+'T00:00:00'), isToday:(dk===today), isPast:(dk<today)};
+  }
+  function todayStr(){
+    var d = new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+
+  // ----- 13-week dot matrix (Fri-Sat-Sun-Mon-Tue-Wed-Thu, 91 days) -----
+  function generate13WeeksList(){
+    var weeks = [];
+    var ptr = new Date('2026-10-02T00:00:00');
+    for(var w=1; w<=13; w++){
+      var daysInWeek = [];
+      for(var d=0; d<7; d++){
+        var dc = new Date(ptr);
+        var ds = dc.toISOString().split('T')[0];
+        daysInWeek.push({
+          dateStr: ds,
+          dayOfWeek: dc.getDay(),
+          dateObj: dc
+        });
+        ptr.setDate(ptr.getDate()+1);
+      }
+      weeks.push({
+        weekNumber: w<10?'0'+w:''+w,
+        days: daysInWeek,
+        startDate: daysInWeek[0].dateStr,
+        endDate: daysInWeek[6].dateStr
+      });
+    }
+    return weeks;
+  }
+  var MATRIX_WEEKS = generate13WeeksList();
+
+  function getDayProgress(dateStr){
+    var dayTasks = state.tasks[dateStr] || [];
+    var filtered = (state.activeTab==='all') ? dayTasks : dayTasks.filter(function(t){return t.category===state.activeTab;});
+    if(filtered.length===0) return {total:0, completed:0, percent:0};
+    var cc = filtered.filter(function(t){return t.completed;}).length;
+    var pct = Math.round((cc/filtered.length)*100);
+    return {total:filtered.length, completed:cc, percent:pct};
+  }
+  function getDotClass(percent, total){
+    if(total===0 || percent===0) return 'th-s0';
+    if(percent<50) return 'th-slow';
+    if(percent<100) return 'th-smid';
+    return 'th-sfull';
+  }
+
+  // ----- Renderers -----
+  function renderDotMatrix(){
+    th.matrixRows.innerHTML = '';
+    th.runwayGrid.innerHTML = '';
+    MATRIX_WEEKS.forEach(function(week){
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:16px';
+      var wn = document.createElement('span');
+      wn.style.cssText = 'width:24px;text-align:center;font-size:12px;color:#5b626e;font-family:JetBrains Mono,monospace';
+      wn.textContent = week.weekNumber;
+      row.appendChild(wn);
+      var dots = document.createElement('div');
+      dots.style.cssText = 'display:flex;gap:12px';
+      week.days.forEach(function(day){
+        var st = getDayProgress(day.dateStr);
+        var cls = getDotClass(st.percent, st.total);
+        var isToday = (day.dateStr === TODAY_STR);
+        var isSel = (day.dateStr === state.selectedDate);
+        var dot = document.createElement('button');
+        dot.type='button';
+        dot.className = 'th-led '+cls + (isToday?' th-today':'') + (isSel?' th-sel':'');
+        dot.title = day.dateStr+' | Completed: '+st.completed+'/'+st.total+' ('+st.percent+'%)';
+        dot.addEventListener('click', function(){
+          state.selectedDate = day.dateStr;
+          renderDotMatrix(); renderSelectedDayHUD();
+          sound.click();
+        });
+        dots.appendChild(dot);
+        // 3D clone
+        var d3 = document.createElement('div');
+        d3.className = 'th-led '+cls + (isToday?' th-today':'');
+        d3.title = day.dateStr;
+        d3.style.cursor='pointer';
+        d3.addEventListener('click', function(){
+          state.selectedDate = day.dateStr;
+          renderDotMatrix(); renderSelectedDayHUD();
+          sound.click();
+        });
+        th.runwayGrid.appendChild(d3);
+      });
+      row.appendChild(dots);
+      var lbl = document.createElement('span');
+      lbl.style.cssText = 'width:56px;text-align:right;font-size:10px;color:#5b6260;font-family:JetBrains Mono,monospace';
+      if(week.weekNumber==='01') lbl.textContent='OCT 02';
+      else if(week.weekNumber==='13') lbl.textContent='DEC 31';
+      row.appendChild(lbl);
+      th.matrixRows.appendChild(row);
+    });
+  }
+
+  function renderSelectedDayHUD(){
+    var dk = state.selectedDate;
+    th.selDate.textContent = dk;
+    if(dk === TODAY_STR) th.selTodayBadge.style.display='inline-block';
+    else th.selTodayBadge.style.display='none';
+
+    var all = state.tasks[dk] || [];
+    var visible = (state.activeTab==='all') ? all : all.filter(function(t){return t.category===state.activeTab;});
+    var st = getDayProgress(dk);
+    th.dayPct.textContent = st.percent+'%';
+    th.dayBar.style.width = st.percent+'%';
+    th.summary.textContent = st.completed+' / '+st.total+' DIRECTIVES CLEARED';
+
+    th.tasksList.innerHTML = '';
+    if(visible.length===0){
+      th.tasksList.innerHTML = '<div style="padding:24px;text-align:center;font-size:11px;color:#4b5260;border:1px dashed #1e2330;border-radius:4px">NO ACTIVE PROTOCOLS FOR THIS SECTOR. DEPLOY NEW DIRECTIVE ABOVE.</div>';
+      return;
+    }
+    visible.forEach(function(task){
+      var item = document.createElement('div');
+      item.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px;border-radius:4px;background:#11141C;border:1px solid #1F2432;transition:border-color .2s';
+      var left = document.createElement('div');
+      left.style.cssText = 'display:flex;align-items:center;gap:12px;flex-grow:1;min-width:0';
+
+      var chk = document.createElement('input');
+      chk.type='checkbox';
+      chk.checked = task.completed;
+      chk.style.cssText = 'width:16px;height:16px;cursor:pointer;accent-color:#22d3ee;flex:none';
+      chk.addEventListener('change', function(){
+        task.completed = chk.checked;
+        var dk2 = state.selectedDate;
+        if(task.completed){
+          // Sync to main journal
+          syncDirectiveToJournal(task, dk2);
+          sound.chirp();
+        } else {
+          sound.click();
+        }
+        pushProtocol(task, dk2);
+        if(!uidReady()) saveStateLocal();
+        renderDotMatrix();
+        renderSelectedDayHUD();
+        renderLauncherStats();
+      });
+
+      var badge = document.createElement('span');
+      var badgeCls = (task.category==='work')
+        ? 'background:rgba(120,53,15,.4);color:#fbbf24;border:1px solid rgba(180,83,9,.5)'
+        : (task.category==='dream')
+          ? 'background:rgba(76,29,149,.4);color:#c084fc;border:1px solid rgba(91,33,142,.5)'
+          : 'background:rgba(6,78,59,.4);color:#34d399;border:1px solid rgba(6,78,59,.5)';
+      badge.style.cssText = 'font-size:9px;text-transform:uppercase;padding:2px 6px;border-radius:3px;font-family:JetBrains Mono,monospace;font-weight:700;'+badgeCls;
+      badge.textContent = task.category;
+
+      var txt = document.createElement('span');
+      txt.style.cssText = 'font-size:13px;font-family:Share Tech Mono,monospace;'+(task.completed?'text-decoration:line-through;color:#5b6260':'color:#e6e8ee')+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0';
+      txt.textContent = task.text;
+
+      left.appendChild(chk);
+      left.appendChild(badge);
+      left.appendChild(txt);
+
+      var del = document.createElement('button');
+      del.type='button';
+      del.innerHTML = '&#x2715;';
+      del.title='Delete Directive';
+      del.style.cssText = 'background:none;border:0;color:#5b6260;cursor:pointer;font-size:12px;padding:4px 8px;transition:color .15s';
+      del.addEventListener('mouseenter', function(){ del.style.color='#f87171'; });
+      del.addEventListener('mouseleave', function(){ del.style.color='#5b6260'; });
+      del.addEventListener('click', function(){
+        var dk2 = state.selectedDate;
+        if(!state.tasks[dk2]) return;
+        state.tasks[dk2] = state.tasks[dk2].filter(function(t){return t.id!==task.id;});
+        deleteProtocolCloud(task.id);
+        if(!uidReady()) saveStateLocal();
+        // also remove mirrored journal entry if present
+        if(uidReady() && task.syncedToJournal){
+          var FS = window._tacticalDb;
+          FS.deleteDoc(entriesRef('proto_'+task.id));
+        }
+        renderDotMatrix(); renderSelectedDayHUD(); renderLauncherStats();
+        sound.click();
+        toast('DIRECTIVE REMOVED');
+      });
+
+      item.appendChild(left);
+      item.appendChild(del);
+      th.tasksList.appendChild(item);
+    });
+  }
+
+  function renderLauncherStats(){
+    if(plDays){
+      var diff = TARGET_DATE - new Date();
+      var days = Math.max(0, Math.floor(diff/86400000));
+      plDays.textContent = days;
+    }
+    var total = 0, done = 0;
+    Object.keys(state.tasks).forEach(function(dk){
+      (state.tasks[dk]||[]).forEach(function(t){
+        total++;
+        if(t.completed) done++;
+      });
+    });
+    if(plDir) plDir.textContent = total;
+    if(plDone) plDone.textContent = done;
+  }
+
+  function renderAll(){
+    renderDotMatrix();
+    renderSelectedDayHUD();
+    renderLauncherStats();
+  }
+
+  // ----- Event wiring -----
+  th.addForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var text = th.taskInput.value.trim(); if(!text) return;
+    var cat = (state.activeTab==='all') ? th.category.value : state.activeTab;
+    var dk = state.selectedDate;
+    if(!state.tasks[dk]) state.tasks[dk] = [];
+    var task = {
+      id: 'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),
+      text: text,
+      category: cat,
+      completed: false,
+      syncedToJournal: false,
+      ts: Date.now()
+    };
+    state.tasks[dk].push(task);
+    pushProtocol(task, dk);
+    if(!uidReady()) saveStateLocal();
+    th.taskInput.value = '';
+    renderAll();
+    sound.chirp();
+    toast('NEW DIRECTIVE LOGGED');
+  });
+
+  th.clearDone.addEventListener('click', function(){
+    var dk = state.selectedDate;
+    if(!state.tasks[dk]) return;
+    var before = state.tasks[dk].length;
+    var removed = state.tasks[dk].filter(function(t){return t.completed;});
+    state.tasks[dk] = state.tasks[dk].filter(function(t){return !t.completed;});
+    // delete from cloud + journal
+    removed.forEach(function(t){
+      deleteProtocolCloud(t.id);
+      if(uidReady() && t.syncedToJournal){
+        var FS = window._tacticalDb;
+        FS.deleteDoc(entriesRef('proto_'+t.id));
+      }
+    });
+    if(!uidReady()) saveStateLocal();
+    renderAll();
+    sound.click();
+    toast((before-state.tasks[dk].length)+' COMPLETED DIRECTIVES CLEARED');
+  });
+
+  // Tab switching
+  document.querySelectorAll('.th-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tab = btn.getAttribute('data-thtab');
+      state.activeTab = tab;
+      document.querySelectorAll('.th-tab').forEach(function(b){
+        b.classList.remove('th-tab-on');
+      });
+      btn.classList.add('th-tab-on');
+      // Update inline border-color since we used inline styles
+      document.querySelectorAll('.th-tab').forEach(function(b){
+        b.style.borderBottomColor = b.classList.contains('th-tab-on') ? '#fff' : 'transparent';
+        b.style.color = b.classList.contains('th-tab-on') ? '#fff' : '#9aa0ad';
+        b.style.fontWeight = b.classList.contains('th-tab-on') ? '700' : '400';
+      });
+      th.matrixTitle.textContent = (tab==='work') ? 'PROTOCOL MATRIX // WORK DOMAIN'
+        : (tab==='dream') ? 'PROTOCOL MATRIX // DREAM & ASPIRATIONS'
+        : (tab==='health') ? 'PROTOCOL MATRIX // HEALTH & PHYSICAL'
+        : 'PROTOCOL MATRIX // MERGE ALL DOMAINS';
+      if(tab!=='all') th.category.value = tab;
+      sound.tab();
+      renderDotMatrix(); renderSelectedDayHUD();
+    });
+  });
+
+  // View switcher
+  th.viewGridBtn.addEventListener('click', function(){
+    state.activeView='grid';
+    th.viewGridBtn.style.cssText='padding:5px 11px;border:0;border-radius:4px;background:#202534;color:#fff;font-weight:600;cursor:pointer';
+    th.view3dBtn.style.cssText='padding:5px 11px;border:0;border-radius:4px;background:none;color:#9aa0ad;cursor:pointer';
+    th.gridContainer.style.display='flex';
+    th.perspective.style.display='none';
+    sound.click();
+  });
+  th.view3dBtn.addEventListener('click', function(){
+    state.activeView='3d';
+    th.view3dBtn.style.cssText='padding:5px 11px;border:0;border-radius:4px;background:#202534;color:#fff;font-weight:600;cursor:pointer';
+    th.viewGridBtn.style.cssText='padding:5px 11px;border:0;border-radius:4px;background:none;color:#9aa0ad;cursor:pointer';
+    th.gridContainer.style.display='none';
+    th.perspective.style.display='flex';
+    th.perspective.classList.add('th-stage');
+    sound.click();
+  });
+
+  // Live countdown ticker
+  function updateCountdown(){
+    var now = new Date();
+    if(th.liveClock) th.liveClock.textContent = now.toTimeString().split(' ')[0]+' LOCAL';
+    var diff = TARGET_DATE - now;
+    if(diff<=0){
+      if(th.days) th.days.textContent='00';
+      if(th.subTimer) th.subTimer.textContent='00H 00M 00S — MISSION COMPLETE';
+      return;
+    }
+    var d = Math.floor(diff/86400000);
+    var h = Math.floor((diff/3600000)%24);
+    var m = Math.floor((diff/60000)%60);
+    var s = Math.floor((diff/1000)%60);
+    if(th.days) th.days.textContent = d;
+    if(th.subTimer) th.subTimer.textContent = String(h).padStart(2,'0')+'H '+String(m).padStart(2,'0')+'M '+String(s).padStart(2,'0')+'S';
+  }
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // Audio toggle
+  th.audioToggle.addEventListener('click', function(){
+    var on = sound.toggle();
+    if(on){
+      th.audioDot.style.cssText='display:inline-block;width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 5px #34d399';
+      th.audioText.textContent='AUDIO: ON';
+      sound.chirp();
+    } else {
+      th.audioDot.style.cssText='display:inline-block;width:6px;height:6px;border-radius:50%;background:#5b6260';
+      th.audioText.textContent='AUDIO: OFF';
+    }
+  });
+
+  // JSON export
+  th.expJson.addEventListener('click', function(){
+    sound.click();
+    var payload = {
+      exportDate: new Date().toISOString(),
+      targetYear: 2027,
+      tasks: state.tasks
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href=url;
+    a.download='2027_TACTICAL_BACKUP_'+new Date().toISOString().split('T')[0]+'.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast('JSON TELEMETRY EXPORTED');
+  });
+
+  // JSON restore
+  th.importJson.addEventListener('change', function(e){
+    var file = e.target.files[0]; if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var parsed = JSON.parse(ev.target.result);
+        if(parsed && typeof parsed.tasks==='object'){
+          state.tasks = parsed.tasks;
+          // push to cloud
+          if(uidReady()){
+            // Replace cloud docs: simplest approach = delete all then re-add
+            // (We avoid batch deletes; just upsert by id)
+            Object.keys(state.tasks).forEach(function(dk){
+              (state.tasks[dk]||[]).forEach(function(t){
+                pushProtocol(t, dk);
+              });
+            });
+          } else {
+            saveStateLocal();
+          }
+          renderAll();
+          sound.chirp();
+          showModal('DATA RESTORED','All directives and progress matrix have been successfully synchronized from the JSON file.');
+        } else {
+          showModal('FORMAT ERROR','The uploaded file does not adhere to the required Tactical JSON schema.');
+        }
+      }catch(err){
+        showModal('PARSE ERROR','Failed to parse JSON file content.');
+      }
+    };
+    reader.readAsText(file);
+    th.importJson.value='';
+  });
+
+  // XLSX export (mirrors tactical_2027_countdown_hud structure)
+  th.expXlsx.addEventListener('click', function(){
+    sound.click();
+    if(typeof XLSX==='undefined'){
+      showModal('ENGINE ERROR','SheetJS library is still initializing. Please retry in a moment.');
+      return;
+    }
+    var wb = XLSX.utils.book_new();
+    var allRows=[], workRows=[], dreamRows=[], healthRows=[], summaryRows=[];
+    Object.keys(state.tasks).sort().forEach(function(dk){
+      var list = state.tasks[dk];
+      var ds = getDayProgress(dk);
+      summaryRows.push({Date:dk, 'Total Directives':ds.total, Completed:ds.completed, 'Efficiency (%)':ds.percent+'%'});
+      list.forEach(function(t){
+        var row = {Date:dk, Domain:t.category.toUpperCase(), Directive:t.text, Completed:t.completed?'YES':'NO', 'Synced to Journal':t.syncedToJournal?'YES':'NO'};
+        allRows.push(row);
+        if(t.category==='work') workRows.push(row);
+        if(t.category==='dream') dreamRows.push(row);
+        if(t.category==='health') healthRows.push(row);
+      });
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(allRows.length?allRows:[{Status:'No Directives'}]), 'MERGED ALL');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(workRows.length?workRows:[{Status:'No Work Tasks'}]), 'WORK DOMAIN');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dreamRows.length?dreamRows:[{Status:'No Dream Tasks'}]), 'DREAM DOMAIN');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(healthRows.length?healthRows:[{Status:'No Health Tasks'}]), 'HEALTH DOMAIN');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(summaryRows), 'DAILY EFFICIENCY');
+    XLSX.writeFile(wb, '2027_TACTICAL_PROTOCOL_'+new Date().toISOString().split('T')[0]+'.xlsx');
+    toast('EXCEL (.XLSX) REPORT GENERATED');
+  });
+
+  // Modal helpers
+  function showModal(title, body){
+    th.modalTitle.textContent = title;
+    th.modalBody.textContent = body;
+    th.modal.classList.add('open');
+    th.modal.setAttribute('aria-hidden','false');
+  }
+  th.modalOk.addEventListener('click', function(){
+    th.modal.classList.remove('open');
+    th.modal.setAttribute('aria-hidden','true');
+    sound.click();
+  });
+  th.modalCancel.addEventListener('click', function(){
+    th.modal.classList.remove('open');
+    th.modal.setAttribute('aria-hidden','true');
+  });
+
+  // Toast
+  var toastTimer = null;
+  function toast(msg){
+    if(toastTimer) clearTimeout(toastTimer);
+    th.toastMsg.textContent = msg;
+    th.toast.classList.add('show');
+    toastTimer = setTimeout(function(){ th.toast.classList.remove('show'); }, 2500);
+  }
+
+  // ----- Open / close subpage -----
+  function openSubpage(){
+    th.overlay.classList.add('open');
+    th.overlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    // Ensure cloud subscription active
+    if(uidReady() && !state.unsub) subscribeCloud();
+    // Initial render in case state wasn't ready before
+    renderAll();
+    updateCountdown();
+  }
+  function closeSubpage(){
+    th.overlay.classList.remove('open');
+    th.overlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+  if(launcher){
+    launcher.addEventListener('click', function(){
+      sound.init(); sound.click();
+      openSubpage();
+    });
+    launcher.addEventListener('keydown', function(e){
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openSubpage(); }
+    });
+  }
+  th.closeBtn.addEventListener('click', function(){ sound.click(); closeSubpage(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && th.overlay.classList.contains('open')) closeSubpage();
+  });
+
+  // ----- Boot -----
+  // Try local first; if cloud becomes available later, subscribe
+  loadStateLocal();
+  renderAll();
+
+  // Poll for uid availability (main app sets window._tacticalUid after Firebase login)
+  var uidPollCount = 0;
+  function checkUid(){
+    if(uidReady()){
+      subscribeCloud();
+    } else if(uidPollCount < 240){ // ~2 min
+      uidPollCount++;
+      setTimeout(checkUid, 500);
+    }
+  }
+  checkUid();
+
+  // Periodically refresh launcher stats (every 30s) so day count stays fresh
+  setInterval(renderLauncherStats, 30000);
+
+  // Expose minimal API for main app integration
+  window._tacticalHud = {
+    openSubpage: openSubpage,
+    closeSubpage: closeSubpage,
+    refreshStats: renderLauncherStats
+  };
+})();
+</script>
+
+
+<script>
+/* Bridge: expose modular Firestore (db, auth) to tactical HUD in a shape it expects.
+   The tactical HUD passes _db as the first arg explicitly; we just forward args
+   to the modular SDK. We do NOT initialize window._tacticalDb here — the main app
+   sets it after Firebase init via window.makeTacticalDbBridge(db). Before that,
+   the tactical HUD safely treats _tacticalDb as falsy and falls back to localStorage. */
+window.makeTacticalDbBridge = function(db){
+  if(!window.FSapi || !db) return null;
+  var api = window.FSapi;
+  return {
+    _db: db,
+    doc: function(){ return api.doc.apply(null, arguments); },
+    collection: function(){ return api.collection.apply(null, arguments); },
+    setDoc: function(ref, data, opts){ return api.setDoc(ref, data, opts||{}); },
+    deleteDoc: function(ref){ return api.deleteDoc(ref); },
+    onSnapshot: function(ref, cb, err){ return api.onSnapshot(ref, cb, err||function(){}); }
+  };
+};
 </script>
 
 </body>
