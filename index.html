@@ -371,24 +371,20 @@ footer .right{margin-left:auto}
 @media(max-width:1180px){main{grid-template-columns:repeat(6,1fr)}.p-input,.p-donut,.p-trend,.p-goals{grid-column:span 3}.p-time,.p-log,.p-insight,.kpis,.p-cal,.p-count,.p-health{grid-column:span 6}.kpis{grid-template-columns:1fr 1fr}.kpi{border-top:1px solid var(--line2)}.cw{grid-template-columns:repeat(4,1fr)}.ygrid{grid-template-columns:repeat(2,1fr)}.cd-analysis{grid-template-columns:1fr}}
 @media(max-width:760px){header{padding:14px 16px;gap:10px}.tabs{margin-left:0;order:3;width:100%;justify-content:center}.tabs button{padding:8px 8px;font-size:11px}main{padding:16px 16px 30px;grid-template-columns:1fr}.p-input,.p-donut,.p-trend,.p-goals,.p-time,.p-log,.p-insight,.kpis,.p-cal,.p-count,.p-health{grid-column:span 1}.donutflex,.cd-piewrap{flex-direction:column}.kpi .val{font-size:28px}.mrow.split{grid-template-columns:1fr}.cw{grid-template-columns:repeat(2,1fr)}.cm-cell{min-height:56px;padding:6px}.cm-cell .tt,.cw-bar{display:none}footer{padding:0 16px 30px}}
 
-/* ===== PROTOCOL // 2027 TARGET LOCK — clickable launcher card ===== */
-.p-launcher-protocol{grid-column:span 12;cursor:pointer;border:1px solid rgba(255,194,75,.32);background:linear-gradient(135deg,rgba(18,27,22,.95),rgba(11,17,14,.85));position:relative;overflow:hidden;transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .25s,border-color .25s;animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:.085s}
+/* ===== PROTOCOL // 2027 TARGET LOCK — clickable launcher card with live countdown ===== */
+.p-launcher-protocol{grid-column:span 12;cursor:pointer;border:1px solid rgba(255,194,75,.32);background:linear-gradient(180deg,rgba(18,27,22,.95),rgba(11,17,14,.85));position:relative;overflow:hidden;transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .25s,border-color .25s;animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:.085s}
 .p-launcher-protocol:hover{transform:translateY(-2px);border-color:rgba(255,194,75,.6);box-shadow:0 14px 40px rgba(255,194,75,.18)}
 .p-launcher-protocol:active{transform:translateY(0)}
 .p-launcher-protocol::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,194,75,.045) 50%,transparent 50%);background-size:100% 3px;pointer-events:none;opacity:.6}
-.pl-inner{position:relative;z-index:1;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:18px 20px}
-.pl-badge{flex:none;display:flex;align-items:center;gap:9px;font:700 11.5px 'Space Grotesk';letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
-.pl-badge .lockdot{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 9px rgba(255,107,94,.85);animation:cdPulse 1.4s ease-in-out infinite}
-.pl-mid{flex:1;min-width:0}
-.pl-title{font:700 18px/1.15 'Space Grotesk';color:#fff;letter-spacing:.01em}
-.pl-sub{margin-top:5px;font:500 12.5px 'Be Vietnam Pro';color:var(--mut);line-height:1.55}
-.pl-stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
-.pl-stat{display:flex;align-items:baseline;gap:5px;font:600 11px 'JetBrains Mono';color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
-.pl-stat b{font:700 15px 'JetBrains Mono';color:var(--gold)}
-.pl-cta{flex:none;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,194,75,.45);background:rgba(255,194,75,.08);color:var(--gold);font:700 12px 'Be Vietnam Pro';letter-spacing:.08em;text-transform:uppercase;padding:11px 15px;border-radius:10px;transition:all .22s}
+.p-launcher-protocol .cd-hud,.p-launcher-protocol .cd-hero,.p-launcher-protocol .cd-target-line,.p-launcher-protocol .cd-bar,.p-launcher-protocol .cd-foot{position:relative;z-index:1}
+.pl-stats-row{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--line2)}
+.pl-stats-left{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.pl-stat{display:flex;align-items:baseline;gap:6px;font:600 11px 'JetBrains Mono';color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+.pl-stat b{font:700 17px 'JetBrains Mono';color:var(--gold);font-variant-numeric:tabular-nums}
+.pl-cta{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,194,75,.45);background:rgba(255,194,75,.08);color:var(--gold);font:700 12px 'Be Vietnam Pro';letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;border-radius:10px;transition:all .22s;flex:none}
 .p-launcher-protocol:hover .pl-cta{background:rgba(255,194,75,.18);box-shadow:0 4px 18px rgba(255,194,75,.32)}
 .pl-cta svg{width:14px;height:14px;flex:none}
-@media(max-width:680px){.pl-inner{padding:14px 16px;gap:12px}.pl-title{font-size:15px}.pl-sub{font-size:11.5px}.pl-cta{padding:9px 12px;font-size:11px}}
+@media(max-width:680px){.pl-stats-left{gap:14px}.pl-stat b{font-size:15px}.pl-cta{padding:9px 12px;font-size:11px}}
 
 /* ===== Tactical HUD subpage overlay (scoped) ===== */
 #tacticalHudOverlay{position:fixed;inset:0;z-index:90;background:#08090C;display:none;flex-direction:column;overflow-y:auto}
@@ -422,9 +418,12 @@ footer .right{margin-left:auto}
 @keyframes thRing{0%{transform:scale(.9);opacity:1}70%{transform:scale(1.6);opacity:0}100%{transform:scale(1.6);opacity:0}}
 .th-sel{outline:2px dashed #fff;outline-offset:3px}
 
-/* 3D runway perspective */
-.th-stage{perspective:750px;perspective-origin:50% 25%;overflow:hidden}
-.th-runway{transform:rotateX(68deg) translateY(-20px);transform-style:preserve-3d;mask-image:linear-gradient(to top,rgba(0,0,0,1) 40%,rgba(0,0,0,.05) 98%);-webkit-mask-image:linear-gradient(to top,rgba(0,0,0,1) 40%,rgba(0,0,0,.05) 98%)}
+/* 3D runway perspective — supports mouse drag */
+.th-stage{perspective:750px;perspective-origin:50% 25%;overflow:hidden;cursor:grab;user-select:none;-webkit-user-select:none}
+.th-stage.th-dragging{cursor:grabbing}
+.th-stage .th-runway{transform:rotateX(var(--th-rx,68deg)) rotateY(var(--th-ry,0deg)) translateY(-20px);transform-style:preserve-3d;mask-image:linear-gradient(to top,rgba(0,0,0,1) 40%,rgba(0,0,0,.05) 98%);-webkit-mask-image:linear-gradient(to top,rgba(0,0,0,1) 40%,rgba(0,0,0,.05) 98%);transition:transform .15s ease-out}
+.th-stage.th-dragging .th-runway{transition:none}
+.th-drag-hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font:600 10px 'JetBrains Mono';color:#5b626e;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;opacity:.7;z-index:10}
 
 /* Tactical toast (scoped) */
 #tacticalToast{position:fixed;bottom:18px;right:18px;background:#131620;border:1px solid #2a3142;color:#fff;font-size:12px;padding:10px 14px;border-radius:8px;box-shadow:0 0 20px rgba(0,0,0,.8);transform:translateY(80px);opacity:0;transition:all .3s;z-index:60;display:flex;align-items:center;gap:8px}
@@ -669,17 +668,34 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
 <div class="expense-template-row"><span>Template chi tiêu</span><div class="chips" id="expenseTemplateChips"></div></div>
 </section>
 
-<section class="panel p-launcher-protocol" id="protocolLauncher" style="--d:.085s" role="button" tabindex="0" aria-label="Mở subpage PROTOCOL // 2027 TARGET LOCK">
-<div class="pl-inner">
-<div class="pl-badge"><span class="lockdot"></span><span>PROTOCOL // 2027 TARGET LOCK</span></div>
-<div class="pl-mid">
-<div class="pl-title">Tactical Dot Matrix Countdown — 13 weekends until 2027</div>
-<div class="pl-sub">Mở subpage để ghi PROTOCOL DIRECTIVE theo từng ngày (Work · Dream · Health), xem matrix 13 tuần × 7 ngày LED dot, và xuất JSON / XLSX. Directive hoàn thành sẽ tự đồng bộ vào Nhật ký hoạt động của hệ thống.</div>
-<div class="pl-stats">
-<span class="pl-stat"><span id="plStatDays">--</span><b>DAYS LEFT</b></span>
-<span class="pl-stat"><span id="plStatDirectives">0</span><b>DIRECTIVES</b></span>
-<span class="pl-stat"><span id="plStatDone">0</span><b>CLEARED</b></span>
+<section class="panel p-countdown p-launcher-protocol" id="protocolLauncher" style="--d:.07s" role="button" tabindex="0" aria-label="Mở subpage PROTOCOL // 2027 TARGET LOCK">
+<div class="cd-hud">
+<div class="cd-hud-left"><span class="lockdot"></span><span>PROTOCOL // 2027 TARGET LOCK</span></div>
+<div class="cd-hud-right" id="liveClockHud">--:--:-- LOCAL</div>
 </div>
+<div class="cd-hero">
+<span class="cd-days-num" id="daysRemainingNumber">000</span>
+<div class="cd-days-label">
+<span class="big">DAYS LEFT.</span>
+<span class="sub" id="subCountdownTimer">00H 00M 00S</span>
+</div>
+</div>
+<div class="cd-target-line">
+<span class="t-label">From</span>
+<span id="cdRangeStart">OCT 01, 2026</span>
+<span class="dot"></span>
+<span class="t-label">Target:</span>
+<span class="t-val">2027.01.01</span>
+</div>
+<div class="cd-bar"><i id="cdProgressBar" style="width:0%"></i></div>
+<div class="cd-foot">
+<span id="cdFootLeft">Tỷ lệ thời gian đã trôi qua trong năm</span>
+<span><b id="cdFootRight">0.00%</b></span>
+</div>
+<div class="pl-stats-row">
+<div class="pl-stats-left">
+<span class="pl-stat"><b id="plStatDirectives">0</b><span>DIRECTIVES</span></span>
+<span class="pl-stat"><b id="plStatDone">0</b><span>CLEARED</span></span>
 </div>
 <span class="pl-cta">Mở Tactical HUD
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
@@ -953,7 +969,7 @@ else{hint.innerHTML='<span class="ok">Đang ghi vào ngày quá khứ: '+fmt+'</
 }
 let donutData=[],trendData=null,donutCv=null,trendCv=null,trendTip=null,input=null,prev=null,trendAnim=1,rsz,editingGoalId=null,editingPresetIndex=-1;
 function allCats(){return [...CATS,...(state.customCats||[])]}
-function catById(id){return allCats().find(c=>c.id===id)||{id,name:'Khác',c:'#8A9791',kw:[]}}
+function catById(id){if(id==='__targetlock')return{id:'__targetlock',name:'TARGET LOCK',c:'#FFC24B',kw:[]};return allCats().find(c=>c.id===id)||{id,name:'Khác',c:'#8A9791',kw:[]}}
 function isLimit(id){if(id==='fun')return true;const c=(state.customCats||[]).find(x=>x.id===id);return !!(c&&c.limit)}
 function trackerById(id){return state.trackers.find(t=>t.id===id)}
 function trackerColor(tr){const i=state.trackers.indexOf(tr);return PALETTE[(i<0?0:i)%PALETTE.length]}
@@ -1014,7 +1030,7 @@ function modeAllocation(modeId,orientation,dk=dayKey(new Date())){const m=modeBy
 function actualModeFromScore(score){const t={...DEF_MODE_THRESHOLDS,...(state.modeThresholds||{})};if(score>=t.super)return'super';if(score>=t.tryhard)return'tryhard';if(score>=t.balanced)return'balanced';if(score>=t.relax)return'relax';return'resort'}
 function dailyModeScore(dk){
 const ori=orientationForDK(dk),weekend=isWeekendDK(dk),es=state.entries.filter(e=>e.dateKey===dk),mins={work:0,study:0,health:0,fun:0};
-es.forEach(e=>{if(e.cat in mins)mins[e.cat]+=+e.min||0});const effective=mins.work+mins.study+mins.health,activityBase=weekend?420:600,activityPoints=Math.min(90,effective/activityBase*90);
+es.forEach(e=>{if(e.cat==='__targetlock'||e.syncSource==='protocol')return;if(e.cat in mins)mins[e.cat]+=+e.min||0});const effective=mins.work+mins.study+mins.health,activityBase=weekend?420:600,activityPoints=Math.min(90,effective/activityBase*90);
 const counters=state.trackers.filter(t=>t.kind==='sum'&&+(t.baseGoal||t.goal)>0),ratios=counters.map(t=>{const base=+(t.baseGoal||t.goal)||1,total=state.reps.filter(r=>r.cid===t.id&&r.dateKey===dk).reduce((s,r)=>s+(+r.n||0),0);return Math.min(1,total/base)}),counterPoints=ratios.length?ratios.reduce((a,b)=>a+b,0)/ratios.length*10:0,funPenalty=Math.min(40,mins.fun/60*6),score=Math.max(0,Math.min(100,Math.round((activityPoints+counterPoints-funPenalty)*10)/10));
 return{score,mode:actualModeFromScore(score),minutes:mins,effective:Math.round(effective),activityPoints:Math.round(activityPoints*10)/10,counterPoints:Math.round(counterPoints*10)/10,funPenalty:Math.round(funPenalty*10)/10,orientation:ori,weekend};
 }
@@ -1035,7 +1051,7 @@ const marker=$('#modeMarker');marker.style.left=Math.max(0,Math.min(100,actual.s
 $('#modePlan').textContent=allocation?(allocation.weekend?'Cuối tuần — Công việc tùy chọn 0p':'Ngày thường — Công việc tối thiểu 360p (6h)')+' · Công việc '+allocation.work+'p · Học '+allocation.study+'p · Sức khỏe '+allocation.health+'p · Giải trí tối đa '+allocation.fun+'p · Cuộc sống '+allocation.life+'p · Bộ đếm ×'+allocation.counter+' · Ngủ & Sinh hoạt '+allocation.living+'p (cân đủ 24h)':'Điểm = nỗ lực tối đa 90 + bộ đếm tối đa 10 − 6 điểm/giờ Giải trí (tối đa −40); chốt tự động lúc 23:59.';syncWeeklySettingsControls();
 }
 function mergedLogs(p){
-const acts=entriesOf(p).map(e=>({kind:'act',ts:e.ts,dateKey:e.dateKey,startMin:e.startMin,text:e.text,cat:e.cat,min:e.min,unit:'',id:e.id}));
+const acts=entriesOf(p).map(e=>{const isProto=e.cat==='__targetlock'||e.syncSource==='protocol';return{kind:isProto?'protocol':'act',ts:e.ts,dateKey:e.dateKey,startMin:e.startMin,text:e.text,cat:e.cat,min:e.min,unit:'',id:e.id}});
 const reps=repsOf(p).map(r=>{const tr=trackerById(r.cid),sub=tr&&tr.kind==='value'?'health':'counter';return{kind:'rep',sub,ts:r.ts,dateKey:r.dateKey,startMin:new Date(r.ts).getHours()*60+new Date(r.ts).getMinutes(),text:tr?(tr.kind==='sum'?tr.name+' +'+fmtNum(r.n)+' '+tr.unit:tr.name+': '+fmtNum(r.n)+' '+tr.unit):'',cat:sub==='health'?'__health':'__counter',min:0,n:r.n,unit:tr?tr.unit:'',id:r.id}});
 const expenses=expensesOf(p).map(e=>({kind:'expense',ts:e.ts,dateKey:e.dateKey,startMin:e.startMin!=null?e.startMin:(new Date(e.ts).getHours()*60+new Date(e.ts).getMinutes()),text:e.text||'Chi tiêu',cat:'__expense',min:0,amount:+e.amount||0,unit:e.unit||'VNĐ',id:e.id}));
 return acts.concat(reps,expenses)
@@ -1138,9 +1154,9 @@ tip.innerHTML='<h5>'+timeLabel+' ('+timeUnit+')</h5>'+series.map(s=>'<div class=
 tip.classList.add('show');const pw=cv.parentElement.getBoundingClientRect();tip.style.left=Math.min(e.clientX-r.left+12,pw.width-170)+'px';tip.style.top=Math.max(0,e.clientY-r.top-20)+'px'};
 cv.onmouseleave=()=>tip.classList.remove('show');
 }
-function renderTimeline(){const track=$('#tlTrack'),t0=5*60,t1=24*60,span=t1-t0;const now=new Date(),nowMin=now.getHours()*60+now.getMinutes();const todayList=state.entries.filter(e=>e.dateKey===dayKey(new Date())).sort((a,b)=>a.startMin-b.startMin);const items=[];todayList.forEach(e=>{const s=Math.max(e.startMin,t0),en=Math.min(e.startMin+e.min,t1);if(en>s)items.push({e,s,en})});items.sort((a,b)=>a.s-b.s||a.en-b.en);const laneEnd=[],placed=[];items.forEach(it=>{let li=laneEnd.findIndex(x=>x<=it.s);if(li===-1){li=laneEnd.length;laneEnd.push(0)}laneEnd[li]=it.en;placed.push({it,li})});const rowH=28,topPad=8,laneN=Math.max(1,laneEnd.length);track.style.height=(topPad+laneN*rowH+30)+'px';let html='';for(let h=5;h<=24;h++){const left=(h*60-t0)/span*100;html+='<div class="tl-tick" style="left:'+left+'%">'+(h%3===0||h===5?'<span>'+(h===24?'24h':pad(h)+':00')+'</span>':'')+'</div>'}placed.forEach((p,i)=>{const{e,s,en}=p.it,c=catById(e.cat);html+='<div class="tl-block" title="'+e.text+' · '+fmtFull(e.min)+' ('+fmtHM(e.startMin)+'–'+fmtHM(e.startMin+e.min)+')" style="left:'+((s-t0)/span*100)+'%;width:'+((en-s)/span*100)+'%;top:'+(topPad+p.li*rowH)+'px;background:'+c.c+';animation-delay:'+(i*40)+'ms"><i>'+e.text+'</i></div>'});html+='<div class="tl-now" style="left:'+((nowMin-t0)/span*100)+'%"><span>'+fmtHM(nowMin)+'</span></div>';if(!todayList.length)html+='<div class="tl-empty">Chưa có hoạt động nào hôm nay — bắt đầu bằng ô "Ghi nhanh" →</div>';track.innerHTML=html;const tot=todayList.reduce((a,e)=>a+e.min,0);$('#tlSub').textContent=todayList.length+' hoạt động · '+fmtMin(tot)+(laneN>1?' · '+laneN+' làn':'');const tc=totalsByCat(todayList);$('#tlStats').innerHTML=Object.keys(tc).map(id=>({c:catById(id),v:tc[id]})).sort((a,b)=>b.v-a.v).map(x=>'<div class="s"><span class="d" style="background:'+x.c.c+'"></span>'+x.c.name+' <b>'+fmtMin(x.v)+'</b></div>').join('')}
-function renderFilters(){const present=new Set(entriesOf(period).map(e=>e.cat)),prs=repsOf(period),hasCounter=prs.some(r=>trackerById(r.cid)?.kind==='sum'),hasHealth=prs.some(r=>trackerById(r.cid)?.kind==='value'),hasExpense=expensesOf(period).length>0;$('#filters').innerHTML='<button class="fchip '+(logFilter==='all'?'on':'')+'" data-f="all">Tất cả</button>'+allCats().filter(c=>present.has(c.id)).map(c=>'<button class="fchip '+(logFilter===c.id?'on':'')+'" data-f="'+c.id+'"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</button>').join('')+(hasCounter?'<button class="fchip '+(logFilter==='__counter'?'on':'')+'" data-f="__counter"><span class="d" style="background:var(--pink)"></span>Bộ đếm</button>':'')+(hasHealth?'<button class="fchip '+(logFilter==='__health'?'on':'')+'" data-f="__health"><span class="d" style="background:var(--sky)"></span>Sức khỏe</button>':'')+(hasExpense?'<button class="fchip '+(logFilter==='__expense'?'on':'')+'" data-f="__expense"><span class="d" style="background:var(--green)"></span>Chi tiêu</button>':'');document.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>{logFilter=b.dataset.f;renderFilters();renderLog()})}
-function renderLog(){let list=mergedLogs(period).sort((a,b)=>a.dateKey===b.dateKey?b.startMin-a.startMin||b.ts-a.ts:(a.dateKey<b.dateKey?1:-1));$('#logSub').textContent=list.length+' mục';if(logFilter==='__counter')list=list.filter(r=>r.kind==='rep'&&r.sub==='counter');else if(logFilter==='__health')list=list.filter(r=>r.kind==='rep'&&r.sub==='health');else if(logFilter==='__expense')list=list.filter(r=>r.kind==='expense');else if(logFilter!=='all')list=list.filter(r=>r.kind==='act'&&r.cat===logFilter);$('#loglist').innerHTML=list.length?list.map(e=>{const isRep=e.kind==='rep',isHealth=isRep&&e.sub==='health',isExpense=e.kind==='expense',c=isExpense?{name:'Chi tiêu',c:'var(--green)'}:isRep?{name:isHealth?'Sức khỏe':'Bộ đếm',c:isHealth?'var(--sky)':'var(--pink)'}:catById(e.cat),prefix=isExpense?'💸 ':isRep?(isHealth?'❤️ ':'💪 '):'',value=isExpense?formatExpenseMoney(e.amount,e.unit||'VNĐ'):isRep?fmtNum(e.n)+' '+e.unit:fmtMin(e.min);return '<li class="logrow '+(e.id===lastAddedId?'new':'')+'"><span class="t">'+fmtHM(e.startMin)+(period!=='day'?'<br>'+e.dateKey.slice(8,10)+'/'+e.dateKey.slice(5,7):'')+'</span><span class="x" title="'+e.text+'">'+prefix+e.text+'</span><span class="cat"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</span><span class="dur">'+value+'</span><button class="del" data-id="'+e.id+'" data-kind="'+e.kind+'" title="Xóa">✕</button></li>'}).join(''):(logFilter==='all'?'<div class="logempty">Chưa có hoạt động nào.<br><br><button class="mini" id="btnSample">＋ Nạp 4 tuần dữ liệu mẫu</button></div>':'<div class="logempty">Không có mục nào trong bộ lọc.</div>');document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{if(b.dataset.kind==='rep')deleteDoc(repsRef(b.dataset.id));else if(b.dataset.kind==='expense')deleteDoc(expensesRef(b.dataset.id));else deleteDoc(entriesRef(b.dataset.id));toast('Đã xóa')});const showExp=period!=='day';$('#btnXLSX').style.display=showExp?'':'none'}
+function renderTimeline(){const track=$('#tlTrack'),t0=5*60,t1=24*60,span=t1-t0;const now=new Date(),nowMin=now.getHours()*60+now.getMinutes();const todayList=state.entries.filter(e=>e.dateKey===dayKey(new Date())&&e.cat!=='__targetlock'&&!e.syncSource).sort((a,b)=>a.startMin-b.startMin);const items=[];todayList.forEach(e=>{const s=Math.max(e.startMin,t0),en=Math.min(e.startMin+e.min,t1);if(en>s)items.push({e,s,en})});items.sort((a,b)=>a.s-b.s||a.en-b.en);const laneEnd=[],placed=[];items.forEach(it=>{let li=laneEnd.findIndex(x=>x<=it.s);if(li===-1){li=laneEnd.length;laneEnd.push(0)}laneEnd[li]=it.en;placed.push({it,li})});const rowH=28,topPad=8,laneN=Math.max(1,laneEnd.length);track.style.height=(topPad+laneN*rowH+30)+'px';let html='';for(let h=5;h<=24;h++){const left=(h*60-t0)/span*100;html+='<div class="tl-tick" style="left:'+left+'%">'+(h%3===0||h===5?'<span>'+(h===24?'24h':pad(h)+':00')+'</span>':'')+'</div>'}placed.forEach((p,i)=>{const{e,s,en}=p.it,c=catById(e.cat);html+='<div class="tl-block" title="'+e.text+' · '+fmtFull(e.min)+' ('+fmtHM(e.startMin)+'–'+fmtHM(e.startMin+e.min)+')" style="left:'+((s-t0)/span*100)+'%;width:'+((en-s)/span*100)+'%;top:'+(topPad+p.li*rowH)+'px;background:'+c.c+';animation-delay:'+(i*40)+'ms"><i>'+e.text+'</i></div>'});html+='<div class="tl-now" style="left:'+((nowMin-t0)/span*100)+'%"><span>'+fmtHM(nowMin)+'</span></div>';if(!todayList.length)html+='<div class="tl-empty">Chưa có hoạt động nào hôm nay — bắt đầu bằng ô "Ghi nhanh" →</div>';track.innerHTML=html;const tot=todayList.reduce((a,e)=>a+e.min,0);$('#tlSub').textContent=todayList.length+' hoạt động · '+fmtMin(tot)+(laneN>1?' · '+laneN+' làn':'');const tc=totalsByCat(todayList);$('#tlStats').innerHTML=Object.keys(tc).map(id=>({c:catById(id),v:tc[id]})).sort((a,b)=>b.v-a.v).map(x=>'<div class="s"><span class="d" style="background:'+x.c.c+'"></span>'+x.c.name+' <b>'+fmtMin(x.v)+'</b></div>').join('')}
+function renderFilters(){const present=new Set(entriesOf(period).filter(e=>e.cat!=='__targetlock').map(e=>e.cat)),prs=repsOf(period),hasCounter=prs.some(r=>trackerById(r.cid)?.kind==='sum'),hasHealth=prs.some(r=>trackerById(r.cid)?.kind==='value'),hasExpense=expensesOf(period).length>0,hasProto=entriesOf(period).some(e=>e.cat==='__targetlock'||e.syncSource==='protocol');$('#filters').innerHTML='<button class="fchip '+(logFilter==='all'?'on':'')+'" data-f="all">Tất cả</button>'+allCats().filter(c=>present.has(c.id)).map(c=>'<button class="fchip '+(logFilter===c.id?'on':'')+'" data-f="'+c.id+'"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</button>').join('')+(hasCounter?'<button class="fchip '+(logFilter==='__counter'?'on':'')+'" data-f="__counter"><span class="d" style="background:var(--pink)"></span>Bộ đếm</button>':'')+(hasHealth?'<button class="fchip '+(logFilter==='__health'?'on':'')+'" data-f="__health"><span class="d" style="background:var(--sky)"></span>Sức khỏe</button>':'')+(hasExpense?'<button class="fchip '+(logFilter==='__expense'?'on':'')+'" data-f="__expense"><span class="d" style="background:var(--green)"></span>Chi tiêu</button>':'')+(hasProto?'<button class="fchip '+(logFilter==='__targetlock'?'on':'')+'" data-f="__targetlock"><span class="d" style="background:var(--gold)"></span>TARGET LOCK</button>':'');document.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>{logFilter=b.dataset.f;renderFilters();renderLog()})}
+function renderLog(){let list=mergedLogs(period).sort((a,b)=>a.dateKey===b.dateKey?b.startMin-a.startMin||b.ts-a.ts:(a.dateKey<b.dateKey?1:-1));$('#logSub').textContent=list.length+' mục';if(logFilter==='__counter')list=list.filter(r=>r.kind==='rep'&&r.sub==='counter');else if(logFilter==='__health')list=list.filter(r=>r.kind==='rep'&&r.sub==='health');else if(logFilter==='__expense')list=list.filter(r=>r.kind==='expense');else if(logFilter==='__targetlock')list=list.filter(r=>r.kind==='protocol');else if(logFilter!=='all')list=list.filter(r=>r.kind==='act'&&r.cat===logFilter);$('#loglist').innerHTML=list.length?list.map(e=>{const isRep=e.kind==='rep',isHealth=isRep&&e.sub==='health',isExpense=e.kind==='expense',isProto=e.kind==='protocol',c=isExpense?{name:'Chi tiêu',c:'var(--green)'}:isRep?{name:isHealth?'Sức khỏe':'Bộ đếm',c:isHealth?'var(--sky)':'var(--pink)'}:isProto?{name:'TARGET LOCK',c:'var(--gold)'}:catById(e.cat),prefix=isExpense?'💸 ':isRep?(isHealth?'❤️ ':'💪 '):isProto?'🎯 ':'',value=isExpense?formatExpenseMoney(e.amount,e.unit||'VNĐ'):isRep?fmtNum(e.n)+' '+e.unit:isProto?'—':fmtMin(e.min);return '<li class="logrow '+(e.id===lastAddedId?'new':'')+'"><span class="t">'+fmtHM(e.startMin)+(period!=='day'?'<br>'+e.dateKey.slice(8,10)+'/'+e.dateKey.slice(5,7):'')+'</span><span class="x" title="'+e.text+'">'+prefix+e.text+'</span><span class="cat"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</span><span class="dur">'+value+'</span><button class="del" data-id="'+e.id+'" data-kind="'+e.kind+'" title="Xóa">✕</button></li>'}).join(''):(logFilter==='all'?'<div class="logempty">Chưa có hoạt động nào.<br><br><button class="mini" id="btnSample">＋ Nạp 4 tuần dữ liệu mẫu</button></div>':'<div class="logempty">Không có mục nào trong bộ lọc.</div>');document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{if(b.dataset.kind==='rep')deleteDoc(repsRef(b.dataset.id));else if(b.dataset.kind==='expense')deleteDoc(expensesRef(b.dataset.id));else deleteDoc(entriesRef(b.dataset.id));toast('Đã xóa')});const showExp=period!=='day';$('#btnXLSX').style.display=showExp?'':'none'}
 async function loadSample(){const s=seedData(),b=writeBatch(db);s.entries.forEach(e=>{const{id,...d}=e;b.set(entriesRef(id),d)});s.reps.forEach((r,i)=>{const{id,...d}=r;b.set(repsRef('sr'+i),{cid:id,...d})});await b.commit();toast('Đã nạp 4 tuần dữ liệu mẫu')}
 function goalColor(g){return g.cat&&g.cat!=='all'?catById(g.cat).c:'var(--gold)'}
 function goalActual(g,p=period){let list=entriesOf(p);if(g.cat&&g.cat!=='all')list=list.filter(e=>e.cat===g.cat);const kw=norm(g.kw||'').trim();if(kw)list=list.filter(e=>norm(e.text).includes(kw));return list.reduce((sum,e)=>sum+e.min,0)}
@@ -1549,6 +1565,7 @@ dbg('=== MỞ APP ===','ok');
               <div class="th-hud" style="font-size:20px;font-weight:700;letter-spacing:.18em;color:#fff">2027 JAN 01</div>
             </div>
             <div id="thRunwayGrid" class="th-runway" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;padding:32px;background:#090b0e;border:1px solid #202636;border-radius:12px"></div>
+            <div class="th-drag-hint">🖱 Kéo để xoay góc nhìn</div>
           </div>
 
           <!-- Legend -->
@@ -1687,8 +1704,7 @@ dbg('=== MỞ APP ===','ok');
     toastMsg:     document.getElementById('thToastMsg')
   };
 
-  // Launcher stat slots
-  var plDays = document.getElementById('plStatDays');
+  // Launcher stat slots (daysRemainingNumber etc. are populated by main-app ticker)
   var plDir  = document.getElementById('plStatDirectives');
   var plDone = document.getElementById('plStatDone');
   var launcher = document.getElementById('protocolLauncher');
@@ -1848,14 +1864,9 @@ dbg('=== MỞ APP ===','ok');
   }
 
   // ----- Sync to main journal (entries collection) on completion -----
-  // Map protocol domain -> main app activity category
-  function domainToCat(domain){
-    if(domain==='work') return 'work';
-    if(domain==='dream') return 'study';
-    if(domain==='health') return 'health';
-    return 'work';
-  }
-
+  // Per user: directives are tagged as category 'TARGET LOCK' (cat='__targetlock'),
+  // NOT auto-detected. min=0 so they don't count toward mode/efficiency/totals.
+  // They appear in Nhật ký hoạt động for monitoring only.
   function syncDirectiveToJournal(task, dateKey){
     if(!uidReady()) return; // skip when not logged in (offline mode)
     if(task.syncedToJournal) return; // already mirrored
@@ -1864,13 +1875,12 @@ dbg('=== MỞ APP ===','ok');
     var startMin = (target.isToday) ? (now.getHours()*60 + now.getMinutes()) : 540;
     var ts = target.date.getTime() + startMin*60000;
     var entryId = 'proto_'+task.id;
-    var cat = domainToCat(task.category);
     var FS = window._tacticalDb;
     FS.setDoc(entriesRef(entryId), {
       id: entryId,
-      text: '🛰 '+task.text,
-      cat: cat,
-      min: 30,
+      text: '🎯 '+task.text,
+      cat: '__targetlock',
+      min: 0,
       dateKey: target.dateKey,
       startMin: startMin,
       ts: ts,
@@ -2077,11 +2087,8 @@ dbg('=== MỞ APP ===','ok');
   }
 
   function renderLauncherStats(){
-    if(plDays){
-      var diff = TARGET_DATE - new Date();
-      var days = Math.max(0, Math.floor(diff/86400000));
-      plDays.textContent = days;
-    }
+    // Note: daysRemainingNumber + cdProgressBar are populated by the existing
+    // main-app live ticker (script at end of body). We only refresh directive counts.
     var total = 0, done = 0;
     Object.keys(state.tasks).forEach(function(dk){
       (state.tasks[dk]||[]).forEach(function(t){
@@ -2186,6 +2193,64 @@ dbg('=== MỞ APP ===','ok');
     th.perspective.classList.add('th-stage');
     sound.click();
   });
+
+  // ----- 3D Runway mouse / touch drag interaction -----
+  // Drag horizontally → rotate Y; drag vertically → tilt X.
+  (function setupRunwayDrag(){
+    if(!th.perspective) return;
+    var rx = 68, ry = 0;
+    var isDragging = false;
+    var startX = 0, startY = 0;
+    var startRx = 0, startRy = 0;
+
+    function setRotation(){
+      th.perspective.style.setProperty('--th-rx', rx+'deg');
+      th.perspective.style.setProperty('--th-ry', ry+'deg');
+    }
+    setRotation();
+
+    function onDown(cx, cy){
+      isDragging = true;
+      startX = cx; startY = cy;
+      startRx = rx; startRy = ry;
+      th.perspective.classList.add('th-dragging');
+    }
+    function onMove(cx, cy){
+      if(!isDragging) return;
+      var dx = cx - startX;
+      var dy = cy - startY;
+      rx = Math.max(20, Math.min(88, startRx - dy * 0.3));
+      ry = Math.max(-45, Math.min(45, startRy + dx * 0.4));
+      setRotation();
+    }
+    function onUp(){
+      if(!isDragging) return;
+      isDragging = false;
+      th.perspective.classList.remove('th-dragging');
+    }
+
+    th.perspective.addEventListener('mousedown', function(e){
+      onDown(e.clientX, e.clientY);
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', function(e){ onMove(e.clientX, e.clientY); });
+    window.addEventListener('mouseup', onUp);
+
+    th.perspective.addEventListener('touchstart', function(e){
+      if(e.touches.length!==1) return;
+      var t = e.touches[0];
+      onDown(t.clientX, t.clientY);
+      e.preventDefault();
+    }, {passive:false});
+    window.addEventListener('touchmove', function(e){
+      if(!isDragging || e.touches.length!==1) return;
+      var t = e.touches[0];
+      onMove(t.clientX, t.clientY);
+      e.preventDefault();
+    }, {passive:false});
+    window.addEventListener('touchend', onUp);
+    window.addEventListener('touchcancel', onUp);
+  })();
 
   // Live countdown ticker
   function updateCountdown(){
