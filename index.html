@@ -758,7 +758,7 @@ window.addEventListener('error',function(e){var b=document.getElementById('login
 <div class="cal-detail" id="calDetail"></div>
 </section>
 <section class="panel p-log" style="--d:.36s">
-<div class="ptitle">Nhật ký hoạt động <span class="pt-right"><span class="sub" id="logSub"></span><button class="mini" id="btnXLSX" style="display:none">⬇ XLSX</button></span></div>
+<div class="ptitle">Nhật ký hoạt động <span class="pt-right"><span class="sub" id="logSub"></span><button class="mini" id="btnXLSX" style="display:none">⬇ XLSX</button><button class="mini" id="btnJSON" style="display:none">⬇ JSON</button><label class="mini" for="importJSON" style="display:none;cursor:pointer" id="lblImportJSON">⬆ JSON</label><input type="file" id="importJSON" accept=".json,application/json" style="display:none" /><label class="mini" for="importXLSX" style="display:none;cursor:pointer" id="lblImportXLSX">⬆ XLSX</label><input type="file" id="importXLSX" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display:none" /></span></div>
 <div class="filters" id="filters"></div>
 <ul class="loglist" id="loglist"></ul>
 </section>
@@ -938,7 +938,7 @@ const PALETTE=['#FFB020','#53C7F0','#3ED598','#FF7E79','#C08BFF','#38C4BF','#F47
 const $=q=>document.querySelector(q);
 const LS_KEY='quyThoigian.v3';
 let state={entries:[],expenses:[],goals:{...DEF_GOALS},goalItems:[],customCats:[],trackers:DEF_TRACKERS.map(t=>({...t})),quickPresets:DEF_QUICK.map(x=>({...x})),prodWeights:{...DEF_PROD},reps:[],modeLogs:[],orientationByWeek:{},modeThresholds:{...DEF_MODE_THRESHOLDS}};
-let period='day',logFilter='all',donutHover=-1,trendHover=-1,calSelected=null,uid=null,unsub=[],lastAddedId=null,booted=false,settingsLoaded=false;
+let period='day',logFilter='all',donutHover=-1,trendHover=-1,calSelected=null,uid=null,unsub=[],lastAddedId=null,booted=false,settingsLoaded=false;window.qtgGetState=()=>state;window.qtgGetCats=()=>CATS;window.qtgGetAllCats=()=>allCats();window.qtgGetUid=()=>uid;window.qtgGetDb=()=>db;
 let rangeFrom,rangeTo;
 function todayDK(){return dayKey(new Date())}
 function getRecordTarget(){
@@ -1156,8 +1156,8 @@ cv.onmouseleave=()=>tip.classList.remove('show');
 }
 function renderTimeline(){const track=$('#tlTrack'),t0=5*60,t1=24*60,span=t1-t0;const now=new Date(),nowMin=now.getHours()*60+now.getMinutes();const todayList=state.entries.filter(e=>e.dateKey===dayKey(new Date())&&e.cat!=='__targetlock'&&!e.syncSource).sort((a,b)=>a.startMin-b.startMin);const items=[];todayList.forEach(e=>{const s=Math.max(e.startMin,t0),en=Math.min(e.startMin+e.min,t1);if(en>s)items.push({e,s,en})});items.sort((a,b)=>a.s-b.s||a.en-b.en);const laneEnd=[],placed=[];items.forEach(it=>{let li=laneEnd.findIndex(x=>x<=it.s);if(li===-1){li=laneEnd.length;laneEnd.push(0)}laneEnd[li]=it.en;placed.push({it,li})});const rowH=28,topPad=8,laneN=Math.max(1,laneEnd.length);track.style.height=(topPad+laneN*rowH+30)+'px';let html='';for(let h=5;h<=24;h++){const left=(h*60-t0)/span*100;html+='<div class="tl-tick" style="left:'+left+'%">'+(h%3===0||h===5?'<span>'+(h===24?'24h':pad(h)+':00')+'</span>':'')+'</div>'}placed.forEach((p,i)=>{const{e,s,en}=p.it,c=catById(e.cat);html+='<div class="tl-block" title="'+e.text+' · '+fmtFull(e.min)+' ('+fmtHM(e.startMin)+'–'+fmtHM(e.startMin+e.min)+')" style="left:'+((s-t0)/span*100)+'%;width:'+((en-s)/span*100)+'%;top:'+(topPad+p.li*rowH)+'px;background:'+c.c+';animation-delay:'+(i*40)+'ms"><i>'+e.text+'</i></div>'});html+='<div class="tl-now" style="left:'+((nowMin-t0)/span*100)+'%"><span>'+fmtHM(nowMin)+'</span></div>';if(!todayList.length)html+='<div class="tl-empty">Chưa có hoạt động nào hôm nay — bắt đầu bằng ô "Ghi nhanh" →</div>';track.innerHTML=html;const tot=todayList.reduce((a,e)=>a+e.min,0);$('#tlSub').textContent=todayList.length+' hoạt động · '+fmtMin(tot)+(laneN>1?' · '+laneN+' làn':'');const tc=totalsByCat(todayList);$('#tlStats').innerHTML=Object.keys(tc).map(id=>({c:catById(id),v:tc[id]})).sort((a,b)=>b.v-a.v).map(x=>'<div class="s"><span class="d" style="background:'+x.c.c+'"></span>'+x.c.name+' <b>'+fmtMin(x.v)+'</b></div>').join('')}
 function renderFilters(){const present=new Set(entriesOf(period).filter(e=>e.cat!=='__targetlock').map(e=>e.cat)),prs=repsOf(period),hasCounter=prs.some(r=>trackerById(r.cid)?.kind==='sum'),hasHealth=prs.some(r=>trackerById(r.cid)?.kind==='value'),hasExpense=expensesOf(period).length>0,hasProto=entriesOf(period).some(e=>e.cat==='__targetlock'||e.syncSource==='protocol');$('#filters').innerHTML='<button class="fchip '+(logFilter==='all'?'on':'')+'" data-f="all">Tất cả</button>'+allCats().filter(c=>present.has(c.id)).map(c=>'<button class="fchip '+(logFilter===c.id?'on':'')+'" data-f="'+c.id+'"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</button>').join('')+(hasCounter?'<button class="fchip '+(logFilter==='__counter'?'on':'')+'" data-f="__counter"><span class="d" style="background:var(--pink)"></span>Bộ đếm</button>':'')+(hasHealth?'<button class="fchip '+(logFilter==='__health'?'on':'')+'" data-f="__health"><span class="d" style="background:var(--sky)"></span>Sức khỏe</button>':'')+(hasExpense?'<button class="fchip '+(logFilter==='__expense'?'on':'')+'" data-f="__expense"><span class="d" style="background:var(--green)"></span>Chi tiêu</button>':'')+(hasProto?'<button class="fchip '+(logFilter==='__targetlock'?'on':'')+'" data-f="__targetlock"><span class="d" style="background:var(--gold)"></span>TARGET LOCK</button>':'');document.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>{logFilter=b.dataset.f;renderFilters();renderLog()})}
-function renderLog(){let list=mergedLogs(period).sort((a,b)=>a.dateKey===b.dateKey?b.startMin-a.startMin||b.ts-a.ts:(a.dateKey<b.dateKey?1:-1));$('#logSub').textContent=list.length+' mục';if(logFilter==='__counter')list=list.filter(r=>r.kind==='rep'&&r.sub==='counter');else if(logFilter==='__health')list=list.filter(r=>r.kind==='rep'&&r.sub==='health');else if(logFilter==='__expense')list=list.filter(r=>r.kind==='expense');else if(logFilter==='__targetlock')list=list.filter(r=>r.kind==='protocol');else if(logFilter!=='all')list=list.filter(r=>r.kind==='act'&&r.cat===logFilter);$('#loglist').innerHTML=list.length?list.map(e=>{const isRep=e.kind==='rep',isHealth=isRep&&e.sub==='health',isExpense=e.kind==='expense',isProto=e.kind==='protocol',c=isExpense?{name:'Chi tiêu',c:'var(--green)'}:isRep?{name:isHealth?'Sức khỏe':'Bộ đếm',c:isHealth?'var(--sky)':'var(--pink)'}:isProto?{name:'TARGET LOCK',c:'var(--gold)'}:catById(e.cat),prefix=isExpense?'💸 ':isRep?(isHealth?'❤️ ':'💪 '):isProto?'🎯 ':'',value=isExpense?formatExpenseMoney(e.amount,e.unit||'VNĐ'):isRep?fmtNum(e.n)+' '+e.unit:isProto?'—':fmtMin(e.min);return '<li class="logrow '+(e.id===lastAddedId?'new':'')+'"><span class="t">'+fmtHM(e.startMin)+(period!=='day'?'<br>'+e.dateKey.slice(8,10)+'/'+e.dateKey.slice(5,7):'')+'</span><span class="x" title="'+e.text+'">'+prefix+e.text+'</span><span class="cat"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</span><span class="dur">'+value+'</span><button class="del" data-id="'+e.id+'" data-kind="'+e.kind+'" title="Xóa">✕</button></li>'}).join(''):(logFilter==='all'?'<div class="logempty">Chưa có hoạt động nào.<br><br><button class="mini" id="btnSample">＋ Nạp 4 tuần dữ liệu mẫu</button></div>':'<div class="logempty">Không có mục nào trong bộ lọc.</div>');document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{if(b.dataset.kind==='rep')deleteDoc(repsRef(b.dataset.id));else if(b.dataset.kind==='expense')deleteDoc(expensesRef(b.dataset.id));else deleteDoc(entriesRef(b.dataset.id));toast('Đã xóa')});const showExp=period!=='day';$('#btnXLSX').style.display=showExp?'':'none'}
-async function loadSample(){const s=seedData(),b=writeBatch(db);s.entries.forEach(e=>{const{id,...d}=e;b.set(entriesRef(id),d)});s.reps.forEach((r,i)=>{const{id,...d}=r;b.set(repsRef('sr'+i),{cid:id,...d})});await b.commit();toast('Đã nạp 4 tuần dữ liệu mẫu')}
+function renderLog(){let list=mergedLogs(period).sort((a,b)=>a.dateKey===b.dateKey?b.startMin-a.startMin||b.ts-a.ts:(a.dateKey<b.dateKey?1:-1));$('#logSub').textContent=list.length+' mục';if(logFilter==='__counter')list=list.filter(r=>r.kind==='rep'&&r.sub==='counter');else if(logFilter==='__health')list=list.filter(r=>r.kind==='rep'&&r.sub==='health');else if(logFilter==='__expense')list=list.filter(r=>r.kind==='expense');else if(logFilter==='__targetlock')list=list.filter(r=>r.kind==='protocol');else if(logFilter!=='all')list=list.filter(r=>r.kind==='act'&&r.cat===logFilter);$('#loglist').innerHTML=list.length?list.map(e=>{const isRep=e.kind==='rep',isHealth=isRep&&e.sub==='health',isExpense=e.kind==='expense',isProto=e.kind==='protocol',c=isExpense?{name:'Chi tiêu',c:'var(--green)'}:isRep?{name:isHealth?'Sức khỏe':'Bộ đếm',c:isHealth?'var(--sky)':'var(--pink)'}:isProto?{name:'TARGET LOCK',c:'var(--gold)'}:catById(e.cat),prefix=isExpense?'💸 ':isRep?(isHealth?'❤️ ':'💪 '):isProto?'🎯 ':'',value=isExpense?formatExpenseMoney(e.amount,e.unit||'VNĐ'):isRep?fmtNum(e.n)+' '+e.unit:isProto?'—':fmtMin(e.min);return '<li class="logrow '+(e.id===lastAddedId?'new':'')+'"><span class="t">'+fmtHM(e.startMin)+(period!=='day'?'<br>'+e.dateKey.slice(8,10)+'/'+e.dateKey.slice(5,7):'')+'</span><span class="x" title="'+e.text+'">'+prefix+e.text+'</span><span class="cat"><span class="d" style="background:'+c.c+'"></span>'+c.name+'</span><span class="dur">'+value+'</span><button class="del" data-id="'+e.id+'" data-kind="'+e.kind+'" title="Xóa">✕</button></li>'}).join(''):(logFilter==='all'?'<div class="logempty">Chưa có hoạt động nào.<br><br>Bạn có thể nhập dữ liệu từ file JSON hoặc XLSX bằng các nút ⬆ bên trên.</div>':'<div class="logempty">Không có mục nào trong bộ lọc.</div>');document.querySelectorAll('.del').forEach(b=>b.onclick=()=>{if(b.dataset.kind==='rep')deleteDoc(repsRef(b.dataset.id));else if(b.dataset.kind==='expense')deleteDoc(expensesRef(b.dataset.id));else deleteDoc(entriesRef(b.dataset.id));toast('Đã xóa')});const showExp=period!=='day';$('#btnXLSX').style.display=showExp?'':'none';$('#btnJSON').style.display=showExp?'':'none';$('#lblImportJSON').style.display=showExp?'':'none';$('#lblImportXLSX').style.display=showExp?'':'none'}
+
 function goalColor(g){return g.cat&&g.cat!=='all'?catById(g.cat).c:'var(--gold)'}
 function goalActual(g,p=period){let list=entriesOf(p);if(g.cat&&g.cat!=='all')list=list.filter(e=>e.cat===g.cat);const kw=norm(g.kw||'').trim();if(kw)list=list.filter(e=>norm(e.text).includes(kw));return list.reduce((sum,e)=>sum+e.min,0)}
 function goalScopeText(g){const a=g.cat&&g.cat!=='all'?catById(g.cat).name:'Mọi nhóm';return g.kw?a+' · chứa “'+g.kw+'”':a}
@@ -1322,7 +1322,7 @@ donutCv.addEventListener('mousemove',e=>{const r=donutCv.getBoundingClientRect()
 donutCv.addEventListener('mouseleave',()=>{if(donutHover!==-1){donutHover=-1;drawDonut();renderLegend()}});
 trendCv.addEventListener('mousemove',e=>{const lay=trendCv._lay;if(!lay)return;const r=trendCv.getBoundingClientRect(),x=e.clientX-r.left;const i=Math.floor((x-lay.L)/lay.slot);if(i<0||i>=lay.n){trendTip.classList.remove('show');if(trendHover!==-1){trendHover=-1;drawTrend(trendAnim)}return}if(i!==trendHover){trendHover=i;drawTrend(trendAnim)}const b=trendData.buckets[i];const total=allCats().reduce((a,c)=>a+(b.stack[c.id]||0),0);let name;if(period==='day')name=i+'h – '+(i+1)+'h';else if(period==='year')name='Tháng '+(i+1);else if(b.dk){const d=new Date(b.dk+'T00:00:00');name=pad(d.getDate())+'/'+pad(d.getMonth()+1)}else name='';trendTip.innerHTML='<h5>'+name+' · '+fmtMin(total)+'</h5>'+allCats().filter(c=>b.stack[c.id]).map(c=>'<div class="tr"><span class="d" style="background:'+c.c+'"></span>'+c.name+'<b>'+fmtMin(b.stack[c.id])+'</b></div>').join('');trendTip.classList.add('show');const pw=trendCv.parentElement.getBoundingClientRect();trendTip.style.left=Math.min(e.clientX-r.left+14,pw.width-170)+'px';trendTip.style.top=Math.max(0,e.clientY-r.top-20)+'px'});
 trendCv.addEventListener('mouseleave',()=>{trendTip.classList.remove('show');if(trendHover!==-1){trendHover=-1;drawTrend(trendAnim)}});
-$('#loglist').addEventListener('click',e=>{if(e.target.id==='btnSample')loadSample()});
+
 $('#goalRows').addEventListener('change',e=>{if(e.target.classList.contains('gmin')){const g=state.goalItems.find(x=>x.id===e.target.dataset.gid);if(g){g.daily=Math.max(0,Math.min(1440,parseInt(e.target.value)||0));e.target.value=g.daily;pushSettings();renderGoals();renderInsights();startTicker()}}});
 $('#goalRows').addEventListener('click',e=>{const eb=e.target.closest('[data-gedit]');if(eb){editGoal(eb.dataset.gedit);return}const dbtn=e.target.closest('[data-gdel]');if(dbtn){const g=state.goalItems.find(x=>x.id===dbtn.dataset.gdel);if(g&&confirm('Xóa mục tiêu "'+g.name+'"?')){state.goalItems=state.goalItems.filter(x=>x.id!==g.id);pushSettings();renderGoals();renderInsights();toast('Đã xóa mục tiêu')}return}});
 $('#btnAddGoal').onclick=()=>{resetGoalForm();$('#goalForm').style.display=$('#goalForm').style.display==='none'?'flex':'none';if($('#goalForm').style.display!=='none')$('#goalName').focus()};$('#goalCancel').onclick=()=>{$('#goalForm').style.display='none';resetGoalForm()};$('#goalSave').onclick=saveGoalItem;
@@ -1559,13 +1559,17 @@ dbg('=== MỞ APP ===','ok');
           </div>
 
           <!-- 3D runway -->
-          <div id="thPerspective" style="display:none;height:360px;position:relative;align-items:center;justify-content:center" class="th-stage">
-            <div style="position:absolute;top:8px;text-align:center;z-index:10">
+          <div id="thPerspective" style="display:none;height:400px;position:relative;align-items:center;justify-content:center" class="th-stage">
+            <div style="position:absolute;top:8px;text-align:center;z-index:10;pointer-events:none">
               <span style="font-size:11px;text-transform:uppercase;letter-spacing:.25em;color:#9aa0ad">MOST PEOPLE WILL WAIT FOR JANUARY.</span>
               <div class="th-hud" style="font-size:20px;font-weight:700;letter-spacing:.18em;color:#fff">2027 JAN 01</div>
             </div>
+            <button id="thFlipView" type="button" class="th-hud" style="position:absolute;top:8px;right:8px;z-index:11;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.18);background:rgba(13,15,20,.88);color:#fff;font:700 11px 'Chakra Petch',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all .2s;backdrop-filter:blur(8px)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+              Đảo góc nhìn
+            </button>
             <div id="thRunwayGrid" class="th-runway" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;padding:32px;background:#090b0e;border:1px solid #202636;border-radius:12px"></div>
-            <div class="th-drag-hint">🖱 Kéo để xoay góc nhìn</div>
+            <div class="th-drag-hint">🖱 Kéo để xoay 360° · Bấm "Đảo góc nhìn" để quay đầu</div>
           </div>
 
           <!-- Legend -->
@@ -1612,6 +1616,22 @@ dbg('=== MỞ APP ===','ok');
               <button type="submit" class="th-hud" style="padding:6px 14px;border:0;border-radius:4px;background:#fff;color:#000;font-weight:700;font-size:12px;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:background .2s">DEPLOY</button>
             </div>
           </form>
+
+          <!-- Quick command presets — only visible in MERGE ALL tab -->
+          <div id="thPresetsRow" style="display:none;flex-direction:column;gap:8px;margin-top:4px">
+            <div style="display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#5b626e;letter-spacing:.1em;text-transform:uppercase">
+              <span>Câu lệnh nhanh</span>
+              <button id="thPresetsEdit" type="button" style="background:none;border:0;color:#5b626e;cursor:pointer;font-size:10px;text-decoration:underline;transition:color .15s">⚙ sửa</button>
+            </div>
+            <div id="thPresetsChips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+            <div id="thPresetsEditor" style="display:none;flex-direction:column;gap:6px">
+              <textarea id="thPresetsTextarea" placeholder="Một dòng một câu lệnh..." style="width:100%;min-height:140px;background:#0a0c11;border:1px solid #2a3142;color:#e6e8ee;font:12px 'JetBrains Mono',monospace;padding:8px;border-radius:4px;outline:none;resize:vertical"></textarea>
+              <div style="display:flex;gap:6px;justify-content:flex-end">
+                <button id="thPresetsCancel" type="button" style="padding:5px 11px;border:1px solid #2d3344;border-radius:4px;background:none;color:#9aa0ad;cursor:pointer;font-size:11px">HỦY</button>
+                <button id="thPresetsSave" type="button" class="th-hud" style="padding:5px 14px;border:0;border-radius:4px;background:#fff;color:#000;font-weight:700;cursor:pointer;font-size:11px">LƯU</button>
+              </div>
+            </div>
+          </div>
 
           <div id="thTasksList" style="display:flex;flex-direction:column;gap:8px;flex-grow:1;overflow-y:auto;max-height:360px;padding-right:4px"></div>
 
@@ -1676,6 +1696,7 @@ dbg('=== MỞ APP ===','ok');
     runwayGrid:   document.getElementById('thRunwayGrid'),
     gridContainer:document.getElementById('thGridContainer'),
     perspective:  document.getElementById('thPerspective'),
+    flipBtn:      document.getElementById('thFlipView'),
     viewGridBtn:  document.getElementById('thViewGrid'),
     view3dBtn:    document.getElementById('thView3d'),
     selDate:      document.getElementById('thSelDate'),
@@ -1701,7 +1722,14 @@ dbg('=== MỞ APP ===','ok');
     modalOk:      document.getElementById('thModalOk'),
     modalCancel:  document.getElementById('thModalCancel'),
     toast:        document.getElementById('tacticalToast'),
-    toastMsg:     document.getElementById('thToastMsg')
+    toastMsg:     document.getElementById('thToastMsg'),
+    presetsRow:   document.getElementById('thPresetsRow'),
+    presetsChips: document.getElementById('thPresetsChips'),
+    presetsEdit:  document.getElementById('thPresetsEdit'),
+    presetsEditor:document.getElementById('thPresetsEditor'),
+    presetsTextarea:document.getElementById('thPresetsTextarea'),
+    presetsSave:  document.getElementById('thPresetsSave'),
+    presetsCancel:document.getElementById('thPresetsCancel')
   };
 
   // Launcher stat slots (daysRemainingNumber etc. are populated by main-app ticker)
@@ -2104,6 +2132,7 @@ dbg('=== MỞ APP ===','ok');
     renderDotMatrix();
     renderSelectedDayHUD();
     renderLauncherStats();
+    renderProtocolPresets();
   }
 
   // ----- Event wiring -----
@@ -2172,8 +2201,100 @@ dbg('=== MỞ APP ===','ok');
       if(tab!=='all') th.category.value = tab;
       sound.tab();
       renderDotMatrix(); renderSelectedDayHUD();
+      renderProtocolPresets();
     });
   });
+
+  // ----- Quick command presets (only visible in MERGE ALL tab) -----
+  var DEFAULT_PROTOCOL_PRESETS = [
+    'Code review 3 PRs',
+    'Write 1 chapter of novel',
+    '5km morning cardio',
+    '30-min deep work',
+    'Read 10 pages',
+    'Zero sugar protocol',
+    'Strength training 30 min',
+    'Plan tomorrow',
+    'Meditate 10 min',
+    'Inbox zero'
+  ];
+  var PRESETS_LS_KEY = 'tactical_protocol_presets_v1';
+  var protocolPresets = (function(){
+    try{
+      var raw = localStorage.getItem(PRESETS_LS_KEY);
+      if(raw){ var p = JSON.parse(raw); if(Array.isArray(p)) return p; }
+    }catch(e){}
+    return DEFAULT_PROTOCOL_PRESETS.slice();
+  })();
+  function saveProtocolPresets(arr){
+    try{ localStorage.setItem(PRESETS_LS_KEY, JSON.stringify(arr||[])); }catch(e){}
+  }
+  function renderProtocolPresets(){
+    if(!th.presetsRow) return;
+    if(state.activeTab !== 'all'){
+      th.presetsRow.style.display = 'none';
+      return;
+    }
+    th.presetsRow.style.display = 'flex';
+    if(th.presetsChips){
+      th.presetsChips.innerHTML = '';
+      protocolPresets.forEach(function(text){
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.textContent = text;
+        chip.style.cssText = 'padding:5px 10px;border:1px solid #2B313E;border-radius:99px;background:#0D0F14;color:#cbd0d9;cursor:pointer;font-size:11px;font-family:Share Tech Mono,monospace;transition:all .15s;white-space:nowrap';
+        chip.addEventListener('mouseenter', function(){
+          chip.style.borderColor = '#64e3ff';
+          chip.style.color = '#fff';
+          chip.style.background = 'rgba(100,227,255,.08)';
+        });
+        chip.addEventListener('mouseleave', function(){
+          chip.style.borderColor = '#2B313E';
+          chip.style.color = '#cbd0d9';
+          chip.style.background = '#0D0F14';
+        });
+        chip.addEventListener('click', function(){
+          th.taskInput.value = text;
+          th.taskInput.focus();
+          sound.click();
+        });
+        th.presetsChips.appendChild(chip);
+      });
+    }
+  }
+  // Wire up the edit affordance
+  if(th.presetsEdit){
+    th.presetsEdit.addEventListener('mouseenter', function(){ th.presetsEdit.style.color = '#fff'; });
+    th.presetsEdit.addEventListener('mouseleave', function(){ th.presetsEdit.style.color = '#5b626e'; });
+    th.presetsEdit.addEventListener('click', function(){
+      var isOpen = th.presetsEditor.style.display === 'flex';
+      if(isOpen){
+        th.presetsEditor.style.display = 'none';
+      } else {
+        th.presetsTextarea.value = protocolPresets.join('\n');
+        th.presetsEditor.style.display = 'flex';
+        th.presetsTextarea.focus();
+      }
+      sound.click();
+    });
+  }
+  if(th.presetsSave){
+    th.presetsSave.addEventListener('click', function(){
+      var lines = th.presetsTextarea.value.split('\n').map(function(s){return s.trim();}).filter(function(s){return s;});
+      protocolPresets = lines.length ? lines : DEFAULT_PROTOCOL_PRESETS.slice();
+      saveProtocolPresets(protocolPresets);
+      th.presetsEditor.style.display = 'none';
+      renderProtocolPresets();
+      sound.chirp();
+      toast('Đã lưu '+protocolPresets.length+' câu lệnh nhanh');
+    });
+  }
+  if(th.presetsCancel){
+    th.presetsCancel.addEventListener('click', function(){
+      th.presetsEditor.style.display = 'none';
+      sound.click();
+    });
+  }
 
   // View switcher
   th.viewGridBtn.addEventListener('click', function(){
@@ -2195,13 +2316,16 @@ dbg('=== MỞ APP ===','ok');
   });
 
   // ----- 3D Runway mouse / touch drag interaction -----
-  // Drag horizontally → rotate Y; drag vertically → tilt X.
+  // Drag horizontally → rotate Y (full 360°, no clamp).
+  // Drag vertically → tilt X (clamped 20°–88° to keep dots visible).
+  // "Đảo góc nhìn" button → smooth 180° Y rotation (animated via requestAnimationFrame).
   (function setupRunwayDrag(){
     if(!th.perspective) return;
     var rx = 68, ry = 0;
     var isDragging = false;
     var startX = 0, startY = 0;
     var startRx = 0, startRy = 0;
+    var ryAnimating = false;
 
     function setRotation(){
       th.perspective.style.setProperty('--th-rx', rx+'deg');
@@ -2209,7 +2333,49 @@ dbg('=== MỞ APP ===','ok');
     }
     setRotation();
 
+    function easeInOutQuad(t){ return t<0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2)/2; }
+
+    // Smoothly animate ry by deltaRy over duration ms.
+    function animateRyBy(deltaRy, duration){
+      if(ryAnimating) return;
+      ryAnimating = true;
+      var startRy = ry;
+      var startTime = performance.now();
+      function frame(now){
+        var t = Math.min(1, (now - startTime) / duration);
+        var eased = easeInOutQuad(t);
+        ry = startRy + deltaRy * eased;
+        setRotation();
+        if(t < 1) requestAnimationFrame(frame);
+        else { ryAnimating = false; }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // Wire up the "Đảo góc nhìn" button — smooth 180° flip.
+    if(th.flipBtn){
+      // Prevent button mousedown from triggering drag.
+      th.flipBtn.addEventListener('mousedown', function(e){ e.stopPropagation(); });
+      th.flipBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); }, {passive:true});
+      th.flipBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        if(ryAnimating) return;
+        animateRyBy(180, 900);
+        sound.chirp();
+        toast('Đảo góc nhìn');
+      });
+      th.flipBtn.addEventListener('mouseenter', function(){
+        th.flipBtn.style.borderColor = '#fff';
+        th.flipBtn.style.background = 'rgba(30,35,45,.95)';
+      });
+      th.flipBtn.addEventListener('mouseleave', function(){
+        th.flipBtn.style.borderColor = 'rgba(255,255,255,.18)';
+        th.flipBtn.style.background = 'rgba(13,15,20,.88)';
+      });
+    }
+
     function onDown(cx, cy){
+      if(ryAnimating) return; // ignore drag while animating
       isDragging = true;
       startX = cx; startY = cy;
       startRx = rx; startRy = ry;
@@ -2220,7 +2386,7 @@ dbg('=== MỞ APP ===','ok');
       var dx = cx - startX;
       var dy = cy - startY;
       rx = Math.max(20, Math.min(88, startRx - dy * 0.3));
-      ry = Math.max(-45, Math.min(45, startRy + dx * 0.4));
+      ry = startRy + dx * 0.4; // full 360° rotation — no clamp on Y
       setRotation();
     }
     function onUp(){
@@ -2250,6 +2416,9 @@ dbg('=== MỞ APP ===','ok');
     }, {passive:false});
     window.addEventListener('touchend', onUp);
     window.addEventListener('touchcancel', onUp);
+
+    // Expose for testing/debugging
+    window._thRunway = { animateRyBy: animateRyBy, setRotation: setRotation };
   })();
 
   // Live countdown ticker
@@ -2472,6 +2641,280 @@ window.makeTacticalDbBridge = function(db){
     onSnapshot: function(ref, cb, err){ return api.onSnapshot(ref, cb, err||function(){}); }
   };
 };
+</script>
+
+
+<script>
+/* ===== Quỹ Thời Gian — JSON / XLSX import & export =====
+   Exposed via window.qtgIO. Uses the bridge + window getters added in patch 9c.
+   - Export JSON: dump entries + reps + expenses + modeLogs + settings
+   - Import JSON: parse and write to Firestore (merge=true to avoid dup-id errors)
+   - Import XLSX: parse sheets + write to Firestore (matching sheet names + columns)
+   After successful import, reload the page so the main app re-reads from cloud.
+*/
+(function(){
+  'use strict';
+
+  function fsReady(){
+    return !!(window._tacticalUid && window._tacticalDb && window.FSapi && window.qtgGetState);
+  }
+  function fsDoc(){
+    if(!fsReady()) return null;
+    var args = [window._tacticalDb._db].concat([].slice.call(arguments));
+    return window._tacticalDb.doc.apply(window._tacticalDb, args);
+  }
+  function fsBatch(){
+    if(!fsReady()) return null;
+    return window.FSapi.writeBatch(window._tacticalDb._db);
+  }
+  function pad2(n){ return String(n).padStart(2,'0'); }
+  function toastMsg(msg){
+    if(typeof toast === 'function'){ try{ toast(msg); return; }catch(e){} }
+    if(window.qtgToast && typeof window.qtgToast === 'function'){ window.qtgToast(msg); return; }
+    console.log('[qtgIO]', msg);
+  }
+
+  // Parse various date formats → 'YYYY-MM-DD' (or null if unparseable)
+  function parseDateKey(v){
+    if(v == null) return null;
+    if(v instanceof Date && !isNaN(v.getTime())){
+      return v.getFullYear()+'-'+pad2(v.getMonth()+1)+'-'+pad2(v.getDate());
+    }
+    var s = String(v).trim();
+    if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+    var m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); // DD/MM/YYYY
+    if(m) return m[3]+'-'+pad2(+m[2])+'-'+pad2(+m[1]);
+    m = s.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/); // YYYY/MM/DD
+    if(m) return m[1]+'-'+pad2(+m[2])+'-'+pad2(+m[3]);
+    return null;
+  }
+  function parseTimeToMin(v){
+    if(v == null) return 0;
+    var s = String(v);
+    var m = s.match(/(\d{1,2}):(\d{2})/);
+    if(m) return +m[1]*60 + +m[2];
+    if(typeof v === 'number' && v < 24*60 && v > 0){
+      // Excel time serial — fraction of day
+      return Math.round(v * 24 * 60) % (24*60);
+    }
+    return 0;
+  }
+  function tsFor(dateKey, startMin){
+    var d = new Date(dateKey+'T00:00:00');
+    if(isNaN(d.getTime())) d = new Date();
+    return d.getTime() + (startMin||0)*60000;
+  }
+
+  // ---------- EXPORT JSON ----------
+  function exportJSON(){
+    if(!fsReady()){ toastMsg('Cần đăng nhập trước'); return; }
+    var s = window.qtgGetState();
+    if(!s){ toastMsg('Đợi ứng dụng sẵn sàng'); return; }
+    var payload = {
+      exportDate: new Date().toISOString(),
+      version: 'v3',
+      uid: window._tacticalUid,
+      entries: s.entries || [],
+      reps: s.reps || [],
+      expenses: s.expenses || [],
+      modeLogs: s.modeLogs || [],
+      settings: {
+        goals: s.goals, goalItems: s.goalItems, customCats: s.customCats,
+        trackers: s.trackers, quickPresets: s.quickPresets,
+        prodWeights: s.prodWeights, orientationByWeek: s.orientationByWeek,
+        modeThresholds: s.modeThresholds
+      }
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    var dt = new Date();
+    a.download = 'quy-thoi-gian_'+dt.getFullYear()+'-'+pad2(dt.getMonth()+1)+'-'+pad2(dt.getDate())+'.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toastMsg('Đã xuất JSON backup ('+ (s.entries.length + s.reps.length + s.expenses.length) +' mục)');
+  }
+
+  // ---------- IMPORT JSON ----------
+  function importJSONFile(file){
+    if(!file){ toastMsg('Chọn file JSON'); return; }
+    if(!fsReady()){ toastMsg('Cần đăng nhập trước'); return; }
+    if(!window.qtgGetState){ toastMsg('Đợi ứng dụng sẵn sàng'); return; }
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var parsed = JSON.parse(ev.target.result);
+        if(!parsed || typeof parsed !== 'object'){ toastMsg('File JSON không hợp lệ'); return; }
+        var b = fsBatch(); if(!b){ toastMsg('Firestore chưa sẵn sàng'); return; }
+        var count = 0;
+        (parsed.entries||[]).forEach(function(e){
+          if(!e || !e.id || !e.dateKey) return;
+          var d = Object.assign({}, e); delete d.id;
+          if(d.seed) delete d.seed;
+          b.set(fsDoc('users', window._tacticalUid, 'entries', e.id), d, {merge:true});
+          count++;
+        });
+        (parsed.reps||[]).forEach(function(r){
+          if(!r || !r.id || !r.cid) return;
+          var d = Object.assign({}, r); delete d.id;
+          if(d.seed) delete d.seed;
+          b.set(fsDoc('users', window._tacticalUid, 'replogs', r.id), d, {merge:true});
+          count++;
+        });
+        (parsed.expenses||[]).forEach(function(e){
+          if(!e || !e.id || !e.dateKey) return;
+          var d = Object.assign({}, e); delete d.id;
+          b.set(fsDoc('users', window._tacticalUid, 'expenses', e.id), d, {merge:true});
+          count++;
+        });
+        (parsed.modeLogs||[]).forEach(function(m){
+          if(!m || !m.dateKey) return;
+          var d = Object.assign({}, m);
+          b.set(fsDoc('users', window._tacticalUid, 'modelogs', m.dateKey), d, {merge:true});
+          count++;
+        });
+        b.commit().then(function(){
+          toastMsg('Đã nhập '+count+' mục từ JSON — đang tải lại');
+          setTimeout(function(){ window.location.reload(); }, 900);
+        }).catch(function(err){ toastMsg('Lỗi nhập JSON: '+err.message); });
+      }catch(err){
+        toastMsg('Lỗi đọc JSON: '+err.message);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  // ---------- IMPORT XLSX ----------
+  function importXLSXFile(file){
+    if(!file){ toastMsg('Chọn file XLSX'); return; }
+    if(!fsReady()){ toastMsg('Cần đăng nhập trước'); return; }
+    if(typeof XLSX === 'undefined'){ toastMsg('Thư viện XLSX chưa sẵn sàng'); return; }
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var data = new Uint8Array(ev.target.result);
+        var wb = XLSX.read(data, {type:'array', cellDates:true});
+        function sheetObjs(name){
+          if(wb.SheetNames.indexOf(name) < 0) return [];
+          return XLSX.utils.sheet_to_json(wb.Sheets[name], {defval:''});
+        }
+        var s = window.qtgGetState();
+        var trackers = (s && s.trackers) || [];
+        var cats = (window.qtgGetAllCats && window.qtgGetAllCats()) || (window.qtgGetCats && window.qtgGetCats()) || [];
+        function trackerByName(nm, kind){
+          return trackers.find(function(t){ return t.name === nm && (!kind || t.kind === kind); });
+        }
+        function catByName(nm){
+          return cats.find(function(c){ return c.name === nm; });
+        }
+        var b = fsBatch(); if(!b){ toastMsg('Firestore chưa sẵn sàng'); return; }
+        var count = 0;
+
+        // entries
+        sheetObjs('Ghi nhanh hoạt động').forEach(function(row){
+          var dk = parseDateKey(row['Ngày']);
+          if(!dk || !row['Hoạt động']) return;
+          var startMin = parseTimeToMin(row['Giờ bắt đầu']);
+          var min = parseInt(row['Thời lượng (phút)'] || row['Thời lượng'] || 30, 10);
+          if(!min || isNaN(min)) min = 30;
+          var cat = 'chore';
+          var c = catByName(String(row['Nhóm']||'').trim());
+          if(c) cat = c.id;
+          var id = 'imp_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);
+          b.set(fsDoc('users', window._tacticalUid, 'entries', id), {
+            text: String(row['Hoạt động']), cat: cat, min: min,
+            dateKey: dk, startMin: startMin, ts: tsFor(dk, startMin)
+          });
+          count++;
+        });
+
+        // expenses
+        sheetObjs('Theo dõi chi tiêu').forEach(function(row){
+          var dk = parseDateKey(row['Ngày']);
+          if(!dk || !row['Nội dung chi tiêu']) return;
+          var startMin = parseTimeToMin(row['Giờ']);
+          var amount = parseFloat(row['Số tiền'] || 0);
+          if(!amount || isNaN(amount)) amount = 0;
+          var unit = String(row['Đơn vị']||'VNĐ');
+          var id = 'impx_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);
+          b.set(fsDoc('users', window._tacticalUid, 'expenses', id), {
+            text: String(row['Nội dung chi tiêu']), amount: amount, unit: unit,
+            dateKey: dk, startMin: startMin, ts: tsFor(dk, startMin)
+          });
+          count++;
+        });
+
+        // counters (Bộ đếm mục tiêu)
+        sheetObjs('Bộ đếm mục tiêu').forEach(function(row){
+          var dk = parseDateKey(row['Ngày']);
+          if(!dk || !row['Bộ đếm mục tiêu']) return;
+          var tr = trackerByName(String(row['Bộ đếm mục tiêu']).trim(), 'sum');
+          if(!tr) return;
+          var n = parseFloat(row['Số lượng'] || 0);
+          if(!n || isNaN(n)) return;
+          var startMin = parseTimeToMin(row['Giờ']);
+          var id = 'impc_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);
+          b.set(fsDoc('users', window._tacticalUid, 'replogs', id), {
+            cid: tr.id, n: n, dateKey: dk, startMin: startMin, ts: tsFor(dk, startMin)
+          });
+          count++;
+        });
+
+        // health metrics (Chỉ số sức khỏe)
+        sheetObjs('Chỉ số sức khỏe').forEach(function(row){
+          var dk = parseDateKey(row['Ngày']);
+          if(!dk || !row['Chỉ số sức khỏe']) return;
+          var tr = trackerByName(String(row['Chỉ số sức khỏe']).trim(), 'value');
+          if(!tr) return;
+          var n = parseFloat(row['Giá trị'] || 0);
+          if(!n || isNaN(n)) return;
+          var startMin = parseTimeToMin(row['Giờ']);
+          var id = 'imph_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7);
+          b.set(fsDoc('users', window._tacticalUid, 'replogs', id), {
+            cid: tr.id, n: n, dateKey: dk, startMin: startMin, ts: tsFor(dk, startMin)
+          });
+          count++;
+        });
+
+        b.commit().then(function(){
+          toastMsg('Đã nhập '+count+' mục từ XLSX — đang tải lại');
+          setTimeout(function(){ window.location.reload(); }, 900);
+        }).catch(function(err){ toastMsg('Lỗi nhập XLSX: '+err.message); });
+      }catch(err){
+        toastMsg('Lỗi đọc XLSX: '+err.message);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  // Expose API
+  window.qtgIO = {
+    exportJSON: exportJSON,
+    importJSONFile: importJSONFile,
+    importXLSXFile: importXLSXFile
+  };
+
+  // Wire up buttons (defer until DOM ready)
+  function wireButtons(){
+    var btnJSON = document.getElementById('btnJSON');
+    var importJSON = document.getElementById('importJSON');
+    var importXLSX = document.getElementById('importXLSX');
+    if(btnJSON) btnJSON.addEventListener('click', function(){ exportJSON(); });
+    if(importJSON) importJSON.addEventListener('change', function(e){
+      if(e.target.files && e.target.files[0]) importJSONFile(e.target.files[0]);
+      e.target.value = '';
+    });
+    if(importXLSX) importXLSX.addEventListener('change', function(e){
+      if(e.target.files && e.target.files[0]) importXLSXFile(e.target.files[0]);
+      e.target.value = '';
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wireButtons);
+  else wireButtons();
+})();
 </script>
 
 </body>
